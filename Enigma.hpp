@@ -8,8 +8,8 @@ class Enigma
     public:
     Enigma();
 	Encrypt();
-    ~Enigma();
 	Decrypt();
+    ~Enigma();
 };
 
 #endif //ENIGMA_HPP
