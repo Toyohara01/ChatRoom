@@ -1,18 +1,23 @@
 #ifndef MESSAGE_HPP
 #define MESSAGE_HPP
+
 #include <ctime>
+#include <string>
+#include <vector>
+
+using namespace std;
 
 class Message
 {
-    private: 
+private: 
 	string content;
 	time_t timestamp;
 	string userID;
 
-    public:
+public:
     Message();
-	parse();
-	process();
+	vector<string> parse();
+	void process();
     ~Message();
 };
 

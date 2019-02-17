@@ -4,6 +4,11 @@
 #include "Enigma.hpp"
 #include "User.hpp"
 
+#include <iostream>
+#include <string> 
+
+using namespace std;
+
 class Client
 {
     private:
@@ -12,13 +17,15 @@ class Client
 	int sockfd;
 	int connect;
 
+	void BeginRead();
+	void EndRead();
+
     public:
     Client();
-	Send();
-	Receive();
-	Connect();
-	Disconnect()'
-    ~Client();
+	~Client();
+	uint8_t Send(string input);
+	void Connect();
+	void Disconnect()
 };
 
 #endif // CLIENT_HPP
