@@ -7,7 +7,9 @@ class Enigma
 
     public:
     Enigma();
+	Encrypt();
     ~Enigma();
+	Decrypt();
 };
 
 #endif //ENIGMA_HPP
