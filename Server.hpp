@@ -6,6 +6,11 @@
 class Server
 {
     private:
+	int sockfd;
+	int setsockopt;
+	int bind;
+	int listen;
+	int new_socket;
 
     public:
     Server();
