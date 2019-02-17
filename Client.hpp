@@ -2,8 +2,7 @@
 #define CLIENT_HPP
 
 #include "Enigma.hpp"
-#include "User.hpp"
-
+//#include "User.hpp" //@@@ Do we need to create this header??
 #include <iostream>
 #include <string> 
 
@@ -25,7 +24,7 @@ class Client
 	~Client();
 	uint8_t Send(string input);
 	void Connect();
-	void Disconnect()
+	void Disconnect();
 };
 
 #endif // CLIENT_HPP
