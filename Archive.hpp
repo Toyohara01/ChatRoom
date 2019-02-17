@@ -7,6 +7,9 @@ class Archive
 
     public:
     Archive();
+	Save();
+	Load();
+	RAID();
     ~Archive();
 };
 
