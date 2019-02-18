@@ -27,7 +27,7 @@ class Server
 
     public:
 	uint8_t Send(string input);
-    Server();
+    Server(string ip, uint8_t port);
     ~Server();
 };
 

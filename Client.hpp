@@ -20,7 +20,7 @@ class Client
 	void EndRead();
 
     public:
-    Client();
+    Client(string ip, uint8_t port);
 	~Client();
 	uint8_t Send(string input);
 	void Connect();

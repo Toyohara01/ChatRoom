@@ -1,6 +1,6 @@
 #include "Server.hpp"
 
-Server::Server()
+Server::Server(string ip, uint8_t port)
 {
 
 }

@@ -1,6 +1,6 @@
 #include "Client.hpp"
 
-Client::Client()
+Client::Client(string ip, uint8_t port)
 {
 
 }
