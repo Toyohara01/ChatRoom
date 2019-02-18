@@ -1,6 +1,6 @@
 #include "Archive.hpp"
 
-Archive::Archive()
+Archive::Archive(string filepath)
 {
 
 }
