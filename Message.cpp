@@ -10,7 +10,7 @@ Message::~Message()
 
 }
 
-vector<string> Message::parse()
+vector<string> Message::parse(string input)
 {
 
 }

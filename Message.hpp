@@ -16,7 +16,7 @@ private:
 
 public:
     Message();
-	vector<string> parse();
+	vector<string> parse(string input);
 	void process();
     ~Message();
 };
