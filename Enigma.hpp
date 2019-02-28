@@ -10,6 +10,7 @@ class Enigma
 {
     private:
         // Insert different encryption methods, structures, rotors, vars, etc. Assing methods to someone
+        string plainText, cipherText;
 
     public:
         Enigma();
