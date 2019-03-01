@@ -1,0 +1,37 @@
+SE 310/420 Coding Style Guide
+*******************************************************************************
+Variable Names
+    1. Variable names shall be descriptive of the purpose of the variable.
+    2. If variable names require more than 1 word, the camel case style shall be used.
+       (ex: variableName)
+    3. All #define constants shall be capitalized.
+       (ex: #define STUFF)
+
+Indentation and Brackets
+    1. All opening and closing brackets shall be placed on thier own line.
+       (ex: 
+            while(variableName < 5)
+            {
+                stuff()
+            }
+
+            instead of
+
+            while(variableName < 5){
+                stuff()  
+            }
+       )
+    2.
+
+Functions
+    1. All functions shall have prototypes above the main function, and definitions below the main function.
+    2.
+
+Classes
+    1.
+
+Comments
+    1. Comments shall end with the team member's initials
+       (ex: //this line of code does stuff. LAD)
+    2. All files shall contain a boiler plate at the top, indicating important information.
+    3.
