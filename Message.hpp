@@ -43,11 +43,7 @@ private:
 	time_t timestamp;
 	string userID;
 
-public:
-
-	
-
-	
+public:	
     Message();
 	vector<string> parse(string input);
 	void process();

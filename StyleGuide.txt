@@ -25,7 +25,8 @@ Indentation and Brackets
 
 Functions
     1. All functions shall have prototypes above the main function, and definitions below the main function.
-    2.
+    2. All modules shall have their respective header and source code file. 
+    3. All functions shall have one point of entry and one point of exit. Multiple return statements will not be allowed. 
 
 Classes
     1.
