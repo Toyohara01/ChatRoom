@@ -7,17 +7,17 @@ using namespace std;
 
 class Archive 
 {
-private:
-    ofstream *file;
+	private:
+		ofstream *file;
 
-    char* Xor(char *LBA1, char *LBA2, char *LBA3, char *LBA4, char *PLBA);
+		char* Xor(char *LBA1, char *LBA2, char *LBA3, char *LBA4, char *PLBA);
 
-public:
-    Archive(string filepath);
-	void Save();
-	void Load();
-	void RAID();
-    ~Archive();
+	public:
+		Archive(string filepath);
+		void Save();
+		void Load();
+		void RAID();
+		~Archive();
 };
 
 #endif //ARCHIVE_HPP

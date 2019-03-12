@@ -1,3 +1,5 @@
+// Arhive.cpp
+// Description: Will be able to save and load strings and backup the statements through RAID
 #include "Archive.hpp"
 
 Archive::Archive(string filepath)
@@ -12,7 +14,7 @@ Archive::~Archive()
 
 void Archive::Save()
 {
-
+	string message;
 }
 
 void Archive::Load()
