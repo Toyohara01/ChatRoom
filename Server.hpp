@@ -8,6 +8,10 @@
 
 using namespace std;
 
+//Constants 
+#define BUFFER_SIZE 2048
+
+
 class Server
 {
     private:

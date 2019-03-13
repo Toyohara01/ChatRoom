@@ -9,7 +9,6 @@
 using namespace std; //@@ Should we remove this and use std:: for everything? Coding style / reusability issue for later projects. 
 
 // Constants
-#define BUFFER_SIZE 1024
 #define MSG_DELIM '_'
 #define MSG_FOOTER "END"
 
@@ -17,6 +16,7 @@ using namespace std; //@@ Should we remove this and use std:: for everything? Co
 enum Header {HeaderNull, Instruction, Status};
 enum Body {BodyNull, Pass, Fail, Message, Connect, Disconnect};
 enum Type {TypeNull, Send, Receive};
+enum MessageType {MessageTypeNull, Sent, Received};
 
 //Structures
 typedef struct MessageProperties
@@ -24,27 +24,29 @@ typedef struct MessageProperties
 		Header header;
 		Body body;
 		Type type;
-		string msg;
 
 		MessageProperties()
 		{
 			header = Header::HeaderNull;
 			body = Body::BodyNull;
 			type = Type::TypeNull;
-			msg.clear();
 		}
-	}MSG;
+	}MessageProperties;
 
 class Message
 {
 private: 
-	string content;
+	string packet;
 	MessageProperties messageProperties;
 	time_t timestamp;
 	string userID;
+	MessageType messageType;
+
+	time_t GetTime();
 
 public:	
-    Message();
+	Message();
+    Message(string packet, string userID, MessageType messageType);
 	vector<string> parse(string input);
 	void process();
     ~Message();

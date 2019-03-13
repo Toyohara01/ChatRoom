@@ -8,6 +8,10 @@
 
 using namespace std;
 
+//Constants 
+#define BUFFER_SIZE 2048
+
+
 class Client
 {
     private:
@@ -17,13 +21,14 @@ class Client
 	int connect;
 
 	void BeginRead();
-	void EndRead();
+	
 
     public:
     Client(string ip, uint8_t port);
 	~Client();
 	uint8_t Send(string input);
 	void Connect();
+	void EndRead();
 	void Disconnect();
 };
 
