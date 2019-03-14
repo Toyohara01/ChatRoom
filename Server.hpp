@@ -4,12 +4,18 @@
 #include "Enigma.hpp"
 #include "Message.hpp"
 
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+
+#include <iostream> 
 #include <string>
 
 using namespace std;
 
 //Constants 
 #define BUFFER_SIZE 2048
+#define PORT 9090
 
 
 class Server

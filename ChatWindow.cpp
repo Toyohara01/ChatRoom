@@ -7,6 +7,7 @@
 using namespace std;
 
 void EndRead();
+void ProcessMessage(class Message input);
 
 int main(int argc, char** argv)
 {
@@ -14,7 +15,17 @@ int main(int argc, char** argv)
     messages.clear();
 }
 
+void ProcessMessage(class Message input)
+{
+
+}
+
 void EndRead()
 {
+    string temp; // string returned frm Client.EndRead();
     //Call Client.EndRead(); Clear calling flag. 
+
+    class Message newMessage = Message::Message(temp, Type::Receive);
+
+    //launch new thread to process packet. 
 }

@@ -14,22 +14,77 @@ using namespace std; //@@ Should we remove this and use std:: for everything? Co
 
 //Enumerations 
 enum Header {HeaderNull, Instruction, Status};
-enum Body {BodyNull, Pass, Fail, Message, Connect, Disconnect};
+enum Body {BodyNull, Pass, Fail, Message, Continue, Connect, Disconnect};
 enum Type {TypeNull, Send, Receive};
-enum MessageType {MessageTypeNull, Sent, Received};
 
 //Structures
 typedef struct MessageProperties
 	{
 		Header header;
+		string userID;
 		Body body;
+		string message;
 		Type type;
 
 		MessageProperties()
 		{
-			header = Header::HeaderNull;
-			body = Body::BodyNull;
-			type = Type::TypeNull;
+			this->header = Header::HeaderNull;
+			this->userID.empty();
+			this->body = Body::BodyNull;
+			this->message.empty();
+			this->type = Type::TypeNull;
+		}
+
+		MessageProperties(vector<string> input, Type messageType)
+		{
+			if(input.size() == 4) //attached message
+			{
+				if(input[0] == "INSTRUCTION")
+					this->header = Header::Instruction;
+				else if(input[0] == "STATUS")
+					this->header = Header::Status;
+
+				this->userID = input[1];
+
+				if(input[2] == "PASS") 
+					this->body = Body::Pass;
+				else if(input[2] == "FAIL")
+					this->body = Body::Fail;
+				else if(input[2] == "MESSAGE")
+					this->body = Body::Message;
+				else if(input[2] == "CONTINUE")
+					this->body = Body::Continue;
+				else if(input[2] == "CONNECT")
+					this->body = Body::Connect;
+				else if(input[2] == "DISCONNECT")
+					this->body = Body::Disconnect;
+
+				this->message = input[3];
+			}
+			else //no message
+			{
+				if(input[0] == "INSTRUCTION")
+					this->header = Header::Instruction;
+				else if(input[0] == "STATUS")
+					this->header = Header::Status;
+
+				this->userID = input[1];
+
+				if(input[2] == "PASS") 
+					this->body = Body::Pass;
+				else if(input[2] == "FAIL")
+					this->body = Body::Fail;
+				else if(input[2] == "MESSAGE")
+					this->body = Body::Message;
+				else if(input[2] == "CONTINUE")
+					this->body = Body::Continue;
+				else if(input[2] == "CONNECT")
+					this->body = Body::Connect;
+				else if(input[2] == "DISCONNECT")
+					this->body = Body::Disconnect;
+			}
+
+			this->type = messageType;
 		}
 	}MessageProperties;
 
@@ -40,15 +95,14 @@ private:
 	MessageProperties messageProperties;
 	time_t timestamp;
 	string userID;
-	MessageType messageType;
+	Type messageType;
 
 	time_t GetTime();
 
 public:	
-	Message();
-    Message(string packet, string userID, MessageType messageType);
+	Message(); 
+    Message(string packet, Type messageType);
 	vector<string> parse(string input);
-	void process();
     ~Message();
 };
 
