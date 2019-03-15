@@ -4,6 +4,7 @@
 #include "Enigma.hpp"
 #include "Message.hpp"
 
+#include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
@@ -18,13 +19,14 @@ using namespace std;
 #define PORT 9090
 
 
+
 class Server
 {
     private:
 	int sockfd;
-	int setsockopt;
-	int bind;
-	int listen;
+	int options = 1;
+	struct sockaddr_in address;
+	
 	int new_socket;
 
 	void SetupSocket();
@@ -36,6 +38,7 @@ class Server
 	void EndRead();
 
     public:
+	void CreateSocket();
 	uint8_t Send(string input);
     Server(string ip, uint8_t port);
     ~Server();
