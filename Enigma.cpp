@@ -13,12 +13,20 @@
 #include "Enigma.hpp"
 #include <iostream>
 #include <string>
+#include <ctime>
 
 using namespace std;
 
 Enigma::Enigma()
 {
-    //NOTE: add code to compute key based on current date. LAD
+    //find current time and date. LAD
+    time_t currentDate = time(0);
+    tm *lt = localtime(&currentDate);
+
+    //create key based on day, month, and year. LAD
+    key[0] = (lt->tm_year)%26;
+    key[1] = (lt->tm_mon)%26;
+    key[2] = (lt->tm_mday)%26;
 
     cout << "Enigma object created!" << endl;
 }
@@ -28,6 +36,7 @@ int Enigma::findIndex(char letter, int mode, int side, int refIdx)
     //varaible for searching through array. LAD
     int arrayIdx = 0;
 
+    //mode determines what rotor to search through. LAD
     switch(mode)
     {
         //case 0 search through alphabet array. LAD
@@ -106,59 +115,73 @@ string Enigma::Encrypt(string input)    //NOTE: need to add rotor rotation stuff
     //loop through every character in the input string. LAD
     for(int i=0; i<input.length();i++)
     {
-        //set tempChar to character currently being encrypted. LAD
-        tempChar = toupper(input.at(i));
+        //if the current character is a letter
+        if(isalpha(input.at(i)))
+        {
+            //set tempChar to character currently being encrypted. LAD
+            tempChar = toupper(input.at(i));
 
-        //find tempChar's index in the alphabit. LAD
-        tempIdx = Enigma::findIndex(tempChar, 0);
+            //find tempChar's index in the alphabit. LAD
+            tempIdx = Enigma::findIndex(tempChar, 0);
 
-        //set tempChar to cooresponding character on right side of rotor1. LAD
-        tempChar = rotor1[tempIdx][1];
+            //set tempChar to cooresponding character on right side of rotor1. LAD
+            tempChar = rotor1[tempIdx][1];
 
-        //find index for identical character on left side of rotor1. LAD
-        tempIdx = Enigma::findIndex(tempChar, 1, 0);
+            //find index for identical character on left side of rotor1. LAD
+            tempIdx = Enigma::findIndex(tempChar, 1, 0);
 
-        //set tempChar to cooresponding character on rightside of rotor2. LAD
-        tempChar = rotor2[tempIdx][1];
+            //set tempChar to cooresponding character on rightside of rotor2. LAD
+            tempChar = rotor2[tempIdx][1];
 
-        //find index for identical character on left side of rotor2. LAD
-        tempIdx = Enigma::findIndex(tempChar, 2, 0);
+            //find index for identical character on left side of rotor2. LAD
+            tempIdx = Enigma::findIndex(tempChar, 2, 0);
 
-        //set tempChar to cooresponding character on right side of rotor3. LAD
-        tempChar = rotor3[tempIdx][1];
+            //set tempChar to cooresponding character on right side of rotor3. LAD
+            tempChar = rotor3[tempIdx][1];
 
-        //find index for identical character on left side of rotor3. LAD
-        tempIdx = Enigma::findIndex(tempChar, 3, 0);
+            //find index for identical character on left side of rotor3. LAD
+            tempIdx = Enigma::findIndex(tempChar, 3, 0);
 
-        //set tempChar to character in cooreponding position in relector. LAD
-        tempChar = reflector[tempIdx];
+            //set tempChar to character in cooreponding position in relector. LAD
+            tempChar = reflector[tempIdx];
 
-        //find index of duplicate of tempChar on reflector. LAD
-        tempIdx = Enigma::findIndex(tempChar, 4, 0, tempIdx);
+            //find index of duplicate of tempChar on reflector. LAD
+            tempIdx = Enigma::findIndex(tempChar, 4, 0, tempIdx);
 
-        //set tempChar to cooresponding character on left side of rotor3. LAD
-        tempChar = rotor3[tempIdx][0];
+            //set tempChar to cooresponding character on left side of rotor3. LAD
+            tempChar = rotor3[tempIdx][0];
 
-        //find index for identical character on right side of rotor3. LAD
-        tempIdx = Enigma::findIndex(tempChar, 3, 1);
+            //find index for identical character on right side of rotor3. LAD
+            tempIdx = Enigma::findIndex(tempChar, 3, 1);
 
-        //set tempChar to cooreponding character on left side of rotor2. LAD
-        tempChar = rotor2[tempIdx][0];
+            //set tempChar to cooreponding character on left side of rotor2. LAD
+            tempChar = rotor2[tempIdx][0];
 
-        //find index for identical character on right side of rotor2. LAD
-        tempIdx = Enigma::findIndex(tempChar, 2, 1);
+            //find index for identical character on right side of rotor2. LAD
+            tempIdx = Enigma::findIndex(tempChar, 2, 1);
 
-        //set tempChar to cooresponding character on left side of rotor1. LAD
-        tempChar = rotor1[tempIdx][0];
+            //set tempChar to cooresponding character on left side of rotor1. LAD
+            tempChar = rotor1[tempIdx][0];
 
-        //find index for identical character on right side of rotor1. LAD
-        tempIdx = Enigma::findIndex(tempChar, 1, 1);
+            //find index for identical character on right side of rotor1. LAD
+            tempIdx = Enigma::findIndex(tempChar, 1, 1);
 
-        //set tempChar to cooresponding character in alphabet. LAD
-        tempChar = alphabet[tempIdx];
+            //set tempChar to cooresponding character in alphabet. LAD
+            tempChar = alphabet[tempIdx];
 
-        //replace original character in input string with encrypted character. LAD
-        input[i] = tempChar;
+            //replace original character in input string with encrypted character. LAD
+            input[i] = tempChar;
+        }
+        //if character being checked is a digit. LAD
+        else if(isdigit(input.at(i)))
+        {
+
+        }
+        //otherwise if the character is not a letter or digit. LAD
+        else
+        {
+            input[i] = '*';
+        }
 
         //rotate rotor1 up once. LAD
         key[2]++;
