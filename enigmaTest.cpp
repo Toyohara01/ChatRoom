@@ -6,8 +6,9 @@ using namespace std;
 
 int main()
 {
-    //instantiate enigma object for encryption
+    //instantiate enigma objects
     Enigma encryptObj;
+    Enigma decryptObj;
 
     //declare vairable for message
     string text;
@@ -20,5 +21,5 @@ int main()
     text = encryptObj.Encrypt(text);
 
     //execute decryption method
-    encryptObj.Decrypt(text);
+    decryptObj.Decrypt(text);
 }
