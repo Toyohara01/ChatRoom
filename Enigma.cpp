@@ -8,9 +8,10 @@
 * Spring 2019                                                                 *
 * SE420/SE310                                                                 *
 *******************************************************************************/
+//based on: https://www.youtube.com/watch?v=UKbP3Rjxhy0&t=407s
 
 #include "Enigma.hpp"
-#include <iosetream>
+#include <iostream>
 #include <string>
 
 using namespace std;
@@ -18,9 +19,11 @@ using namespace std;
 Enigma::Enigma()
 {
     //NOTE: add code to compute key based on current date. LAD
+
+    cout << "Enigma object created!" << endl;
 }
 
-int Enigma::findIndex(char letter, int mode, int side=0, int refIdx=0);
+int Enigma::findIndex(char letter, int mode, int side, int refIdx)
 {
     //varaible for searching through array. LAD
     int arrayIdx = 0;
@@ -187,6 +190,11 @@ string Enigma::Encrypt(string input)    //NOTE: need to add rotor rotation stuff
             }
         }
     }
+
+    //set the ciperText field to the newly encrypted string. LAD
+    cipherText = input;
+
+    cout << cipherText << endl;
 }
 
 string Enigma::Decrypt(string input)
@@ -196,5 +204,5 @@ string Enigma::Decrypt(string input)
 
 Enigma::~Enigma()
 {
-    
+    cout << "Enigma object destructed!" << endl;
 }

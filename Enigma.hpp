@@ -1,3 +1,4 @@
+//https://www.apprendre-en-ligne.net/crypto/bibliotheque/PDF/paperEnigma.pdf
 
 /******************************************************************************
 * Enigma.hpp                                                                  *
@@ -62,7 +63,7 @@ class Enigma
 
     public:
         Enigma();
-        int Enigma::findIndex(char letter, int mode, int side=0, int refIdx=0);
+        int findIndex(char letter, int mode, int side=0, int refIdx=0);
         std::string Encrypt(std::string input);
         std::string Decrypt(std::string input);
         ~Enigma();
