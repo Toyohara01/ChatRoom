@@ -218,11 +218,127 @@ string Enigma::Encrypt(string input)    //NOTE: need to add rotor rotation stuff
     cipherText = input;
 
     cout << cipherText << endl;
+
+    //return encypted message. LAD
+    return(cipherText);
 }
 
 string Enigma::Decrypt(string input)
 {
+    //define variables. LAD
+    char tempChar;
+    int tempIdx, i;
+    string tempString;
 
+    //loop through every character in the input string. LAD
+    for(int i=0; i<input.length();i++)
+    {
+        //if the current character is a letter
+        if(isalpha(input.at(i)))
+        {
+            //set tempChar to character currently being decrypted. LAD
+            tempChar = toupper(input.at(i));
+
+            //find tempChar's index in the alphabit. LAD
+            tempIdx = Enigma::findIndex(tempChar, 0);
+
+            //set tempChar to cooresponding character on right side of rotor1. LAD
+            tempChar = rotor1[tempIdx][1];
+
+            //find index for identical character on left side of rotor1. LAD
+            tempIdx = Enigma::findIndex(tempChar, 1, 0);
+
+            //set tempChar to cooresponding character on rightside of rotor2. LAD
+            tempChar = rotor2[tempIdx][1];
+
+            //find index for identical character on left side of rotor2. LAD
+            tempIdx = Enigma::findIndex(tempChar, 2, 0);
+
+            //set tempChar to cooresponding character on right side of rotor3. LAD
+            tempChar = rotor3[tempIdx][1];
+
+            //find index for identical character on left side of rotor3. LAD
+            tempIdx = Enigma::findIndex(tempChar, 3, 0);
+
+            //set tempChar to character in cooreponding position in relector. LAD
+            tempChar = reflector[tempIdx];
+
+            //find index of duplicate of tempChar on reflector. LAD
+            tempIdx = Enigma::findIndex(tempChar, 4, 0, tempIdx);
+
+            //set tempChar to cooresponding character on left side of rotor3. LAD
+            tempChar = rotor3[tempIdx][0];
+
+            //find index for identical character on right side of rotor3. LAD
+            tempIdx = Enigma::findIndex(tempChar, 3, 1);
+
+            //set tempChar to cooreponding character on left side of rotor2. LAD
+            tempChar = rotor2[tempIdx][0];
+
+            //find index for identical character on right side of rotor2. LAD
+            tempIdx = Enigma::findIndex(tempChar, 2, 1);
+
+            //set tempChar to cooresponding character on left side of rotor1. LAD
+            tempChar = rotor1[tempIdx][0];
+
+            //find index for identical character on right side of rotor1. LAD
+            tempIdx = Enigma::findIndex(tempChar, 1, 1);
+
+            //set tempChar to cooresponding character in alphabet. LAD
+            tempChar = alphabet[tempIdx];
+
+            //replace original character in input string with decrypted character. LAD
+            input[i] = tempChar;
+        }
+        //if character being checked is a digit. LAD
+        else if(isdigit(input.at(i)))
+        {
+
+        }
+        //otherwise if the character is not a letter or digit. LAD
+        else
+        {
+            input[i] = ' ';
+        }
+
+        //rotate rotor1 up once. LAD
+        key[2]++;
+
+        //if rotor1 is set to above 25. LAD
+        if(key[2]>25)
+        {
+            //reset rotor1 to 0. LAD
+            key[2] = 0;
+
+            //rotate rotor2 up once. LAD
+            key[1]++;
+
+            //if rotor2 is set above 25. LAD
+            if(key[1>25])
+            {
+                //reset rotor2 to 0. LAD
+                key[1] = 0;
+
+                //rotate rotor3 up once. LAD
+                key[0]++;
+
+                //if rotor3 is set above 25. LAD
+                if(key[0]>25)
+                {
+                    //reset rotor3 to 0. LAD
+                    key[0] = 0;
+                }
+            }
+        }
+    }
+
+    //set the plainText field to the newly decrypted string. LAD
+    plainText = input;
+
+    cout << plainText << endl;
+
+    //return decrypted message
+    return(plainText);    
 }
 
 Enigma::~Enigma()
