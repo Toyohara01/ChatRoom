@@ -3,6 +3,12 @@
 
 #include "Enigma.hpp"
 //#include "User.hpp" //@@@ Do we need to create this header??
+
+#include <sys/socket.h>
+#include <stdlib.h>
+#include <arpa/inet.h>
+//#include <netinet/in.h>
+
 #include <iostream>
 #include <string> 
 
@@ -16,15 +22,14 @@ class Client
 {
     private:
 	string IP;
-	int port;
+	uint8_t port;
 	int sockfd;
-	int connect;
 
 	void BeginRead();
 	
 
     public:
-    Client(string ip, uint8_t port);
+    Client(string IP, uint8_t port);
 	~Client();
 	uint8_t Send(string input);
 	void Connect();
