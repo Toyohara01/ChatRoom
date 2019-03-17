@@ -29,7 +29,18 @@ Functions
     3. All functions shall have one point of entry and one point of exit. Multiple return statements will not be allowed. 
 
 Classes
-    1.
+    1. All classes will have a constructor definiton and destructor. 
+    2. All classses will have the following format. 
+
+class example 
+{
+private:
+    void func();
+
+public:
+    example();
+    ~example();
+};
 
 Comments
     1. Comments shall end with the team member's initials
