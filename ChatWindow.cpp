@@ -13,6 +13,12 @@ int main(int argc, char** argv)
 {
     vector<class Message> messages;
     messages.clear();
+
+    class Client client("192.168.0.26", 55689);
+    client.Connect();
+
+    while(true);
+
 }
 
 void ProcessMessage(class Message input)

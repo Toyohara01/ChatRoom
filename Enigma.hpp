@@ -13,6 +13,8 @@
 #ifndef ENIGMA_HPP
 #define ENIGMA_HPP
 
+#include <iostream>
+
 class Enigma
 {
     private:

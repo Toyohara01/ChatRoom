@@ -21,15 +21,14 @@ using namespace std;
 class Client
 {
     private:
-	string IP;
-	uint8_t port;
+	struct sockaddr_in serverAddress;
 	int sockfd;
 
 	void BeginRead();
 	
 
     public:
-    Client(string IP, uint8_t port);
+    Client(string IP, uint16_t port);
 	~Client();
 	uint8_t Send(string input);
 	void Connect();

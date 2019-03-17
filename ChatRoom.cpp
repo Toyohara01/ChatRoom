@@ -3,13 +3,12 @@
 
 #include <iostream>
 
-#define PORT 9090
 
 using namespace std;
 
 int main(int argc, char** argv)
 {
-    Server server = Server("192.168.1.1", 9090);
+    Server server = Server("192.168.0.26", 55689);
     server.CreateSocket();
 
 

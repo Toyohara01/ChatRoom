@@ -1,8 +1,15 @@
 #include "Server.hpp"
 
-Server::Server(string ip, uint8_t port)
+Server::Server(string ip, uint16_t port)
 {
+    if(inet_pton(AF_INET, ip.c_str(), &address.sin_addr) <= 0)
+    {
+        perror("IP Addresss in incorrect format.\n");
+        exit(EXIT_FAILURE);
+    }
 
+    address.sin_family = AF_INET;
+    address.sin_port = htons(port);
 }
 
 Server::~Server()
@@ -23,16 +30,15 @@ void Server::CreateSocket()
 {
     SetupSocket();
     Bind();
+    cout<<"Listen\n";
     Listen();
+    cout<<"Accept\n";
+    Accept();
+    cout<<"hi\n";
 }
 
 void Server::Bind()
 {
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(PORT);
-
-    
     if( bind(this->sockfd, (struct sockaddr *) &address, sizeof(struct sockaddr)) == -1) 
     {
         perror("Error binding socket to port\n");
@@ -49,9 +55,16 @@ void Server::Listen()
     }
 }
 
-void Server::Connect()
+void Server::Accept()
 {
+    struct sockaddr_in incomingConnection;
+    socklen_t clientSize = sizeof(sockaddr_in);
 
+    if((this->newConnection = accept(this->sockfd, (struct sockaddr *)&incomingConnection, &clientSize)) < 0)
+    {
+        perror("Error accepting connection.");
+        exit(EXIT_FAILURE);
+    }
 }
 
 void Server::Disconnect()
