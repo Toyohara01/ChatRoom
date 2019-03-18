@@ -1,6 +1,7 @@
 #ifndef ARCHIVE_HPP
 #define ARCHIVE_HPP
 
+#include <iostream>
 #include <fstream>
 
 using namespace std;
