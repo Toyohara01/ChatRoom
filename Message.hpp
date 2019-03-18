@@ -28,11 +28,11 @@ typedef struct MessageProperties
 
 		MessageProperties()
 		{
-			this->header = Header::HeaderNull;
+			this->header = HeaderNull;
 			this->userID.empty();
-			this->body = Body::BodyNull;
+			this->body = BodyNull;
 			this->message.empty();
-			this->type = Type::TypeNull;
+			this->type = TypeNull;
 		}
 
 		MessageProperties(vector<string> input, Type messageType)
@@ -40,48 +40,48 @@ typedef struct MessageProperties
 			if(input.size() == 4) //attached message
 			{
 				if(input[0] == "INSTRUCTION")
-					this->header = Header::Instruction;
+					this->header = Instruction;
 				else if(input[0] == "STATUS")
-					this->header = Header::Status;
+					this->header = Status;
 
 				this->userID = input[1];
 
 				if(input[2] == "PASS") 
-					this->body = Body::Pass;
+					this->body = Pass;
 				else if(input[2] == "FAIL")
-					this->body = Body::Fail;
+					this->body = Fail;
 				else if(input[2] == "MESSAGE")
-					this->body = Body::Message;
+					this->body = Message;
 				else if(input[2] == "CONTINUE")
-					this->body = Body::Continue;
+					this->body = Continue;
 				else if(input[2] == "CONNECT")
-					this->body = Body::Connect;
+					this->body = Connect;
 				else if(input[2] == "DISCONNECT")
-					this->body = Body::Disconnect;
+					this->body = Disconnect;
 
 				this->message = input[3];
 			}
 			else //no message
 			{
 				if(input[0] == "INSTRUCTION")
-					this->header = Header::Instruction;
+					this->header = Instruction;
 				else if(input[0] == "STATUS")
-					this->header = Header::Status;
+					this->header = Status;
 
 				this->userID = input[1];
 
 				if(input[2] == "PASS") 
-					this->body = Body::Pass;
+					this->body = Pass;
 				else if(input[2] == "FAIL")
-					this->body = Body::Fail;
+					this->body = Fail;
 				else if(input[2] == "MESSAGE")
-					this->body = Body::Message;
+					this->body = Message;
 				else if(input[2] == "CONTINUE")
-					this->body = Body::Continue;
+					this->body = Continue;
 				else if(input[2] == "CONNECT")
-					this->body = Body::Connect;
+					this->body = Connect;
 				else if(input[2] == "DISCONNECT")
-					this->body = Body::Disconnect;
+					this->body = Disconnect;
 			}
 
 			this->type = messageType;
