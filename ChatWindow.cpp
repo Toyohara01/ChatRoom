@@ -7,7 +7,8 @@
 using namespace std;
 
 void EndRead();
-void ProcessMessage(class Message input);
+//void ProcessMessage(class Message input);
+void ProcessMessage(string input);
 
 int main(int argc, char** argv)
 {
@@ -17,14 +18,24 @@ int main(int argc, char** argv)
     class Client client("192.168.0.26", 55689);
     client.Connect();
 
-    client.Send("Hello world!!!");
-    while(true);
+    while(true)
+    {
+        client.Read(ProcessMessage);
+        string input;
+        getline(cin, input);
+        client.Send(input);
+    }
 
 }
 
-void ProcessMessage(class Message input)
+/* void ProcessMessage(class Message input)
 {
 
+}*/
+
+void ProcessMessage(string input)
+{
+    cout<<input<<endl;
 }
 
 void EndRead()

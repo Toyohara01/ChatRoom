@@ -37,7 +37,7 @@ class Server
     public:
 	void CreateSocket();
 	void Send(string input);
-	void Read();
+	void Read(void (*MessageProcessing)(string));
     Server(string ip, uint16_t port);
     ~Server();
 };

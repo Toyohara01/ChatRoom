@@ -33,7 +33,7 @@ class Client
 	~Client();
 	uint8_t Send(string input);
 	void Connect();
-	void Read(void * MessageProcessing);
+	void Read(void (*MessageProcessing)(string));
 	void Disconnect();
 };
 

@@ -69,10 +69,12 @@ void Server::Disconnect()
 
 }
 
-void Server::Read()
+void Server::Read(void (*MessageProcessing)(string))
 {
     char buffer[BUFFER_SIZE];
-    ssize_t bytesRead = read(this->sockfd, buffer, BUFFER_SIZE);
+    memset(buffer, '\0', BUFFER_SIZE);
+
+    ssize_t bytesRead = read(this->newConnection, buffer, BUFFER_SIZE);
 
     if(bytesRead <= 0)
     {
@@ -81,12 +83,16 @@ void Server::Read()
     }
 
     string message(buffer);
-    cout<<buffer<<std::endl;
+
+    (*MessageProcessing)(buffer);
 }
 
 void Server::Send(string input)
 {
-    ssize_t bytesSent = send(this->sockfd, input.c_str(), input.length(), 0);
+    char messageBuffer[BUFFER_SIZE];
+    strcpy(messageBuffer, input.c_str());
+
+    ssize_t bytesSent = send(this->newConnection, messageBuffer, sizeof(messageBuffer), 0);
 
     if(bytesSent <= 0)
     {
