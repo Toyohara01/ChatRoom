@@ -17,6 +17,7 @@ int main(int argc, char** argv)
     class Client client("192.168.0.26", 55689);
     client.Connect();
 
+    client.Send("Hello world!!!");
     while(true);
 
 }

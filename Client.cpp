@@ -17,19 +17,30 @@ Client::~Client()
 
 }
 
-void Client::BeginRead()
+void Client::Read(void * MessageProcessing = NULL)
 {
+    char buffer[BUFFER_SIZE];
+    ssize_t bytesRead = read(this->sockfd, buffer, BUFFER_SIZE);
 
-}
+    if(bytesRead <= 0)
+    {
+        perror("Error on receiving packet");
+        exit(EXIT_FAILURE);
+    }
 
-void Client::EndRead()
-{
-
+    string message(buffer);
+    cout<<buffer<<std::endl;
 }
 
 uint8_t Client::Send(string input)
-{
+{   
+    ssize_t bytesSent = send(this->sockfd, input.c_str(), input.length(), 0);
 
+    if(bytesSent <= 0)
+    {
+        perror("Error Receving Message");
+        exit(EXIT_FAILURE);
+    }
 }
 
 void Client::Connect()

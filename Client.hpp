@@ -4,6 +4,7 @@
 #include "Enigma.hpp"
 //#include "User.hpp" //@@@ Do we need to create this header??
 
+#include <unistd.h>
 #include <sys/socket.h>
 #include <stdlib.h>
 #include <arpa/inet.h>
@@ -32,7 +33,7 @@ class Client
 	~Client();
 	uint8_t Send(string input);
 	void Connect();
-	void EndRead();
+	void Read(void * MessageProcessing);
 	void Disconnect();
 };
 

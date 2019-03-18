@@ -33,12 +33,11 @@ class Server
 	void Listen();
 	void Accept();
 	void Disconnect();
-	void BeginRead();
-	void EndRead();
 
     public:
 	void CreateSocket();
-	uint8_t Send(string input);
+	void Send(string input);
+	void Read();
     Server(string ip, uint16_t port);
     ~Server();
 };

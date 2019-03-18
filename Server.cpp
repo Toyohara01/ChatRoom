@@ -30,11 +30,8 @@ void Server::CreateSocket()
 {
     SetupSocket();
     Bind();
-    cout<<"Listen\n";
     Listen();
-    cout<<"Accept\n";
     Accept();
-    cout<<"hi\n";
 }
 
 void Server::Bind()
@@ -72,19 +69,28 @@ void Server::Disconnect()
 
 }
 
-void Server::BeginRead()
+void Server::Read()
 {
+    char buffer[BUFFER_SIZE];
+    ssize_t bytesRead = read(this->sockfd, buffer, BUFFER_SIZE);
 
+    if(bytesRead <= 0)
+    {
+        perror("Error on receiving packet");
+        exit(EXIT_FAILURE);
+    }
+
+    string message(buffer);
+    cout<<buffer<<std::endl;
 }
 
-void Server::EndRead()
+void Server::Send(string input)
 {
+    ssize_t bytesSent = send(this->sockfd, input.c_str(), input.length(), 0);
 
-}
-
-uint8_t Server::Send(string input)
-{
-    uint8_t bytesRead = 0;
-
-    return bytesRead;
+    if(bytesSent <= 0)
+    {
+        perror("Error sending packet");
+        exit(EXIT_FAILURE);
+    }
 }
