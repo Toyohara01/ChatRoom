@@ -3,27 +3,37 @@
 
 #include "Enigma.hpp"
 //#include "User.hpp" //@@@ Do we need to create this header??
+
+#include <unistd.h>
+#include <sys/socket.h>
+#include <stdlib.h>
+#include <arpa/inet.h>
+//#include <netinet/in.h>
+
 #include <iostream>
 #include <string> 
 
 using namespace std;
 
+//Constants 
+#define BUFFER_SIZE 2048
+
+
 class Client
 {
     private:
-	string IP;
-	int port;
+	struct sockaddr_in serverAddress;
 	int sockfd;
-	int connect;
 
 	void BeginRead();
-	void EndRead();
+	
 
     public:
-    Client(string ip, uint8_t port);
+    Client(string IP, uint16_t port);
 	~Client();
 	uint8_t Send(string input);
 	void Connect();
+	void Read(void (*MessageProcessing)(string));
 	void Disconnect();
 };
 

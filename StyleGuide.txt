@@ -7,6 +7,11 @@ Variable Names
     3. All #define constants shall be capitalized.
        (ex: #define STUFF)
 
+File format
+    1. All files will have user defined headers included first, then C .h headers, then C++ headers 
+    2. Namespace to be used will be defined after includes. 
+    3. #define constants will be defined after namespace if one is defined. 
+
 Indentation and Brackets
     1. All opening and closing brackets shall be placed on thier own line.
        (ex: 
@@ -14,8 +19,6 @@ Indentation and Brackets
             {
                 stuff()
             }
-
-            instead of
 
             while(variableName < 5){
                 stuff()  
@@ -29,7 +32,20 @@ Functions
     3. All functions shall have one point of entry and one point of exit. Multiple return statements will not be allowed. 
 
 Classes
-    1.
+    1. All classes will have a constructor definiton and destructor. 
+    2. All classses will have the following format. 
+
+class example 
+{
+private:
+    void func();
+
+public:
+    example();
+    ~example();
+};
+
+    3. All variable referneces to a class defined variable will use this->var to aid in readability.
 
 Comments
     1. Comments shall end with the team member's initials
