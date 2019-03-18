@@ -33,7 +33,7 @@ void EndRead()
     string temp; // string returned frm Client.EndRead();
     //Call Client.EndRead(); Clear calling flag. 
 
-    class Message newMessage(temp, Type::Receive);
+    class Message newMessage(temp, Receive);
 
     //launch new thread to process packet. 
 }
