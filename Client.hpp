@@ -1,7 +1,7 @@
 #ifndef CLIENT_HPP
 #define CLIENT_HPP
 
-#include "Enigma.hpp"
+//#include "Enigma.hpp"
 //#include "User.hpp" //@@@ Do we need to create this header??
 
 #include <unistd.h>
@@ -11,7 +11,11 @@
 //#include <netinet/in.h>
 
 #include <iostream>
-#include <string> 
+#include <string>
+#include <cerrno>
+#include <cstring>
+#include <cstdio>
+#include <cstdlib> 
 
 using namespace std;
 

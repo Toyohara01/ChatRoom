@@ -2,6 +2,8 @@
 
 Server::Server(string ip, uint16_t port)
 {
+    this->options = 1;
+    
     if(inet_pton(AF_INET, ip.c_str(), &address.sin_addr) <= 0)
     {
         perror("IP Addresss in incorrect format.\n");
