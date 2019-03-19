@@ -15,7 +15,7 @@ int main(int argc, char** argv)
     vector<class Message> messages;
     messages.clear();
 
-    class Client client("192.168.0.26", 55689);
+    class Client client("172.30.170.250", 55689);
     client.Connect();
 
     while(true)
