@@ -10,7 +10,7 @@ void ProcessMessage(string input);
 
 int main(int argc, char** argv)
 {
-    Server server = Server("172.30.170.250", 55689);
+    Server server = Server("172.30.150.253", 55689);
     server.CreateSocket();
 
     while(true)

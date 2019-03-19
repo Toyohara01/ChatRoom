@@ -5,6 +5,8 @@
 #include <fstream>
 #include <string>
 
+#define SECTOR_SIZE 512
+
 using namespace std;
 
 class Archive 

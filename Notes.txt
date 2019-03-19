@@ -1,0 +1,16 @@
+traceroute to track pings 
+
+I can host on prclab but i have to ssh in. 
+
+try hosting on SE workstation - Talk to ryan about opening a port.
+client on prclab1.
+
+limited to running on linux and osx using sockets.h not winsock.h
+
+https://github.com/pollito5/NerdHerd.git
+
+SE workstation - 172.19.172.37, 172.30.150.83
+
+linux:
+ifconfig - view IP address
+netstat -natp
