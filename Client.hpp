@@ -11,7 +11,11 @@
 //#include <netinet/in.h>
 
 #include <iostream>
-#include <string> 
+#include <string>
+#include <cerrno>
+#include <cstring>
+#include <cstdio>
+#include <cstdlib> 
 
 using namespace std;
 

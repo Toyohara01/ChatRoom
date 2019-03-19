@@ -14,7 +14,7 @@ OBJS= ${CFILES:.c=.o}
 CHATROOM=Chatroom
 CHATWINDOW=Chatwindow
 
-all:	${CHATROOM} $(CHATWINDOW) ${remove}
+all:	${CHATROOM} $(CHATWINDOW)
 
 $(CHATROOM) : $(CHATROOMOBJFILES)
 	$(CC) $(CFLAGS) $(CHATROOMOBJFILES) -o $(CHATROOM) 
@@ -49,7 +49,6 @@ remove:
 clean:
 	-rm -f *.o *.d *.exe 
 	-rm -f ${CHATROOM} ${CHATWINDOW} ${GARBAGE}
-
 
 depend:
 
