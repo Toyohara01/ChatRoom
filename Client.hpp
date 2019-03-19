@@ -1,7 +1,7 @@
 #ifndef CLIENT_HPP
 #define CLIENT_HPP
 
-#include "Enigma.hpp"
+//#include "Enigma.hpp"
 //#include "User.hpp" //@@@ Do we need to create this header??
 
 #include <unistd.h>

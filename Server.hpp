@@ -1,7 +1,7 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-#include "Enigma.hpp"
+//#include "Enigma.hpp"
 #include "Message.hpp"
 
 #include <sys/types.h>
@@ -25,7 +25,7 @@ class Server
 {
     private:
 	int sockfd, newConnection;
-	int options = 1;
+	int options;
 	struct sockaddr_in address;
 	
 	void SetupSocket();

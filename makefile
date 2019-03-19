@@ -4,21 +4,23 @@ CC = g++
 
 CDEFS=
 CFLAGS= $(INCLUDE_DIRS) $(CDEFS) -Wall
-OBJFILES = Server.o Chatroom.o Chatwindow.o Enigma.o Message.o Client.o Archive.o
+CHATROOMOBJFILES = Server.o Chatroom.o Message.o Archive.o
+CHATWINDOWOBJFILES= Chatwindow.o Client.o Message.o  Archive.o
 LIBS= 
-
-PRODUCT=chatroom chatwindow
-
-HFILES= Server.hpp Enigma.hpp Client.hpp Message.hpp
-CFILES= Server.cpp Enigma.cpp Client.cpp Message.cpp
 
 SRCS= ${HFILES} ${CFILES}
 OBJS= ${CFILES:.c=.o}
 
-all:	${PRODUCT} ${PRODUCT1}
+CHATROOM=Chatroom
+CHATWINDOW=Chatwindow
 
-$(PRODUCT) : $(OBJFILES)
-	$(CC) $(CFLAGS) -o $(PRODUCT) $(OBJFILES) 
+all:	${CHATROOM} $(CHATWINDOW) ${remove}
+
+$(CHATROOM) : $(CHATROOMOBJFILES)
+	$(CC) $(CFLAGS) $(CHATROOMOBJFILES) -o $(CHATROOM) 
+
+$(CHATWINDOW) : $(CHATWINDOWOBJFILES)
+	$(CC) $(CFLAGS) $(CHATWINDOWOBJFILES) -o $(CHATWINDOW)
 
 Enigma.o: Enigma.hpp Enigma.cpp
 	$(CC) $(CFLAGS) -c Enigma.cpp
@@ -32,21 +34,21 @@ Client.o: Client.hpp Client.cpp
 Server.o: Server.cpp Server.hpp
 	$(CC) $(CFLAGS) -c Server.cpp
 
+Message.o: Message.cpp Message.hpp
+	$(CC) $(CFLAGS) -c Message.cpp
+
 Chatroom.o: ChatRoom.cpp
 	$(CC) $(CFLAGS) -c ChatRoom.cpp
 
 Chatwindow.o: ChatWindow.cpp
 	$(CC) $(CFLAGS) -c ChatWindow.cpp
 
-chatwindow: ${OBJS} Chatwindow.o
-	$(CC) $(CFLAGS) -o $@ $(OBJS) Chatwindow.o $(LIBS)
-
-chatroom: ${OBJS} Chatroom.o
-	$(CC) $(CFLAGS) -o $@ $(OBJS) Chatroom.o $(LIBS)
+remove:
+	-rm -f *.o *.d *.exe 
 
 clean:
 	-rm -f *.o *.d *.exe 
-	-rm -f ${PRODUCT} ${GARBAGE}
+	-rm -f ${CHATROOM} ${CHATWINDOW} ${GARBAGE}
 
 
 depend:
