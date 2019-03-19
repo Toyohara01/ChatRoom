@@ -27,7 +27,7 @@ class Enigma
             {'U', 'A'}, {'V', 'I'}, {'W', 'B'}, {'X', 'R'},
             {'Y', 'C'}, {'Z', 'J'}
         };
-
+                //NOTE: put initialization in constructor. LAD
         char rotor2[26][2]={
             {'A', 'A'}, {'B', 'J'}, {'C', 'D'}, {'D', 'K'},
             {'E', 'S'}, {'F', 'I'}, {'G', 'R'}, {'H', 'U'},
