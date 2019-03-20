@@ -8,7 +8,6 @@
 * Spring 2019                                                                 *
 * SE420/SE310                                                                 *
 *******************************************************************************/
-//based on: https://www.youtube.com/watch?v=UKbP3Rjxhy0&t=407s
 
 #include "Enigma.hpp"
 #include <iostream>
