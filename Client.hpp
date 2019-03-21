@@ -15,7 +15,8 @@
 #include <cerrno>
 #include <cstring>
 #include <cstdio>
-#include <cstdlib> 
+#include <cstdlib>
+#include <thread>
 
 using namespace std;
 
@@ -28,16 +29,16 @@ class Client
     private:
 	struct sockaddr_in serverAddress;
 	int sockfd;
-
-	void BeginRead();
+	thread streamReader;
 	
-
+	void Read(void (*MessageProcessing)(string));
+	
     public:
     Client(string IP, uint16_t port);
 	~Client();
 	uint8_t Send(string input);
 	void Connect();
-	void Read(void (*MessageProcessing)(string));
+	void BeginRead(void (*MessageProcessing)(string));
 	void Disconnect();
 };
 

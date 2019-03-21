@@ -1,14 +1,12 @@
 #include "Server.hpp"
 
 Server::Server(string ip, uint16_t port)
-{
-    this->options = 1;
-    
+{ 
     if(inet_pton(AF_INET, ip.c_str(), &address.sin_addr) <= 0)
     {
         perror("IP Addresss in incorrect format.\n");
         exit(EXIT_FAILURE);
-    }
+    } 
 
     address.sin_family = AF_INET;
     address.sin_port = htons(port);
@@ -38,7 +36,8 @@ void Server::CreateSocket()
 
 void Server::Bind()
 {
-    if( bind(this->sockfd, (struct sockaddr *) &address, sizeof(struct sockaddr)) == -1) 
+    int result = bind(this->sockfd, (struct sockaddr *) &address, sizeof(struct sockaddr));
+    if(result == -1)
     {
         perror("Error binding socket to port\n");
         exit(EXIT_FAILURE);
@@ -71,22 +70,30 @@ void Server::Disconnect()
 
 }
 
+/*void Server::BeginRead(void (*MessageProcessing)(string))
+{
+    streamReader = thread({ Read(*MessageProcessing); } );
+}	*/
+
 void Server::Read(void (*MessageProcessing)(string))
 {
-    char buffer[BUFFER_SIZE];
-    memset(buffer, '\0', BUFFER_SIZE);
-
-    ssize_t bytesRead = read(this->newConnection, buffer, BUFFER_SIZE);
-
-    if(bytesRead <= 0)
+    while(true)
     {
-        perror("Error on receiving packet");
-        exit(EXIT_FAILURE);
+        char buffer[BUFFER_SIZE];
+        memset(buffer, '\0', BUFFER_SIZE);
+
+        ssize_t bytesRead = read(this->newConnection, buffer, BUFFER_SIZE);
+
+        if(bytesRead <= 0)
+        {
+            perror("Error on receiving packet");
+            exit(EXIT_FAILURE);
+        }
+
+        string message(buffer);
+
+        (*MessageProcessing)(buffer);
     }
-
-    string message(buffer);
-
-    (*MessageProcessing)(buffer);
 }
 
 void Server::Send(string input)

@@ -27,7 +27,7 @@ using namespace std;
 
 class Server
 {
-    private:
+private:
 	int sockfd, newConnection;
 	int options;
 	struct sockaddr_in address;
@@ -38,11 +38,12 @@ class Server
 	void Accept();
 	void Disconnect();
 
-    public:
+public:
 	void CreateSocket();
 	void Send(string input);
 	void Read(void (*MessageProcessing)(string));
     Server(string ip, uint16_t port);
+	//void BeginRead(void (*MessageProcessing)(string));	
     ~Server();
 };
 

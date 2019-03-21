@@ -17,22 +17,31 @@ Client::~Client()
 
 }
 
+void Client::BeginRead(void (*MessageProcessing)(string))
+{
+     streamReader = thread([=] { Read(*MessageProcessing); } );
+}
+
+
 void Client::Read(void (*MessageProcessing)(string))
 {
-    char buffer[BUFFER_SIZE];
-    memset(buffer, '\0', BUFFER_SIZE);
-
-    ssize_t bytesRead = read(this->sockfd, buffer, BUFFER_SIZE);
-
-    if(bytesRead <= 0)
+    while(true)
     {
-        perror("Error on receiving packet");
-        exit(EXIT_FAILURE);
-    }
+        char buffer[BUFFER_SIZE];
+        memset(buffer, '\0', BUFFER_SIZE);
 
-    string message(buffer);
-    
-    (*MessageProcessing)(buffer);
+        ssize_t bytesRead = read(this->sockfd, buffer, BUFFER_SIZE);
+
+        if(bytesRead <= 0)
+        {
+            perror("Error on receiving packet");
+            exit(EXIT_FAILURE);
+        }
+
+        string message(buffer);
+        
+        (*MessageProcessing)(buffer);
+    }
 }
 
 uint8_t Client::Send(string input)

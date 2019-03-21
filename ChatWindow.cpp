@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <thread>
 
 using namespace std;
 
@@ -15,12 +16,22 @@ int main(int argc, char** argv)
     vector<class Message> messages;
     messages.clear();
 
-    class Client client("172.30.170.250", 55689);
+    // Get IP Address and port of server to connect to. 
+    string IPAddress;
+    uint16_t Port = 55890;
+    cout<<"Enter Server's IP Address format(xxx.xxx.xxx.xxx): "; getline(cin, IPAddress);
+    cout<<"Running Server on Port:"<<Port<<endl; //cin>>Port; 
+   
+    class Client client(IPAddress, Port);
+
+    //class Client client(IPAddress, Port);
     client.Connect();
+
+    cout<<"Connected to Server"<<endl<<endl;
+    client.BeginRead(ProcessMessage);
 
     while(true)
     {
-        client.Read(ProcessMessage);
         string input;
         getline(cin, input);
         client.Send(input);

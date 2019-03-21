@@ -1,24 +1,41 @@
 #include "Server.hpp"
-#include "Archive.hpp"
 
 #include <iostream>
-
+#include <thread>
 
 using namespace std;
+ 
+class Server *server = NULL;
 
 void ProcessMessage(string input);
+void BeginRead()
+{
+    while(true)
+    {
+        server->Read(ProcessMessage);
+    }
+}
 
 int main(int argc, char** argv)
 {
-    Server server = Server("172.30.150.253", 55689);
-    server.CreateSocket();
+    // Get IP Address and port of server to connect to. 
+    string IPAddress;
+    uint16_t Port = 55890;
+    cout<<"Enter Server's IP Address format(xxx.xxx.xxx.xxx): "; getline(cin, IPAddress);
+    cout<<"Running Server on Port:"<<Port<<endl; //cin>>Port; 
+
+    server = new Server(IPAddress, 55890);
+
+    //Server server(IPAddress, Port);
+    server->CreateSocket();
+
+    thread streamReader(BeginRead);
 
     while(true)
     {
         string input;
         getline(cin, input);
-        server.Send(input);
-        server.Read(ProcessMessage);
+        server->Send(input);
     }
     //Archive archive("hello.txt");
 }
