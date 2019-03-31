@@ -11,9 +11,10 @@ int main()
     Enigma decryptObj;
 
     //declare vairables
-    string plainString, cipherString;
-    int testNum, i, ii, randIndex, randSize;
-    char characters[37] = {
+    string plainString, cipherString, newPlainString;
+    int testNum, i, ii, randIndex, randSize, failNum = 0;
+    char characters[37] = 
+    {
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
         'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
         'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6',
@@ -45,5 +46,21 @@ int main()
 
         //print out ciphertext string
         cout << cipherString << endl;
+
+        //decrypt cipher text
+        newPlainString = decryptObj.Decrypt(cipherString);
+
+        //pint out new plaintext string
+        cout << newPlainString << endl;
+
+        //if the 2 plaintext strings don't match
+        if(plainString.compare(newPlainString) != 0)
+        {
+            //increment the number of failures
+            failNum++;
+        }
     }
+
+    cout << testNum << " test cases have been completed." << endl;
+    cout << "There were " << (testNum-failNum) << " successes, and " << failNum << " failures" << endl;
 }
