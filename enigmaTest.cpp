@@ -1,4 +1,7 @@
 #include <iostream>
+#include <random>
+#include <cstdlib>
+#include <string>
 #include "Enigma.hpp"
 #include "Enigma.cpp" 
 
@@ -23,7 +26,7 @@ int main()
 
     //prompt user for input
     cout << "Enter desired number of test runs: ";
-    getline(cin, testNum);
+    cin >> testNum;
 
     //loop to run desired number of test cases
     for(i=0;i<testNum;i++)
