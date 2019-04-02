@@ -68,8 +68,6 @@ Enigma::Enigma()
     key[0] = (lt->tm_year)%26;
     key[1] = (lt->tm_mon)%26;
     key[2] = (lt->tm_mday)%26;
-
-    cout << "Enigma object created!" << endl;
 }
 
 int Enigma::findIndex(char letter, int mode, int side, int refIdx)
@@ -384,5 +382,4 @@ string Enigma::Decrypt(string input)
 
 Enigma::~Enigma()
 {
-    cout << "Enigma object destructed!" << endl;
 }
