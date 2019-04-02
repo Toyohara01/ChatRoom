@@ -5,24 +5,25 @@
 #include <fstream>
 #include <string>
 #include <stdio.h>
+#include <ctime>
 
 #define SECTOR_SIZE 512
 
 using namespace std;
 
-class Archive 
+class Archive
 {
-	private:
-		ofstream *file;
+private:
+	ofstream * file;
 
-		char* Xor(char *LBA1, char *LBA2, char *LBA3, char *LBA4, char *PLBA);
+	char* Xor(char *LBA1, char *LBA2, char *LBA3, char *LBA4, char *PLBA);
 
-	public:
-		Archive(string filepath);
-		void Save();
-		void Load();
-		void RAID();
-		~Archive();
+public:
+	Archive(/*string filepath*/);
+	void Save(string message);
+	void Load(string message);
+	void RAID();
+	~Archive();
 };
 
 #endif //ARCHIVE_HPP

@@ -2,33 +2,8 @@
 // Description: Will be able to save and load strings and backup the statements through RAID
 // system calls to read every x seconds to save 
 
-//#include "Archive.hpp"
+#include "Archive.hpp"
 
-/******************************************************************************/
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <stdio.h>
-
-#define SECTOR_SIZE 512
-
-using namespace std;
-
-class Archive
-{
-private:
-	ofstream * file;
-
-	char* Xor(char *LBA1, char *LBA2, char *LBA3, char *LBA4, char *PLBA);
-
-public:
-	Archive(/*string filepath*/);
-	void Save(string message);
-	void Load(string message);
-	void RAID();
-	~Archive();
-};
-/******************************************************************************/
 // Arhiving will put file / message into a destination
 Archive::Archive(/*string filepath */)
 {
@@ -45,10 +20,8 @@ Archive::~Archive()
 // Save the message into the arhive
 void Archive::Save(string message)
 {
-	// string savedMessage;
-	// cin >> savedMessage;
 
-	// put message into a file
+	// open file 
 	ofstream file("chatroom.txt", ios::app);
 
 	// if (file.is_open())
@@ -56,9 +29,9 @@ void Archive::Save(string message)
 	// file.open("chatroom.txt", ios::in);
 	/******************************************************************************/
 	// open chatroom text and read and update file
-	fopen("chatroom.txt", "r");
+	fopen("chatroom.txt", "r+");
 	/******************************************************************************/
-	file << message;
+	file << message << endl;
 	file.close();
 	// }
 }
@@ -76,6 +49,12 @@ void Archive::Load(string message)
 		while (getline(file, message))
 		{
 			cout << message << endl;
+			// time_t t = time(0);
+			// tm* now = localtime(&t);
+			// cout<<(not->tm_year + 1900) << '-"
+			// <<(not->tm_mon + 1) << "-"
+			// <<now->tm_mday
+			// <<"\n";
 		}
 		file.close();
 	}
@@ -117,6 +96,7 @@ int main()
 		// Get line with spaces
 		getline(cin, msg);
 
+
 		if (msg == "exit")
 		{
 			loop = 0;
@@ -127,19 +107,27 @@ int main()
 		}
 	} while (loop == 1);
 
-	cout << "View messages(1), delete(2), archived(3)" << endl;
-	cin >> options;
+	do {
+		cout << "View messages(1), delete(2), archived(3), quit(4)" << endl;
+		cin >> options;
 
-	if (options == 1)
-	{
-		inputMessage.Load(msg);
-	}
-	else if (options == 2)
-	{
-		cout << "Messages deleted: " << endl;
-	}
-	else
-	{
-		cout << "Archived chats" << endl;
-	}
+
+		if (options == 1)
+		{
+			inputMessage.Load(msg);
+		}
+		else if (options == 2)
+		{
+			cout << "Messages deleted: " << endl;
+
+			ofstream file;
+			file.open("chatroom.txt", ofstream::trunc);
+			file.close();
+		}
+		else
+		{
+			cout << "Archived chats" << endl;
+		}
+	} while (options != 4);
+
 }
