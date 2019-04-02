@@ -14,7 +14,7 @@ Client::Client(string ip, uint16_t port)
 
 Client::~Client()
 {
-
+    //closed 
 }
 
 void Client::BeginRead(void (*MessageProcessing)(string))
@@ -30,7 +30,7 @@ void Client::Read(void (*MessageProcessing)(string))
         char buffer[BUFFER_SIZE];
         memset(buffer, '\0', BUFFER_SIZE);
 
-        ssize_t bytesRead = read(this->sockfd, buffer, BUFFER_SIZE);
+        ssize_t bytesRead = read(this->sockfd, buffer, BUFFER_SIZE); //do while; read until you get what you request 
 
         if(bytesRead <= 0)
         {

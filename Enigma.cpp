@@ -58,7 +58,7 @@ char reflector[26]={
     'C', 'V', 'V', 'J', 'A', 'T'
 };
 
-Enigma::Enigma()
+Enigma::Enigma() //base of of time zone
 {
     //find current time and date. LAD
     time_t currentDate = time(0);
@@ -79,7 +79,7 @@ int Enigma::findIndex(char letter, int mode, int side, int refIdx)
     switch(mode)
     {
         //case 0 search through alphabet array. LAD
-        case 0:
+        case 0:         //make this an enum
             //loop through the alphabet array to compare letters. LAD
             for(int arrayIdx=0;arrayIdx<26;arrayIdx++)
             {

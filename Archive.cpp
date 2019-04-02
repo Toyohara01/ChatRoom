@@ -61,6 +61,7 @@ void Archive::Load(string message)
 	else
 	{
 		cout << "Unable to open file";
+		// exit
 	}
 
 }
@@ -107,6 +108,7 @@ int main()
 		}
 	} while (loop == 1);
 
+	// pass username and pwd
 	do {
 		cout << "View messages(1), delete(2), archived(3), quit(4)" << endl;
 		cin >> options;

@@ -22,7 +22,8 @@ using namespace std;
 
 //Constants 
 #define BUFFER_SIZE 2048
-
+ 
+ //broken pipe handler 
 
 class Client
 {
@@ -34,7 +35,7 @@ class Client
 	void Read(void (*MessageProcessing)(string));
 	
     public:
-    Client(string IP, uint16_t port);
+    Client(string IP, uint16_t port); //Look into dns 
 	~Client();
 	uint8_t Send(string input);
 	void Connect();

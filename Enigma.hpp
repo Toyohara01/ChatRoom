@@ -17,7 +17,7 @@ class Enigma
 {
     private:
         std::string plainText, cipherText;
-        int key[3];
+        int key[3]; //unsigned
 
     public:
         Enigma();
