@@ -1,56 +1,59 @@
-#include "Server.hpp"
+#include "ChatRoom.hpp"
 
-#include <iostream>
-#include <thread>
-
-using namespace std;
- 
-class Server *server = NULL;
-
-void ProcessMessage(string input);
-void BeginRead()
+ChatRoom::~ChatRoom()
 {
-    while(true)
-    {
-        server->Read(ProcessMessage);
-    }
+    Shutdown();
 }
 
-int main(int argc, char** argv)
+void ChatRoom::Startup()
 {
+    //Add method of finding what IP addresses are available. 
     // Get IP Address and port of server to connect to. 
-    string IPAddress;
+    string IPAddress = "192.168.1.12";
     uint16_t Port = 55890;
     cout<<"Enter Server's IP Address format(xxx.xxx.xxx.xxx): "; getline(cin, IPAddress);
     cout<<"Running Server on Port:"<<Port<<endl; //cin>>Port; 
 
-    server = new Server(IPAddress, 55890);
+    this->server = Server(IPAddress, Port);
+    this->server.CreateSocket();
+}
 
-    //Server server(IPAddress, Port);
-    server->CreateSocket();
+void ChatRoom::Shutdown()
+{
+    //Close all connections. 
+}
 
-    thread streamReader(BeginRead);
+void ChatRoom::ListenForConnections()
+{
+    // Thread handler for accepting connections 
+    // Accept connections 
+    int newConnection = this->server.Accept();
 
-    while(true)
+    
+    if(this->connections.size() <= MAX_CONNECTIONS) //Add client 
     {
-        string input;
-        getline(cin, input);
-        server->Send(input);
+        User newUser;
+        newUser.socketID = newConnection;
+        newUser.username = "Connection" + to_string(this->connections.size());
+        newUser.messageListener = thread(&ChatRoom::ReadHandler, this, newConnection);
+
+        this->connections.push_back(newUser);
     }
-    //Archive archive("hello.txt");
+    else
+    {
+        Reject(newConnection); 
+    }
+    
+    //Continue Listening 
+    ListenForConnections();
 }
 
-void ProcessMessage(string input)
+void ChatRoom::ReadHandler(int ConnectionID)
 {
-    cout<<input<<endl;
+    cout<<"ReadHandler() reached."<<endl;
 }
 
-void EndRead()
+void ChatRoom::Admit()
 {
-    string temp; // string returned frm Client.EndRead();
-    //Call Client.EndRead(); Clear calling flag. 
 
-    class Message newMessage(temp, Receive);
-
-    //launch new thread to process packet. 
 }

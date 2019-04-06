@@ -31,7 +31,6 @@ void Server::CreateSocket()
     SetupSocket();
     Bind();
     Listen();
-    Accept();
 }
 
 void Server::Bind()
@@ -46,23 +45,26 @@ void Server::Bind()
 
 void Server::Listen()
 {
-    if(listen(sockfd, 10) < 0)
+    if(listen(this->sockfd, CONNECTIONACCEPTANCERATE) < 0)
     {
         perror("Error making socket listen.");
         exit(EXIT_FAILURE);
     }
 }
 
-void Server::Accept()
+int Server::Accept()
 {
     struct sockaddr_in incomingConnection;
     socklen_t clientSize = sizeof(sockaddr_in);
+    int newConnection = -1;
 
-    if((this->newConnection = accept(this->sockfd, (struct sockaddr *)&incomingConnection, &clientSize)) < 0)
+    if((newConnection = accept(this->sockfd, (struct sockaddr *)&incomingConnection, &clientSize)) < 0)
     {
         perror("Error accepting connection.");
         exit(EXIT_FAILURE);
     }
+
+    return newConnection;
 }
 
 void Server::Disconnect()
@@ -70,19 +72,15 @@ void Server::Disconnect()
 
 }
 
-/*void Server::BeginRead(void (*MessageProcessing)(string))
-{
-    streamReader = thread({ Read(*MessageProcessing); } );
-}	*/
-
-void Server::Read(void (*MessageProcessing)(string))
+string Server::Read(int connection)
 {
     while(true)
     {
         char buffer[BUFFER_SIZE];
         memset(buffer, '\0', BUFFER_SIZE);
 
-        ssize_t bytesRead = read(this->newConnection, buffer, BUFFER_SIZE);
+        //Insert a recursive reading until buffer is full. If it needs to be full. full of '\0'?
+        ssize_t bytesRead = read(connection, buffer, BUFFER_SIZE);
 
         if(bytesRead <= 0)
         {
@@ -92,16 +90,17 @@ void Server::Read(void (*MessageProcessing)(string))
 
         string message(buffer);
 
-        (*MessageProcessing)(buffer);
+        return message; 
     }
 }
-
-void Server::Send(string input)
+ 
+void Server::Send(int connection, string input)
 {
     char messageBuffer[BUFFER_SIZE];
     strcpy(messageBuffer, input.c_str());
 
-    ssize_t bytesSent = send(this->newConnection, messageBuffer, sizeof(messageBuffer), 0);
+    //while loop that continues to send until all bytes in buffer are sent?  
+    ssize_t bytesSent = send(connection, messageBuffer, sizeof(messageBuffer), 0);
 
     if(bytesSent <= 0)
     {

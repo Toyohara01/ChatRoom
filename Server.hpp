@@ -11,39 +11,42 @@
 #include <unistd.h>
 
 #include <iostream> 
+#include <vector>
 #include <string>
 #include <cerrno>
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
+#include <thread> 
+#include <functional>
 
 using namespace std;
 
 //Constants 
 #define BUFFER_SIZE 2048
-
-
-
+#define CONNECTIONACCEPTANCERATE 1
 
 class Server
 {
 private:
-	int sockfd, newConnection;
+	int sockfd;
 	int options;
 	struct sockaddr_in address;
-	
+	void (*messageProcessing)(string);
+
 	void SetupSocket();
 	void Bind();
 	void Listen();
-	void Accept();
 	void Disconnect();
 
 public:
 	void CreateSocket();
-	void Send(string input);
-	void Read(void (*MessageProcessing)(string));
+	void Send(int connection, string input);
+	static void staticRead(int connectionID);
     Server(string ip, uint16_t port);
-	//void BeginRead(void (*MessageProcessing)(string));	
+	string Read(int connectionID);
+	int Accept();
+	
     ~Server();
 };
 

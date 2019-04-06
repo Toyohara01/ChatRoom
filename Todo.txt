@@ -1,0 +1,22 @@
+Server:
+    - Handle multiple messages being inputted 
+        a. from a single client. 
+        b. from multiple clients. 
+
+        c. Organize packet to outline sending of multiple packets. 
+
+    - Thread problem on server side. 
+        a. Move thread logic from server to chatroom server.hpp is the "wrapper" and 
+           the handler of communicating with all the threads is the chatroom. 
+
+Client:
+    - Handle multiple messages being inputted 
+        a. from a single client. 
+        b. from multiple clients. 
+
+
+Viewing problem:
+    - Print entire chat formatted when receivng new message. If user input buffer is empty print out new message directly using cout<<.
+      If user has inputted characters then save users buffers (implied) then traverse vector<Messages> vector to print all contents held
+      in the buffer. Could cretae another module named Views.cpp that handles all the logic needed. *.hpp maybe needed up to design to 
+      team to figure out. 
