@@ -7,14 +7,14 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-    
+    ChatRoom room;
 
-    //server = new Server(IPAddress, 55890);
+    room.Startup();
 
-    //Server server(IPAddress, Port);
-    //server->CreateSocket();
+    //launch thread to listen for connection concurrently. 
+    thread listenForConnnectionThread(&ChatRoom::ListenForConnections, &room);
 
-    //thread streamReader(BeginRead);
+
 
     while(true)
     {

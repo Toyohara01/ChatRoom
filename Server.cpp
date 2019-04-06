@@ -1,5 +1,10 @@
 #include "Server.hpp"
 
+Server::Server()
+{
+    //Empty 
+}
+
 Server::Server(string ip, uint16_t port)
 { 
     if(inet_pton(AF_INET, ip.c_str(), &address.sin_addr) <= 0)

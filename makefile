@@ -41,7 +41,7 @@ ChatRoom.o: ChatRoom.cpp ChatRoom.hpp
 	$(CC) $(CFLAGS) -std=c++11 -c ChatRoom.cpp
 
 ChatRoomMain.o: ChatRoomMain.cpp
-	$(CC) $(CFLAGS) -c ChatRoomMain.cpp
+	$(CC) $(CFLAGS) -std=c++11 -c ChatRoomMain.cpp
 
 ChatWindow.o: ChatWindow.cpp
 	$(CC) $(CFLAGS) -c ChatWindow.cpp

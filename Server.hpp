@@ -44,6 +44,7 @@ public:
 	void Send(int connection, string input);
 	static void staticRead(int connectionID);
     Server(string ip, uint16_t port);
+	Server();
 	string Read(int connectionID);
 	int Accept();
 	

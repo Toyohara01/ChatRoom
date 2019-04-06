@@ -15,8 +15,14 @@ typedef struct User
 {
     int socketID;
     string username;
-    thread messageListener;
+    thread *messageListener;
 
+    User(int socketID, string username, thread *messageListener)
+    {
+        this->socketID = socketID;
+        this->username = username;
+        this->messageListener = messageListener;
+    }
 }User;
 
 class ChatRoom
@@ -28,6 +34,7 @@ private:
     void ReadHandler(int connectionID);
 
 public:
+    ChatRoom();
     ~ChatRoom();
     void Startup();
     void Shutdown();
