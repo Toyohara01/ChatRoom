@@ -4,7 +4,7 @@ CC = g++
 
 CDEFS=
 CFLAGS= $(INCLUDE_DIRS) $(CDEFS) -Wall -pthread
-CHATROOMOBJFILES = Server.o ChatRoom.o Message.o 
+CHATROOMOBJFILES = Server.o ChatRoom.o Message.o ChatRoomMain.o
 CHATWINDOWOBJFILES= ChatWindow.o Client.o Message.o
 LIBS= 
 
@@ -37,8 +37,11 @@ Server.o: Server.cpp Server.hpp
 Message.o: Message.cpp Message.hpp
 	$(CC) $(CFLAGS) -c Message.cpp
 
-ChatRoom.o: ChatRoom.cpp
-	$(CC) $(CFLAGS) -c ChatRoom.cpp
+ChatRoom.o: ChatRoom.cpp ChatRoom.hpp
+	$(CC) $(CFLAGS) -std=c++11 -c ChatRoom.cpp
+
+ChatRoomMain.o: ChatRoomMain.cpp
+	$(CC) $(CFLAGS) -std=c++11 -c ChatRoomMain.cpp
 
 ChatWindow.o: ChatWindow.cpp
 	$(CC) $(CFLAGS) -c ChatWindow.cpp

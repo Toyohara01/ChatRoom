@@ -1,56 +1,69 @@
-#include "Server.hpp"
+#include "ChatRoom.hpp"
 
-#include <iostream>
-#include <thread>
-
-using namespace std;
- 
-class Server *server = NULL;
-
-void ProcessMessage(string input);
-void BeginRead()
+ChatRoom::ChatRoom()
 {
-    while(true)
-    {
-        server->Read(ProcessMessage);
-    }
-}
+    string IPAddress = "192.168.0.71";
 
-int main(int argc, char** argv)
-{
-    // Get IP Address and port of server to connect to. 
-    string IPAddress;
     uint16_t Port = 55890;
-    cout<<"Enter Server's IP Address format(xxx.xxx.xxx.xxx): "; getline(cin, IPAddress);
-    cout<<"Running Server on Port:"<<Port<<endl; //cin>>Port; 
 
-    server = new Server(IPAddress, 55890);
+    this->server = Server(IPAddress, Port);
+}
 
-    //Server server(IPAddress, Port);
-    server->CreateSocket();
+ChatRoom::~ChatRoom()
+{
+    Shutdown();
+}
 
-    thread streamReader(BeginRead);
+void ChatRoom::Startup()
+{
+    //Add method of finding what IP addresses are available. 
+    // Get IP Address and port of server to connect to. 
+    //cout<<"Enter Server's IP Address format(xxx.xxx.xxx.xxx): "; getline(cin, IPAddress);
+    //cout<<"Running Server on Port:"<<Port<<endl; //cin>>Port; 
 
-    while(true)
-    {
-        string input;
-        getline(cin, input);
-        server->Send(input);
+    this->server.CreateSocket();
+}
+
+void ChatRoom::Shutdown()
+{
+    //Close all connections. 
+}
+
+void ChatRoom::ListenForConnections()
+{
+    // Thread handler for accepting connections 
+    // Accept connections 
+    int newConnection = this->server.Accept();
+
+    
+    if(this->connections.size() <= MAX_CONNECTIONS) //Add client 
+    {   
+        User newUser(newConnection, "Connection " + to_string(this->connections.size()), new thread(&ChatRoom::ReadHandler, this, newConnection));        
+        this->connections.push_back(newUser);
+        cout<<"User admitted";
     }
-    //Archive archive("hello.txt");
+    else
+    {
+        Reject(newConnection); 
+    }
+    
+
+    //Continue Listening 
+    ListenForConnections();
 }
 
-void ProcessMessage(string input)
+void ChatRoom::ReadHandler(int ConnectionID)
 {
-    cout<<input<<endl;
+    cout<<"ReadHandler() reached."<<endl;
 }
 
-void EndRead()
+void ChatRoom::Reject(int connectionID)
 {
-    string temp; // string returned frm Client.EndRead();
-    //Call Client.EndRead(); Clear calling flag. 
 
-    class Message newMessage(temp, Receive);
+}
 
-    //launch new thread to process packet. 
+
+void ChatRoom::Admit()
+{
+
 }
