@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <ctime>
 
-#define SECTOR_SIZE 512
+#define SECTOR_SIZE (512)
 
 using namespace std;
 
@@ -16,13 +16,22 @@ class Archive
 private:
 	ofstream * file;
 
-	char* Xor(char *LBA1, char *LBA2, char *LBA3, char *LBA4, char *PLBA);
+	char* xorArchive(char *LBA1,
+		char *LBA2,
+		char *LBA3,
+		char *LBA4,
+		char *PLBA);
+
+	char* rebuildArchive(unsigned char *LBA1,
+		unsigned char *LBA2,
+		unsigned char *LBA3,
+		unsigned char *PLBA,
+		unsigned char *RLBA);
 
 public:
-	Archive(/*string filepath*/);
+	Archive();
 	void Save(string message);
 	void Load(string message);
-	void RAID();
 	~Archive();
 };
 

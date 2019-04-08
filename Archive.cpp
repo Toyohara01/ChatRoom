@@ -4,17 +4,18 @@
 
 #include "Archive.hpp"
 
-// Arhiving will put file / message into a destination
-Archive::Archive(/*string filepath */)
+// Archiving will put file / message into a destination
+Archive::Archive()
 {
 	//archivedMessage = /*filepath*/message;
 
+	cout << "File is being opened" << endl;
 }
 
 
 Archive::~Archive()
 {
-
+	cout << "File is being closed" << endl;
 }
 
 // Save the message into the arhive
@@ -24,16 +25,32 @@ void Archive::Save(string message)
 	// open file 
 	ofstream file("chatroom.txt", ios::app);
 
-	// if (file.is_open())
-	// {
-	// file.open("chatroom.txt", ios::in);
-	/******************************************************************************/
-	// open chatroom text and read and update file
-	fopen("chatroom.txt", "r+");
-	/******************************************************************************/
-	file << message << endl;
-	file.close();
-	// }
+	if (file.is_open())
+	{
+		// open chatroom text and read and update file
+		fopen("chatroom.txt", "r+");
+
+		// store user message into file 
+		file << message << endl;
+
+		// Declaring argument for time() 
+		time_t tt;
+
+		// Declaring variable to store return value of 
+		// localtime() 
+		struct tm * ti;
+
+		// Applying time() 
+		time(&tt);
+
+		// Using localtime() 
+		ti = localtime(&tt);
+
+		// Day Month Day Hour:Minute:Second Year
+		file << asctime(ti) << endl;
+
+		file.close();
+	}
 }
 
 // load a message from the arhived file space
@@ -49,13 +66,9 @@ void Archive::Load(string message)
 		while (getline(file, message))
 		{
 			cout << message << endl;
-			// time_t t = time(0);
-			// tm* now = localtime(&t);
-			// cout<<(not->tm_year + 1900) << '-"
-			// <<(not->tm_mon + 1) << "-"
-			// <<now->tm_mday
-			// <<"\n";
+
 		}
+
 		file.close();
 	}
 	else
@@ -66,13 +79,12 @@ void Archive::Load(string message)
 
 }
 
-
-void Archive::RAID()
-{
-
-}
-
-char* Archive::Xor(char *LBA1, char *LBA2, char *LBA3, char *LBA4, char *PLBA)
+// Raid-5 encoding 
+char* Archive::xorArchive(char *LBA1,
+	char *LBA2,
+	char *LBA3,
+	char *LBA4,
+	char *PLBA)
 {
 	int idx;
 
@@ -81,6 +93,28 @@ char* Archive::Xor(char *LBA1, char *LBA2, char *LBA3, char *LBA4, char *PLBA)
 		*(PLBA + idx) = (*(LBA1 + idx)) ^ (*(LBA2 + idx)) ^ (*(LBA3 + idx)) ^ (*(LBA4 + idx));
 	}
 }
+
+// Raid-5 Rebuild
+char* Archive::rebuildArchive(unsigned char *LBA1,
+	unsigned char *LBA2,
+	unsigned char *LBA3,
+	unsigned char *PLBA,
+	unsigned char *RLBA)
+{
+	int idx;
+	unsigned char checkParity;
+
+	for (idx = 0; idx<SECTOR_SIZE; idx++)
+	{
+		// Parity check word is simply XOR of remaining good LBAs
+		checkParity = (*(LBA1 + idx)) ^ (*(LBA2 + idx)) ^ (*(LBA3 + idx));
+
+		// Rebuilt LBA is simply XOR of original parity and parity check word
+		// which will preserve original parity computed over the 4 LBAs
+		*(RLBA + idx) = (*(PLBA + idx)) ^ (checkParity);
+	}
+}
+
 
 int main()
 {
@@ -92,7 +126,7 @@ int main()
 
 	// get messages
 	do {
-		cout << "Message with no spaces" << endl;
+		cout << "Enter a message..." << endl;
 
 		// Get line with spaces
 		getline(cin, msg);
@@ -126,9 +160,10 @@ int main()
 			file.open("chatroom.txt", ofstream::trunc);
 			file.close();
 		}
-		else
+		else if (options == 3)
 		{
 			cout << "Archived chats" << endl;
+
 		}
 	} while (options != 4);
 
