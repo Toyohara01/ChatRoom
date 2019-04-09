@@ -33,7 +33,11 @@ void ChatRoom::Shutdown()
 void ChatRoom::ListenForConnections()
 {
     // Thread handler for accepting connections 
-    // Accept connections 
+    // Accept connections when admit thread is not active.
+    if(this->admitNewUser.joinable())
+    {
+        this->admitNewUser.join();
+    }
     int newConnection = this->server.AcceptListeningSocket();
     
     if(this->connections.size() <= MAX_CONNECTIONS) //Add client 
@@ -46,24 +50,26 @@ void ChatRoom::ListenForConnections()
         //Send client new port to connect to.
         server.Send(newConnection, to_string(port));
 
-        cout<<"Creating Thread"<<endl;
-        thread admitNewUser(&ChatRoom::Admit, this, port);
+        this->admitNewUser = thread(&ChatRoom::Admit, this, port);
     }
     else
     {
         Reject(newConnection); 
     }
     
-    cout<<"Disconnectign"<<endl;
     server.Disconnect(newConnection);
 
     //Continue Listening 
     ListenForConnections();
 }
 
-void ChatRoom::ReadHandler(int ConnectionID)
+void ChatRoom::ReadHandler(int connectionID)
 {
     cout<<"ReadHandler() reached."<<endl;
+    while(true)
+    {
+        cout<<server.Read(connectionID)<<endl;
+    }
 }
 
 void ChatRoom::Reject(int connectionID)
@@ -74,10 +80,11 @@ void ChatRoom::Reject(int connectionID)
 
 void ChatRoom::Admit(uint16_t port)
 {
-    cout<<"Creating socket"<<endl;
-    while(true);
     int newConnectionListener = server.CreateSocket(port);
     int newCientID = server.AcceptClientConnection(newConnectionListener);
+    string temp = server.Read(newCientID);
 
-    cout<<server.Read(newCientID)<<endl;
+    User newUser = User(newConnectionListener, newCientID, port, temp, new thread(&ChatRoom::ReadHandler, this, newCientID));
+
+    this->connections.push_back(newUser);
 }

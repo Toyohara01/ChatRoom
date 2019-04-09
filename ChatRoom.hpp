@@ -41,6 +41,7 @@ private:
     void Reject(int connectionID);
     void ReadHandler(int connectionID);
     bool continueListening;
+    thread admitNewUser;
 
 public:
     ChatRoom(string IPAddress, uint16_t port);
