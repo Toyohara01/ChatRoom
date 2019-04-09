@@ -17,9 +17,9 @@ int main(int argc, char** argv)
     messages.clear();
 
     // Get IP Address and port of server to connect to. 
-    string IPAddress;
-    uint16_t Port = 55890; //Hardcode for initial connection then reassign once connection is made 
-    cout<<"Enter Server's IP Address format(xxx.xxx.xxx.xxx): "; getline(cin, IPAddress);
+    string IPAddress = "127.0.0.1";
+    uint16_t Port = 55500; //Hardcode for initial connection then reassign once connection is made 
+    cout<<"Enter Server's IP Address format(xxx.xxx.xxx.xxx): "; //getline(cin, IPAddress);
     cout<<"Running Server on Port:"<<Port<<endl; //cin>>Port; 
    
     class Client client(IPAddress, Port);

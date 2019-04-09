@@ -9,6 +9,14 @@ Server:
         a. Move thread logic from server to chatroom server.hpp is the "wrapper" and 
            the handler of communicating with all the threads is the chatroom. 
 
+    - Adding chatroom functionality 
+        a. Have chatroom interact with server to generate new socket when a new connetion
+           is attempting to connect. Connect send value for new port, disconnect, create new 
+           listening socket on the new port and wait for connection. When connected "admit" save 
+           socket id in vector for chatroom to forward messages to. 
+        b. Create logic needed for active listening on all open sockets and forwarding messages to
+           other clients. Need to implement some form of lock to prevent race conditions when sending. 
+           First come first serve? use another vector for message waiting? 
 Client:
     - Handle multiple messages being inputted 
         a. from a single client. 

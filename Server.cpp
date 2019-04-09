@@ -7,40 +7,69 @@ Server::Server()
 
 Server::Server(string ip, uint16_t port)
 { 
-    if(inet_pton(AF_INET, ip.c_str(), &address.sin_addr) <= 0)
+    this->ipAddress = ip;
+    this->port = port;
+}
+
+Server::~Server()
+{
+    Disconnect();
+}
+
+int Server::SetupSocket()
+{
+    int newSocket;
+    // Create socket
+    if((newSocket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    {
+        perror("Socket failure");
+        exit(EXIT_FAILURE);
+    }
+    return newSocket;
+}
+
+void Server::CreateListeningSocket()
+{
+    int setOption = 1;
+
+    this->sockfd = SetupSocket();
+
+    //Allow socket to be re-used
+    if(0 != setsockopt(this->sockfd, SOL_SOCKET, SO_REUSEADDR, &setOption, sizeof(int)))
+    {
+        perror("Failure to modify socket options\n");
+        exit(EXIT_FAILURE);
+    }
+
+    Bind(this->sockfd, this->ipAddress, this->port);
+    Listen(this->sockfd);
+}
+
+int Server::CreateSocket(int port)
+{
+    int newSock = -1;
+
+    newSock = SetupSocket();
+    Bind(newSock, this->ipAddress, port);
+    Listen(newSock);
+
+    return newSock;
+}
+
+void Server::Bind(int sockID,string ip, uint16_t port)
+{
+    struct sockaddr_in newConn;
+
+    if(inet_pton(AF_INET, ip.c_str(), &newConn.sin_addr) <= 0)
     {
         perror("IP Addresss in incorrect format.\n");
         exit(EXIT_FAILURE);
     } 
 
-    address.sin_family = AF_INET;
-    address.sin_port = htons(port);
-}
+    newConn.sin_family = AF_INET;
+    newConn.sin_port = htons(port);
 
-Server::~Server()
-{
-
-}
-
-void Server::SetupSocket()
-{
-    if((this->sockfd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
-    {
-        perror("Socket failure\n");
-        exit(EXIT_FAILURE);
-    }
-}
-
-void Server::CreateSocket()
-{
-    SetupSocket();
-    Bind();
-    Listen();
-}
-
-void Server::Bind()
-{
-    int result = bind(this->sockfd, (struct sockaddr *) &address, sizeof(struct sockaddr));
+    int result = bind(sockID, (struct sockaddr *) &newConn, sizeof(struct sockaddr));
     if(result == -1)
     {
         perror("Error binding socket to port\n");
@@ -48,22 +77,32 @@ void Server::Bind()
     }
 }
 
-void Server::Listen()
+void Server::Listen(int sockID)
 {
-    if(listen(this->sockfd, CONNECTIONACCEPTANCERATE) < 0)
+    if(listen(sockID, CONNECTIONACCEPTANCERATE) < 0)
     {
         perror("Error making socket listen.");
         exit(EXIT_FAILURE);
     }
 }
 
-int Server::Accept()
+int Server::AcceptListeningSocket()
+{
+    return Accept(this->sockfd);
+}
+
+int Server::AcceptClientConnection(int sockID)
+{
+    return Accept(sockID);
+}
+
+int Server::Accept(int sockID)
 {
     struct sockaddr_in incomingConnection;
     socklen_t clientSize = sizeof(sockaddr_in);
     int newConnection = -1;
 
-    if((newConnection = accept(this->sockfd, (struct sockaddr *)&incomingConnection, &clientSize)) < 0)
+    if((newConnection = accept(sockID, (struct sockaddr *)&incomingConnection, &clientSize)) < 0)
     {
         perror("Error accepting connection.");
         exit(EXIT_FAILURE);
@@ -74,7 +113,16 @@ int Server::Accept()
 
 void Server::Disconnect()
 {
+    Disconnect(this->sockfd);
+}
 
+void Server::Disconnect(int sockID)
+{
+    if(close(sockID) < 0)
+    {
+        perror("Error on closing socket");
+        exit(EXIT_FAILURE);
+    }
 }
 
 string Server::Read(int connection)

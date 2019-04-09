@@ -1,12 +1,14 @@
 #include "ChatRoom.hpp"
 
-ChatRoom::ChatRoom()
+ChatRoom::ChatRoom(string IPAddress, uint16_t port)
 {
-    string IPAddress = "192.168.0.71";
+    this->server = Server(IPAddress, port);
 
-    uint16_t Port = 55890;
-
-    this->server = Server(IPAddress, Port);
+    // Create list of available ports
+    for(int i = 1; i <= MAX_CONNECTIONS; i++)
+    {
+        this->availablePorts.push_back(port + i);
+    }
 }
 
 ChatRoom::~ChatRoom()
@@ -20,8 +22,7 @@ void ChatRoom::Startup()
     // Get IP Address and port of server to connect to. 
     //cout<<"Enter Server's IP Address format(xxx.xxx.xxx.xxx): "; getline(cin, IPAddress);
     //cout<<"Running Server on Port:"<<Port<<endl; //cin>>Port; 
-
-    this->server.CreateSocket();
+    this->server.CreateListeningSocket();
 }
 
 void ChatRoom::Shutdown()
@@ -33,20 +34,28 @@ void ChatRoom::ListenForConnections()
 {
     // Thread handler for accepting connections 
     // Accept connections 
-    int newConnection = this->server.Accept();
-
+    int newConnection = this->server.AcceptListeningSocket();
     
     if(this->connections.size() <= MAX_CONNECTIONS) //Add client 
     {   
-        User newUser(newConnection, "Connection " + to_string(this->connections.size()), new thread(&ChatRoom::ReadHandler, this, newConnection));        
-        this->connections.push_back(newUser);
-        cout<<"User admitted";
+        uint16_t port = this->availablePorts.front();
+        this->availablePorts.erase(this->availablePorts.begin());
+
+        this_thread::sleep_for(chrono::milliseconds(10)); //wait for message to send.
+
+        //Send client new port to connect to.
+        server.Send(newConnection, to_string(port));
+
+        cout<<"Creating Thread"<<endl;
+        thread admitNewUser(&ChatRoom::Admit, this, port);
     }
     else
     {
         Reject(newConnection); 
     }
     
+    cout<<"Disconnectign"<<endl;
+    server.Disconnect(newConnection);
 
     //Continue Listening 
     ListenForConnections();
@@ -63,7 +72,12 @@ void ChatRoom::Reject(int connectionID)
 }
 
 
-void ChatRoom::Admit()
+void ChatRoom::Admit(uint16_t port)
 {
+    cout<<"Creating socket"<<endl;
+    while(true);
+    int newConnectionListener = server.CreateSocket(port);
+    int newCientID = server.AcceptClientConnection(newConnectionListener);
 
+    cout<<server.Read(newCientID)<<endl;
 }
