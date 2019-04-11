@@ -6,6 +6,7 @@
 #include <string>
 #include <stdio.h>
 #include <ctime>
+#include <string.h>
 
 #define SECTOR_SIZE (512)
 
@@ -33,6 +34,11 @@ public:
 	void Save(string message);
 	void Load(string message);
 	~Archive();
+
+	/******************************************************************************/
 };
+
+
+/******************************************************************************/
 
 #endif //ARCHIVE_HPP
