@@ -30,23 +30,28 @@ class Server
 {
 private:
 	int sockfd;
+	string ipAddress;
+	uint16_t port;
 	int options;
-	struct sockaddr_in address;
 	void (*messageProcessing)(string);
 
-	void SetupSocket();
-	void Bind();
-	void Listen();
-	void Disconnect();
+	int Accept(int sockID);
+	int SetupSocket();
+	void Bind(int sockID, string ip, uint16_t port);
+	void Listen(int sockID);
 
 public:
-	void CreateSocket();
+	int CreateSocket(int port);
+	void Disconnect();
+	void Disconnect(int sockID);
 	void Send(int connection, string input);
 	static void staticRead(int connectionID);
     Server(string ip, uint16_t port);
 	Server();
 	string Read(int connectionID);
-	int Accept();
+	int AcceptListeningSocket();
+	int AcceptClientConnection(int sockID);
+	void CreateListeningSocket();
 	
     ~Server();
 };

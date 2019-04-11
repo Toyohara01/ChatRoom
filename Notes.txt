@@ -14,3 +14,7 @@ SE workstation - 172.19.172.37, 172.30.150.83
 linux:
 ifconfig - view IP address
 netstat -natp
+
+osx
+ifconfig - view IP address
+lsof -i - View programs using sockets 
