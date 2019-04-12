@@ -15,7 +15,7 @@ int main(int argc, char** argv)
     thread listenForConnnectionThread(&ChatRoom::ListenForConnections, &room);
 
 
-
+ 
     while(true)
     {
         string input;

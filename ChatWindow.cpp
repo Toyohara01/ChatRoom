@@ -1,60 +1,127 @@
-#include "Client.hpp"
-#include "Message.hpp"
+#include "ChatWindow.hpp"
 
-#include <iostream>
-#include <vector>
-#include <thread>
-
-using namespace std;
-
-void EndRead();
-//void ProcessMessage(class Message input);
-void ProcessMessage(string input);
-
-int main(int argc, char** argv)
+ChatWindow::ChatWindow(string ip, uint16_t port)
 {
-    vector<class Message> messages;
-    messages.clear();
-
-    // Get IP Address and port of server to connect to. 
-    string IPAddress = "127.0.0.1";
-    uint16_t Port = 55500; //Hardcode for initial connection then reassign once connection is made 
-    cout<<"Enter Server's IP Address format(xxx.xxx.xxx.xxx): "; //getline(cin, IPAddress);
-    cout<<"Running Server on Port:"<<Port<<endl; //cin>>Port; 
-   
-    class Client client(IPAddress, Port);
-
-    //class Client client(IPAddress, Port);
-    client.Connect();
-
-    cout<<"Connected to Server"<<endl<<endl;
-    client.BeginRead(ProcessMessage);
-
-    while(true)
-    {
-        string input;
-        getline(cin, input);
-        client.Send(input);
-    }
-
+    this->ip = ip;
+    this->port = port;
 }
 
-/* void ProcessMessage(class Message input)
+void ChatWindow::Connect()
 {
+    client = Client();
+    this->sockID = client.Connect(this->ip, this->port);
+}
 
-}*/
+/* 
+ *  Reads user input to for access to features.
+ * 
+ * 
+ * 
+ */
+void ChatWindow::StringInterpreter(string input)
+{
+    ProcessMessage(input);
+}
 
-void ProcessMessage(string input)
+/*
+ * Processes message. 
+ * 
+ */
+void ChatWindow::ProcessMessage(string input)
 {
     cout<<input<<endl;
 }
 
-void EndRead()
+void ChatWindow::Login()
 {
-    string temp; // string returned frm Client.EndRead();
-    //Call Client.EndRead(); Clear calling flag. 
+    string username;
+    string portString;
+    string usernameStatusResponse;
+    bool admitStatus = false;
+    int numOfTries = 0;
+    
 
-    class Message newMessage(temp, Receive);
+    cout<<"Please enter a username: "; 
+    getline(cin, username);
+    numOfTries++;
 
-    //launch new thread to process packet. 
+    cout<<"Connecting to Server...";
+    Connect();
+
+    //Get port 
+    portString = client.Read(this->sockID);
+
+    //Disconnect
+    Disconnect(this->sockID);
+
+    //Get new port
+    this->port = (uint8_t)stoul(portString, nullptr, portString.length());
+
+    //Wait a bit for server to setup new socket
+    this_thread::sleep_for(chrono::milliseconds(50));
+
+    //Connect to new socket
+    Connect();
+
+    //Send username
+    client.Send(this->sockID, username);
+
+    //Loop while server approves username
+    while(client.Read(this->sockID) != "true" && numOfTries < 3)
+    {
+        if(usernameStatusResponse == "true")
+        {
+            admitStatus = true;
+        }
+        usernameStatusResponse.clear();
+
+        //Clear string
+        username.clear();
+
+        //clear buffer
+        cin.clear();
+
+        cout<<endl<<endl<<"Username exists in chatroom already. Enter a different username."<<endl
+            <<"Please enter a username: "; 
+        getline(cin, username);
+        client.Send(this->sockID,username);
+
+        numOfTries++;
+    }
+
+    if(admitStatus)
+    {
+        Chat();
+    }
+}
+
+void ChatWindow::Chat()
+{
+    this->continueSession = true;
+    
+    //Create thread for message listening 
+    this->readMessagesThread = thread(&ChatWindow::readMessageHandler, this);
+
+    while(continueSession)
+    {
+        
+    }
+}
+
+void ChatWindow::readMessageHandler()
+{
+    while(continueSession)
+    {
+
+    }
+}
+
+void ChatWindow::Logout()
+{
+
+}
+
+void ChatWindow::Disconnect(int connectionID)
+{
+    client.Disconnect(this->sockID);
 }

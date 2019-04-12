@@ -17,11 +17,19 @@ Server:
         b. Create logic needed for active listening on all open sockets and forwarding messages to
            other clients. Need to implement some form of lock to prevent race conditions when sending. 
            First come first serve? use another vector for message waiting? 
+        
+    - Handshake username and port. 
+        a. Make use of formatted packets in the end but for now both parties have to send status_pass_end 
+            client: has to receive pass for unique username is enterd. 
+            server: has to receive pass for port number to be used. 
 Client:
     - Handle multiple messages being inputted 
         a. from a single client. 
         b. from multiple clients. 
-
+    - Spinning off threads for message processing... 
+        a. create thread when message is received and place the thread in a messageproccesing vector<thread> list. 
+        b. Have another thread calling garbage collector run every second checking the vector for thread status
+           (i.e. is thread alive?) if not remove thread from vector using iterator. *Implement this on server side as well. 
 
 Viewing problem:
     - Print entire chat formatted when receivng new message. If user input buffer is empty print out new message directly using cout<<.

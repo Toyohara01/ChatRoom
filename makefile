@@ -5,7 +5,7 @@ CC = g++
 CDEFS=
 CFLAGS= $(INCLUDE_DIRS) $(CDEFS) -Wall -pthread
 CHATROOMOBJFILES = Server.o ChatRoom.o Message.o ChatRoomMain.o
-CHATWINDOWOBJFILES= ChatWindow.o Client.o Message.o
+CHATWINDOWOBJFILES= ChatWindow.o Client.o Message.o ChatWindowMain.o 
 LIBS= 
 
 SRCS= ${HFILES} ${CFILES}
@@ -43,8 +43,11 @@ ChatRoom.o: ChatRoom.cpp ChatRoom.hpp
 ChatRoomMain.o: ChatRoomMain.cpp
 	$(CC) $(CFLAGS) -std=c++11 -c ChatRoomMain.cpp
 
-ChatWindow.o: ChatWindow.cpp
-	$(CC) $(CFLAGS) -c ChatWindow.cpp
+ChatWindow.o: ChatWindow.cpp ChatWindow.hpp
+	$(CC) $(CFLAGS) -std=c++11 -c ChatWindow.cpp 
+
+ChatWindowMain.o: ChatRoomMain.cpp
+	$(CC) $(CFLAGS) -std=c++11 -c ChatWindowMain.cpp
 
 remove:
 	-rm -f *.o *.d *.exe 

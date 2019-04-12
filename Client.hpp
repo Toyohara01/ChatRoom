@@ -27,20 +27,15 @@ using namespace std;
 
 class Client
 {
-    private:
-	struct sockaddr_in serverAddress;
-	int sockfd;
-	thread streamReader;
-	
-	void Read(void (*MessageProcessing)(string));
-	
+    private:	
+	int connectionID;
+
     public:
-    Client(string IP, uint16_t port); //Look into dns 
 	~Client();
-	uint8_t Send(string input);
-	void Connect();
-	void BeginRead(void (*MessageProcessing)(string));
-	void Disconnect();
+	string Read(int connectionID);
+	uint8_t Send(int connectionID, string input);
+	int Connect(string ip, uint16_t port);
+	void Disconnect(int connectionID);
 };
 
 #endif // CLIENT_HPP

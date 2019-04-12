@@ -1,52 +1,31 @@
 #include "Client.hpp"
 
-Client::Client(string ip, uint16_t port)
+Client::~Client()
 {
-    if(inet_pton(AF_INET, ip.c_str(), &serverAddress.sin_addr) <= 0)
+    Disconnect(this->connectionID); 
+}
+
+string Client::Read(int connectionID)
+{
+    char buffer[BUFFER_SIZE];
+    memset(buffer, '\0', BUFFER_SIZE);
+
+    ssize_t bytesRead = read(this->connectionID, buffer, BUFFER_SIZE); //do while; read until you get what you request 
+
+    if(bytesRead <= 0)
     {
-        perror("IP Addresss in incorrect format.\n");
+        perror("Error on receiving packet");
         exit(EXIT_FAILURE);
     }
 
-    serverAddress.sin_family = AF_INET;
-    serverAddress.sin_port = htons(port);
+    string message(buffer);
+    
+    return buffer;
 }
 
-Client::~Client()
-{
-    //closed 
-}
-
-void Client::BeginRead(void (*MessageProcessing)(string))
-{
-     streamReader = thread([=] { Read(*MessageProcessing); } );
-}
-
-
-void Client::Read(void (*MessageProcessing)(string))
-{
-    while(true)
-    {
-        char buffer[BUFFER_SIZE];
-        memset(buffer, '\0', BUFFER_SIZE);
-
-        ssize_t bytesRead = read(this->sockfd, buffer, BUFFER_SIZE); //do while; read until you get what you request 
-
-        if(bytesRead <= 0)
-        {
-            perror("Error on receiving packet");
-            exit(EXIT_FAILURE);
-        }
-
-        string message(buffer);
-        
-        (*MessageProcessing)(buffer);
-    }
-}
-
-uint8_t Client::Send(string input)
+uint8_t Client::Send(int connnectionID, string input)
 {   
-    ssize_t bytesSent = send(this->sockfd, input.c_str(), input.length(), 0);
+    ssize_t bytesSent = send(connnectionID, input.c_str(), input.length(), 0);
 
     if(bytesSent <= 0)
     {
@@ -55,24 +34,38 @@ uint8_t Client::Send(string input)
     }
 }
 
-void Client::Connect()
+int Client::Connect(string ip, uint16_t port)
 {
     struct sockaddr_in address;
+    int newConnection;
 
-    if( (this->sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    if(inet_pton(AF_INET, ip.c_str(), &address.sin_addr) <= 0)
+    {
+        perror("IP Addresss in incorrect format.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    address.sin_family = AF_INET;
+    address.sin_port = htons(port);
+
+    if( (newConnection = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
         perror("Failure to create socket\n");
         exit(EXIT_FAILURE);
     }
 
-    if(connect(this->sockfd, (struct sockaddr *)&serverAddress, sizeof(struct sockaddr)) < 0)
+    if(connect(newConnection, (struct sockaddr *)&newConnection, sizeof(struct sockaddr)) < 0)
     {
         perror("Failure to connect to server.\n");
         exit(EXIT_FAILURE);
     }
 }
 
-void Client::Disconnect()
+void Client::Disconnect(int connectionID)
 {
-    
+    if(close(connectionID) < 0)
+    {
+        perror("Error on closing socket");
+        exit(EXIT_FAILURE);
+    }
 }
