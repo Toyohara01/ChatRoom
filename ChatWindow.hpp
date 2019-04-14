@@ -7,10 +7,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <iterator>
 #include <thread>
 
 using namespace std;
 
+const string FUNCTION = "()";
 
 class ChatWindow
 {
@@ -21,19 +23,22 @@ private:
     Client client;
     bool continueSession;
     thread readMessagesThread;
+    vector<thread> processMessagesThreadBuffer;
 
     void ProcessMessage(string input);
     void Disconnect(int connectionID);
     void Connect();
     void Chat();
     void readMessageHandler();
+    void GarbageCollector();
+    void StringInterpreter(string input);
 
 public:
     ChatWindow(); //Empty constructor
     ChatWindow(string ip, uint16_t port);
     void Login();
     void Logout();
-    void StringInterpreter(string input);
+    
 
 };
 

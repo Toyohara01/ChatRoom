@@ -20,7 +20,11 @@ void ChatWindow::Connect()
  */
 void ChatWindow::StringInterpreter(string input)
 {
-    ProcessMessage(input);
+    client.Send(this->sockID, input);
+    cout<<"\t\t" + input<<endl;
+
+    //Ideally it'll check to see if a defined function was entered execute that process 
+    //but for now it'll display and send that input to other clients
 }
 
 /*
@@ -104,7 +108,12 @@ void ChatWindow::Chat()
 
     while(continueSession)
     {
-        
+        string input;
+        input.clear();
+
+        getline(cin, input);
+
+        StringInterpreter(input);
     }
 }
 
@@ -112,7 +121,33 @@ void ChatWindow::readMessageHandler()
 {
     while(continueSession)
     {
+        string stringReceived = client.Read(this->sockID);
 
+        this->processMessagesThreadBuffer.push_back(thread(&ChatWindow::ProcessMessage, this, stringReceived));
+    }
+}
+
+void ChatWindow::GarbageCollector()
+{
+    while(this->continueSession)
+    {
+        vector<thread>::iterator threadPtr;
+
+        if(this->processMessagesThreadBuffer.size() > 0)
+        {
+            for(threadPtr = this->processMessagesThreadBuffer.begin(); threadPtr < processMessagesThreadBuffer.end(); threadPtr++)
+            {
+                if((*threadPtr).joinable() == false)
+                {
+                    vector<thread>::iterator tempPtr = threadPtr;
+                    threadPtr--;
+
+                    this->processMessagesThreadBuffer.erase(tempPtr);
+                }
+            }
+        }
+
+        this_thread::sleep_for(chrono::seconds(1));
     }
 }
 

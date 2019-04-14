@@ -1,13 +1,9 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-//#include "Enigma.hpp"
-#include "Message.hpp"
-
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-//#include <netinet/in.h>
 #include <unistd.h>
 
 #include <iostream> 
@@ -47,13 +43,12 @@ public:
 	void Send(int connection, string input);
 	static void staticRead(int connectionID);
     Server(string ip, uint16_t port);
-	Server();
 	string Read(int connectionID);
 	int AcceptListeningSocket();
 	int AcceptClientConnection(int sockID);
 	void CreateListeningSocket();
-	
     ~Server();
+	
 };
 
 #endif
