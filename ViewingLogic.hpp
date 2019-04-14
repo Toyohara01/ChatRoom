@@ -8,6 +8,14 @@ class ViewingLogic
 private:
 
 public:
+    enum AppendModes {SEND, RECEIVE};
+
+    //Has implicit constructor. 
+    void CreateWindow();
+    void AppendWindow(enum AppendMode);
+    void ClearLine();
+    void ClearWindow();
+
 
 };
 

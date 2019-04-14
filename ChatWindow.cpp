@@ -18,11 +18,17 @@ void ChatWindow::Connect()
  * 
  * 
  */
-void ChatWindow::StringInterpreter(string input)
+void ChatWindow::StringInterpreter(string input) //Create new message structure populate data send then display. 
 {
-    client.Send(this->sockID, input);
-    cout<<"\t\t" + input<<endl;
-
+    if(input == "quit")
+    {
+        this->continueSession = false;
+    }
+    else
+    {
+        client.Send(this->sockID, input);
+        cout<<"\t\t" + input<<endl; //figure out buffer length parse then display accordingly. Handled by Viewing logic. 
+    }
     //Ideally it'll check to see if a defined function was entered execute that process 
     //but for now it'll display and send that input to other clients
 }
@@ -31,7 +37,7 @@ void ChatWindow::StringInterpreter(string input)
  * Processes message. 
  * 
  */
-void ChatWindow::ProcessMessage(string input)
+void ChatWindow::ProcessMessage(string input) //change to message input later 
 {
     cout<<input<<endl;
 }
@@ -44,7 +50,6 @@ void ChatWindow::Login()
     bool admitStatus = false;
     int numOfTries = 0;
     
-
     cout<<"Please enter a username: "; 
     getline(cin, username);
     numOfTries++;
@@ -56,7 +61,7 @@ void ChatWindow::Login()
     portString = client.Read(this->sockID);
 
     //Disconnect
-    Disconnect(this->sockID);
+    Disconnect();
 
     //Get new port
     this->port = (uint8_t)stoul(portString, nullptr, portString.length());
@@ -97,6 +102,13 @@ void ChatWindow::Login()
     {
         Chat();
     }
+    else
+    {
+        cout<<endl<<"Max attempts reached... returning to main menu"<<endl;
+    }
+    
+    //Chat session has ended or max number of tries exceeded. 
+    Disconnect();
 }
 
 void ChatWindow::Chat()
@@ -153,10 +165,14 @@ void ChatWindow::GarbageCollector()
 
 void ChatWindow::Logout()
 {
+    //Send logout command to server. 
 
+    Disconnect();
+
+    this->port = 55500; // reset port for reconnection
 }
 
-void ChatWindow::Disconnect(int connectionID)
+void ChatWindow::Disconnect()
 {
     client.Disconnect(this->sockID);
 }
