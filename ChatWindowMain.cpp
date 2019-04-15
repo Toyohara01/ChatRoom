@@ -2,6 +2,7 @@
 
 int main(int argc, char** argv)
 {
+    enum menuChoices {LOGIN = 1};
     vector<class Message> messages;
     messages.clear();
 
@@ -11,5 +12,27 @@ int main(int argc, char** argv)
    
     class ChatWindow window(IPAddress, Port);
 
-    window.Login();
+    //Add logic for menu. 
+    while(true)
+    {
+        cout<<"Menu:"<<endl<<"1) Login to chatroom"<<endl; //add more functionality 
+        int userChoice = -1;
+
+        cin>>userChoice;
+
+        switch (userChoice)
+        {
+        case LOGIN:
+            window.Login();
+            break;
+        
+        default:
+            cout<<"Invalid choice entered please try again."<<endl;
+            break;
+        }
+
+        //clear input buffer for next user input 
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
 }

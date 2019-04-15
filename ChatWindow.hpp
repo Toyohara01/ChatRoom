@@ -26,7 +26,7 @@ private:
     vector<thread> processMessagesThreadBuffer;
 
     void ProcessMessage(string input);
-    void Disconnect(int connectionID);
+    void Disconnect();
     void Connect();
     void Chat();
     void readMessageHandler();

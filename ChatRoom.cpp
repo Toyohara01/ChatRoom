@@ -27,7 +27,15 @@ void ChatRoom::Startup()
 
 void ChatRoom::Shutdown()
 {
-    //Close all connections. 
+    if(this->connections.size() > 0)
+    {
+        for(vector<User>::iterator index = this->connections.begin(); index < this->connections.end(); index++)
+        {
+            RemoveFromChatroom((*index).connectionID);
+        }
+
+        server.Disconnect();
+    }
 }
 
 void ChatRoom::ListenForConnections()
@@ -63,28 +71,110 @@ void ChatRoom::ListenForConnections()
     ListenForConnections();
 }
 
+void ChatRoom::RemoveFromChatroom(int connectionID)
+{
+    //Locate user
+    vector<User>::iterator userIterator = LocateUser(connectionID);
+
+    //Close socket
+    server.Disconnect(connectionID);
+    server.Disconnect((*userIterator).listeningSocketID);
+
+    this->availablePorts.push_back((*userIterator).port);
+
+    //Terminate listening thread for user 
+    (*userIterator).continueReading = false;
+
+    //Wait for thread to terminate
+    if((*userIterator).messageListener->joinable())
+    {
+        (*userIterator).messageListener->join();
+    }
+
+    //delete user from vector 
+    this->connections.erase(userIterator);
+}
+
 void ChatRoom::ReadHandler(int connectionID)
 {
+    bool continueRead = true;
+    vector<User>::iterator userIterator = LocateUser(connectionID);
+
     cout<<"ReadHandler() reached."<<endl;
-    while(true)
+    while(continueRead)
     {
         cout<<server.Read(connectionID)<<endl;
+
+        continueRead = (*userIterator).continueReading;
     }
 }
 
 void ChatRoom::Reject(int connectionID)
 {
+    server.Send(connectionID, "Chatroom is full.");
 
+    RemoveFromChatroom(connectionID);
 }
 
+vector<User>::iterator ChatRoom::LocateUser(int connectionID)
+{
+    vector<User>::iterator it;
+
+    for(vector<User>::iterator index = this->connections.begin(); index < this->connections.end(); index++)
+    {
+        if((*index).connectionID == connectionID)
+        {
+            it = index;
+        }
+    }
+
+    return it;
+}
 
 void ChatRoom::Admit(uint16_t port)
 {
+    int numOfTries = 0;
     int newConnectionListener = server.CreateSocket(port);
-    int newCientID = server.AcceptClientConnection(newConnectionListener);
-    string temp = server.Read(newCientID);
+    int newClientID = server.AcceptClientConnection(newConnectionListener);
+    string temp = server.Read(newClientID);
+    
+    numOfTries++;
 
-    User newUser = User(newConnectionListener, newCientID, port, temp, new thread(&ChatRoom::ReadHandler, this, newCientID));
+    while(!DoesUserExist(temp) && numOfTries < 3)
+    {
+        server.Send(newClientID, "false");
 
-    this->connections.push_back(newUser);
+        temp.clear();
+        temp = server.Read(newClientID);
+        numOfTries++
+    }
+
+    if(numOfTries < 3)
+    {
+        User newUser = User(newConnectionListener, newClientID, port, temp, new thread(&ChatRoom::ReadHandler, this, newClientID));
+
+        this->connections.push_back(newUser);
+    }
+    else
+    {
+        //wait for client to disconnect because of failure
+        this_thread::sleep_for(chrono::milliseconds(50));
+
+        server.Disconnect(newClientID);
+    }
+}
+
+bool ChatRoom::DoesUserExist(string name)
+{
+    bool result = false;
+
+    for(vector<User>::iterator index = this->connections.begin(); index < this->connections.end(); index++)
+    {
+        if((*index).username == name)
+        {
+            result = true; 
+        }
+    }
+
+    return result;
 }
