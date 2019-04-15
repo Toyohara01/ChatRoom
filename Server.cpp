@@ -1,5 +1,10 @@
 #include "Server.hpp"
 
+Server::Server()
+{
+    
+}
+
 Server::Server(string ip, uint16_t port)
 { 
     this->ipAddress = ip;

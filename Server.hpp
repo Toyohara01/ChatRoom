@@ -37,17 +37,18 @@ private:
 	void Listen(int sockID);
 
 public:
+	Server();
+    Server(string ip, uint16_t port);
+	~Server();
 	int CreateSocket(int port);
 	void Disconnect();
 	void Disconnect(int sockID);
 	void Send(int connection, string input);
 	static void staticRead(int connectionID);
-    Server(string ip, uint16_t port);
 	string Read(int connectionID);
 	int AcceptListeningSocket();
 	int AcceptClientConnection(int sockID);
 	void CreateListeningSocket();
-    ~Server();
 	
 };
 

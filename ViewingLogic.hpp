@@ -12,7 +12,7 @@ public:
 
     //Has implicit constructor. 
     void CreateWindow();
-    void AppendWindow(enum AppendMode);
+    void AppendWindow(AppendModes appendMode);
     void ClearLine();
     void ClearWindow();
 
