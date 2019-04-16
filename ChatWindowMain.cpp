@@ -16,9 +16,11 @@ int main(int argc, char** argv)
     while(true)
     {
         cout<<"Menu:"<<endl<<"1) Login to chatroom"<<endl; //add more functionality 
-        int userChoice = -1;
-
-        cin>>userChoice;
+        string userChoiceStr;
+        
+        getline(cin, userChoiceStr);
+        
+        int userChoice = stoi(userChoiceStr);
 
         switch (userChoice)
         {

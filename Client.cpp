@@ -54,7 +54,7 @@ int Client::Connect(string ip, uint16_t port)
         exit(EXIT_FAILURE);
     }
 
-    if(connect(newConnection, (struct sockaddr *)&newConnection, sizeof(struct sockaddr)) < 0)
+    if(connect(newConnection, (struct sockaddr *)&address, sizeof(struct sockaddr)) < 0)
     {
         perror("Failure to connect to server.\n");
         exit(EXIT_FAILURE);
@@ -66,6 +66,6 @@ void Client::Disconnect(int connectionID)
     if(close(connectionID) < 0)
     {
         perror("Error on closing socket");
-        exit(EXIT_FAILURE);
+        //exit(EXIT_FAILURE);
     }
 }

@@ -1,0 +1,78 @@
+!SESSION 2019-04-15 13:22:30.703 -----------------------------------------------
+eclipse.buildId=4.10.0.I20181206-0815
+java.version=1.8.0_144
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.cpp.product -product org.eclipse.epp.package.cpp.product -keyring /Users/Kevin/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.cpp.product -data /Users/Kevin/Documents/ERAU/Spring_2019/SE310_SE420_NerdHerd/NerdHerd -product org.eclipse.epp.package.cpp.product -keyring /Users/Kevin/.eclipse_keyring
+
+!ENTRY org.eclipse.launchbar.core 2 0 2019-04-15 13:22:43.460
+!MESSAGE Enablement expression is missing for config provider for org.eclipse.cdt.arduino.core.descriptorType
+
+!ENTRY org.eclipse.launchbar.core 2 0 2019-04-15 13:22:43.461
+!MESSAGE Enablement expression is missing for descriptor type org.eclipse.cdt.debug.core.coreBuildDescriptorType
+
+!ENTRY org.eclipse.launchbar.core 2 0 2019-04-15 13:22:43.461
+!MESSAGE Enablement expression is missing for config provider for org.eclipse.cdt.debug.core.coreBuildDescriptorType
+
+!ENTRY org.eclipse.launchbar.core 2 0 2019-04-15 13:22:43.462
+!MESSAGE Enablement expression is missing for config provider for org.eclipse.cdt.debug.core.coreBuildDescriptorType
+
+!ENTRY org.eclipse.launchbar.core 2 0 2019-04-15 13:22:43.462
+!MESSAGE Enablement expression is missing for config provider for org.eclipse.cdt.debug.core.coreBuildDescriptorType
+
+!ENTRY org.eclipse.launchbar.core 2 0 2019-04-15 13:22:43.463
+!MESSAGE Enablement expression is missing for config provider for org.eclipse.cdt.debug.core.coreBuildDescriptorType
+
+!ENTRY org.eclipse.core.resources 4 77 2019-04-15 13:23:24.055
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2019-04-15 13:23:24.055
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2019-04-15 13:23:24.055
+!MESSAGE /Users/Kevin/Documents/ERAU/Spring_2019/SE310_SE420_NerdHerd/NerdHerd overlaps the workspace location: /Users/Kevin/Documents/ERAU/Spring_2019/SE310_SE420_NerdHerd/NerdHerd
+
+!ENTRY org.eclipse.ui.ide 4 0 2019-04-15 13:23:44.377
+!MESSAGE Could not import project located at /Users/Kevin/Documents/ERAU/Spring_2019/SE310_SE420_NerdHerd/NerdHerd
+!STACK 0
+org.eclipse.ui.internal.wizards.datatransfer.CouldNotImportProjectException: Could not import project located at /Users/Kevin/Documents/ERAU/Spring_2019/SE310_SE420_NerdHerd/NerdHerd
+	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.toExistingOrNewProject(SmartImportJob.java:565)
+	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.run(SmartImportJob.java:252)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:173)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:57)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:267)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:251)
+	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.createOrImportProject(SmartImportJob.java:604)
+	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.toExistingOrNewProject(SmartImportJob.java:552)
+	... 2 more
+
+!ENTRY org.eclipse.core.resources 4 77 2019-04-15 13:26:46.319
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2019-04-15 13:26:46.319
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2019-04-15 13:26:46.319
+!MESSAGE /Users/Kevin/Documents/ERAU/Spring_2019/SE310_SE420_NerdHerd/NerdHerd overlaps the workspace location: /Users/Kevin/Documents/ERAU/Spring_2019/SE310_SE420_NerdHerd/NerdHerd
+
+!ENTRY org.eclipse.ui.ide 4 0 2019-04-15 13:28:12.857
+!MESSAGE Could not import project located at /Users/Kevin/Documents/ERAU/Spring_2019/SE310_SE420_NerdHerd/NerdHerd
+!STACK 0
+org.eclipse.ui.internal.wizards.datatransfer.CouldNotImportProjectException: Could not import project located at /Users/Kevin/Documents/ERAU/Spring_2019/SE310_SE420_NerdHerd/NerdHerd
+	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.toExistingOrNewProject(SmartImportJob.java:565)
+	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.run(SmartImportJob.java:252)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:173)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:57)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:267)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:251)
+	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.createOrImportProject(SmartImportJob.java:604)
+	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.toExistingOrNewProject(SmartImportJob.java:552)
+	... 2 more
+
+!ENTRY org.eclipse.core.resources 4 77 2019-04-15 13:28:41.704
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2019-04-15 13:28:41.705
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2019-04-15 13:28:41.705
+!MESSAGE /Users/Kevin/Documents/ERAU/Spring_2019/SE310_SE420_NerdHerd/NerdHerd overlaps the workspace location: /Users/Kevin/Documents/ERAU/Spring_2019/SE310_SE420_NerdHerd/NerdHerd

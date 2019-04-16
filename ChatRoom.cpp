@@ -65,6 +65,7 @@ void ChatRoom::ListenForConnections()
         Reject(newConnection); 
     }
     
+    this_thread::sleep_for(chrono::milliseconds(10));
     server.Disconnect(newConnection);
 
     //Continue Listening 
@@ -146,11 +147,12 @@ void ChatRoom::Admit(uint16_t port)
 
         temp.clear();
         temp = server.Read(newClientID);
-        numOfTries++
+        numOfTries++;
     }
 
     if(numOfTries < 3)
     {
+        server.Send(newClientID,"true");
         User newUser = User(newConnectionListener, newClientID, port, temp, new thread(&ChatRoom::ReadHandler, this, newClientID));
 
         this->connections.push_back(newUser);
@@ -166,13 +168,13 @@ void ChatRoom::Admit(uint16_t port)
 
 bool ChatRoom::DoesUserExist(string name)
 {
-    bool result = false;
+    bool result = true;
 
     for(vector<User>::iterator index = this->connections.begin(); index < this->connections.end(); index++)
     {
         if((*index).username == name)
         {
-            result = true; 
+            result = false; 
         }
     }
 

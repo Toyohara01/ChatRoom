@@ -1,5 +1,6 @@
 #include <iostream>
 #include <thread>
+#include <string>
 #include <chrono>
 #include <termios.h>
 
@@ -60,7 +61,12 @@ char getche(void)
 
 int main()
 {
-    string buffer;
+    string buffer = "55501";
+
+    uint16_t hi = (uint16_t)stoul(buffer, nullptr);
+    cout<<hi<<endl;
+    while(true);
+
     buffer.clear();
 
     while(true)

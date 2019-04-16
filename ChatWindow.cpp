@@ -11,7 +11,6 @@ void ChatWindow::Connect()
     client = Client();
     this->sockID = client.Connect(this->ip, this->port);
 }
-
 /* 
  *  Reads user input to for access to features.
  * 
@@ -51,7 +50,7 @@ void ChatWindow::Login()
     int numOfTries = 0;
     
     cout<<"Please enter a username: "; 
-    getline(cin, username);
+    getline(cin, username); 
     numOfTries++;
 
     cout<<"Connecting to Server...";
@@ -59,12 +58,12 @@ void ChatWindow::Login()
 
     //Get port 
     portString = client.Read(this->sockID);
-
+   
     //Disconnect
     Disconnect();
 
     //Get new port
-    this->port = (uint8_t)stoul(portString, nullptr, portString.length());
+    this->port = (uint16_t)stoul(portString, nullptr);
 
     //Wait a bit for server to setup new socket
     this_thread::sleep_for(chrono::milliseconds(50));
@@ -76,8 +75,8 @@ void ChatWindow::Login()
     client.Send(this->sockID, username);
 
     //Loop while server approves username
-    while(client.Read(this->sockID) != "true" && numOfTries < 3)
-    {
+    while((usernameStatusResponse = client.Read(this->sockID)) != "true" && numOfTries < 3)
+    {cout<<usernameStatusResponse;
         if(usernameStatusResponse == "true")
         {
             admitStatus = true;
@@ -113,6 +112,7 @@ void ChatWindow::Login()
 
 void ChatWindow::Chat()
 {
+    cout<<"Entering Chat Session..."<<endl;
     this->continueSession = true;
     
     //Create thread for message listening 
