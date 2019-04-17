@@ -259,8 +259,6 @@ string Enigma::Encrypt(string input)    //NOTE: need to add rotor rotation stuff
     //set the ciperText field to the newly encrypted string. LAD
     cipherText = input;
 
-    cout << cipherText << endl;
-
     //return encypted message. LAD
     return(cipherText);
 }
@@ -376,8 +374,6 @@ string Enigma::Decrypt(string input)
 
     //set the plainText field to the newly decrypted string. LAD
     plainText = input;
-
-    cout << plainText << endl;
 
     //return decrypted message
     return(plainText);    

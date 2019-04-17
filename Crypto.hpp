@@ -1,4 +1,3 @@
-//https://www.apprendre-en-ligne.net/crypto/bibliotheque/PDF/paperEnigma.pdf
 
 /******************************************************************************
 * Crypto.hpp                                                                  *
