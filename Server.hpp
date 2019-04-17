@@ -25,31 +25,25 @@ using namespace std;
 class Server
 {
 private:
-	int sockfd;
+	int sockID;
+	int connectionID;
 	string ipAddress;
 	uint16_t port;
-	int options;
-	void (*messageProcessing)(string);
 
-	int Accept(int sockID);
 	int SetupSocket();
-	void Bind(int sockID, string ip, uint16_t port);
+	int Bind();
 	void Listen(int sockID);
 
 public:
 	Server();
     Server(string ip, uint16_t port);
 	~Server();
-	int CreateSocket(int port);
 	void Disconnect();
-	void Disconnect(int sockID);
-	void Send(int connection, string input);
-	static void staticRead(int connectionID);
-	string Read(int connectionID);
-	int AcceptListeningSocket();
-	int AcceptClientConnection(int sockID);
-	void CreateListeningSocket();
-	
+	void CloseConnection();
+	void Send(string input);
+	string Read();
+	int CreateListeningSocket();
+	int Accept();	
 };
 
 #endif

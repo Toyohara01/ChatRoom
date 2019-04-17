@@ -15,22 +15,22 @@ using namespace std;
 
 typedef struct User
 {
-    int listeningSocketID;
     int connectionID;
     uint16_t port;
     string username;
     thread *messageListener;
+    Server *connection;
     bool continueReading;
 
     User(); //empty constructor 
 
-    User(int listeningSocketID, int connectionID, uint16_t port, string username, thread *messageListener)
+    User(int connectionID, uint16_t port, string username, Server *connection, thread *listener)
     {
-        this->listeningSocketID = listeningSocketID;
         this->connectionID = connectionID;
         this->port = port;
         this->username = username;
-        this->messageListener = messageListener;
+        this->messageListener = listener;
+        this->connection = connection;
         this->continueReading = true;
     }
 }User;
@@ -39,25 +39,25 @@ class ChatRoom
 {
 private:
     vector<User> connections;
-    vector<uint16_t> availablePorts;
     Server server;
     bool continueListening;
-    thread admitNewUser;
+    string IPAddress;
+    uint16_t port;
 
-    void Reject(int connectionID);
-    void ReadHandler(int connectionID);
     void RemoveFromChatroom(int connectionID);
     bool DoesUserExist(string name);
     vector<User>::iterator LocateUser(int connectionID);
+    void FindPort();
     
 
 public:
     ChatRoom(string IPAddress, uint16_t port);
     ~ChatRoom();
-    void Startup();
+    void Startup(); 
+    void ReadHandler(int connectionID);
     void Shutdown();
     void ListenForConnections();
-    void Admit(uint16_t port);
+    void Admit();
 };
 
 #endif //CHATROOM_HPP
