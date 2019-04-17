@@ -24,6 +24,12 @@ typedef enum rotor_name
     REFLECTOR
 }ROTOR;
 
+typedef enum rotor_side
+{
+    LEFT,
+    RIGHT
+}SIDE;
+
 class Crypto
 {
     protected:
@@ -48,7 +54,7 @@ class Enigma : public Crypto
         
         std::string Encrypt(std::string input);
         std::string Decrypt(std::string input);
-        int findIndex(char letter, ROTOR mode, int side=0, int refIdx=0);
+        int findIndex(char letter, ROTOR mode, SIDE side=LEFT, int refIdx=0);
 
     public:
         Enigma();
