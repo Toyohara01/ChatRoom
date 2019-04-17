@@ -16,7 +16,7 @@ int main()
     //declare variables
     string userText, encText, decText;
     int pass=0, fail=0;
-
+    
     cout << "Enter string you want to test: ";
     getline(cin, userText);
 
