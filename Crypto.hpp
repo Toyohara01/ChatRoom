@@ -15,6 +15,15 @@
 
 #include<string>
 
+typedef enum rotor_name
+{
+    FIRST_ROTOR,
+    SECOND_ROTOR,
+    THIRD_ROTOR,
+    ALPHABET,
+    REFLECTOR
+}ROTOR;
+
 class Crypto
 {
     protected:
@@ -39,7 +48,7 @@ class Enigma : public Crypto
         
         std::string Encrypt(std::string input);
         std::string Decrypt(std::string input);
-        int findIndex(char letter, int mode, int side=0, int refIdx=0);
+        int findIndex(char letter, ROTOR mode, int side=0, int refIdx=0);
 
     public:
         Enigma();
