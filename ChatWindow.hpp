@@ -5,7 +5,6 @@
 #include "Message.hpp"
 
 #include <iostream>
-#include <string>
 #include <vector>
 #include <iterator>
 #include <thread>
@@ -26,9 +25,8 @@ private:
     vector<thread> processMessagesThreadBuffer;
 
     void ProcessMessage(string input);
-    void Disconnect();
     void Connect();
-    void Chat();
+    
     void readMessageHandler();
     void GarbageCollector();
     void StringInterpreter(string input);
@@ -36,7 +34,9 @@ private:
 public:
     ChatWindow(); //Empty constructor
     ChatWindow(string ip, uint16_t port);
-    void Login();
+    bool Login();
+    void Disconnect();
+    void Chat();
     void Logout();
     
 

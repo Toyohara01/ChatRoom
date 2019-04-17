@@ -104,6 +104,10 @@ void ChatRoom::ReadHandler(int connectionID)
     cout<<"ReadHandler() reached."<<endl;
     while(continueRead)
     {
+        string newMessage;
+        
+        newMessage.clear();
+
         cout<<server.Read(connectionID)<<endl;
 
         continueRead = (*userIterator).continueReading;

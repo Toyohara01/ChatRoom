@@ -3,7 +3,7 @@ LIB_DIRS =
 CC = g++
 
 CDEFS=
-CFLAGS= $(INCLUDE_DIRS) $(CDEFS) -Wall -pthread
+CFLAGS= $(INCLUDE_DIRS) $(CDEFS) -Wall -pthread -g
 CHATROOMOBJFILES = Server.o ChatRoom.o Message.o ChatRoomMain.o
 CHATWINDOWOBJFILES= ChatWindow.o Client.o Message.o ChatWindowMain.o ViewingLogic.o
 LIBS= 
@@ -13,6 +13,7 @@ OBJS= ${CFILES:.c=.o}
 
 CHATROOM=Chatroom
 CHATWINDOW=Chatwindow
+
 
 all:	${CHATROOM} $(CHATWINDOW)
 
@@ -38,7 +39,7 @@ Message.o: Message.cpp Message.hpp
 	$(CC) $(CFLAGS) -c Message.cpp
 
 ViewingLogic.o: ViewingLogic.cpp ViewingLogic.hpp
-	$(CC) $(CFLAGS) -lncurses -c ViewingLogic.cpp
+	$(CC) $(CFLAGS) -c ViewingLogic.cpp
 
 ChatRoom.o: ChatRoom.cpp ChatRoom.hpp
 	$(CC) $(CFLAGS) -std=c++11 -c ChatRoom.cpp
