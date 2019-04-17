@@ -8,7 +8,6 @@ ChatWindow::ChatWindow(string ip, uint16_t port)
 
 void ChatWindow::Connect()
 {
-    client = Client();
     this->sockID = client.Connect(this->ip, this->port);
 }
 /* 
@@ -25,7 +24,7 @@ void ChatWindow::StringInterpreter(string input) //Create new message structure 
     }
     else
     {
-        client.Send(this->sockID, input);
+        client.Send(input);
         cout<<"\t\t" + input<<endl; //figure out buffer length parse then display accordingly. Handled by Viewing logic. 
     }
     //Ideally it'll check to see if a defined function was entered execute that process 
@@ -41,7 +40,7 @@ void ChatWindow::ProcessMessage(string input) //change to message input later
     cout<<input<<endl;
 }
 
-void ChatWindow::Login()
+bool ChatWindow::Login()
 {
     string username;
     string portString;
@@ -50,14 +49,16 @@ void ChatWindow::Login()
     int numOfTries = 0;
     
     cout<<"Please enter a username: "; 
-    getline(cin, username); 
+    username.clear();
+    getline(cin, username);
     numOfTries++;
 
     cout<<"Connecting to Server...";
+
     Connect();
 
     //Get port 
-    portString = client.Read(this->sockID);
+    portString = client.Read();
    
     //Disconnect
     Disconnect();
@@ -72,42 +73,33 @@ void ChatWindow::Login()
     Connect();
 
     //Send username
-    client.Send(this->sockID, username);
+    client.Send(username);
 
     //Loop while server approves username
-    while((usernameStatusResponse = client.Read(this->sockID)) != "true" && numOfTries < 3)
-    {cout<<usernameStatusResponse;
-        if(usernameStatusResponse == "true")
-        {
-            admitStatus = true;
-        }
+    while((usernameStatusResponse = client.Read()) != "true" && numOfTries < 3)
+    {    
         usernameStatusResponse.clear();
 
         //Clear string
         username.clear();
 
-        //clear buffer
-        cin.clear();
-
         cout<<endl<<endl<<"Username exists in chatroom already. Enter a different username."<<endl
             <<"Please enter a username: "; 
+
+        username.clear();
         getline(cin, username);
-        client.Send(this->sockID,username);
+
+        client.Send(username); 
 
         numOfTries++;
     }
 
-    if(admitStatus)
+    if(usernameStatusResponse == "true")
     {
-        Chat();
+        admitStatus = true;
     }
-    else
-    {
-        cout<<endl<<"Max attempts reached... returning to main menu"<<endl;
-    }
-    
-    //Chat session has ended or max number of tries exceeded. 
-    Disconnect();
+
+    return admitStatus;
 }
 
 void ChatWindow::Chat()
@@ -133,7 +125,7 @@ void ChatWindow::readMessageHandler()
 {
     while(continueSession)
     {
-        string stringReceived = client.Read(this->sockID);
+        string stringReceived = client.Read();
 
         this->processMessagesThreadBuffer.push_back(thread(&ChatWindow::ProcessMessage, this, stringReceived));
     }
@@ -174,5 +166,5 @@ void ChatWindow::Logout()
 
 void ChatWindow::Disconnect()
 {
-    client.Disconnect(this->sockID);
+    client.Disconnect();
 }

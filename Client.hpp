@@ -8,11 +8,13 @@
 #include <sys/socket.h>
 #include <stdlib.h>
 #include <arpa/inet.h>
+#include <stdio.h>
+#include <fcntl.h>
 //#include <netinet/in.h>
 
 #include <iostream>
 #include <string>
-#include <cerrno>
+//#include <cerrno>
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
@@ -29,13 +31,15 @@ class Client
 {
     private:	
 	int connectionID;
+	FILE* readStream;
+	FILE* writeStream;
 
     public:
 	~Client();
-	string Read(int connectionID);
-	uint8_t Send(int connectionID, string input);
+	string Read();
+	uint8_t Send(string input);
 	int Connect(string ip, uint16_t port);
-	void Disconnect(int connectionID);
+	void Disconnect();
 };
 
 #endif // CLIENT_HPP

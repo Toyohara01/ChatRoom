@@ -5,6 +5,7 @@ int main(int argc, char** argv)
     enum menuChoices {LOGIN = 1};
     vector<class Message> messages;
     messages.clear();
+    string userChoiceStr;
 
     // Get IP Address and port of server to connect to. 
     string IPAddress = "127.0.0.1";
@@ -13,19 +14,30 @@ int main(int argc, char** argv)
     class ChatWindow window(IPAddress, Port);
 
     //Add logic for menu. 
-    while(true)
+    while(userChoiceStr != "quit")
     {
         cout<<"Menu:"<<endl<<"1) Login to chatroom"<<endl; //add more functionality 
-        string userChoiceStr;
+        
         
         getline(cin, userChoiceStr);
         
         int userChoice = stoi(userChoiceStr);
 
         switch (userChoice)
-        {
+        {            
         case LOGIN:
-            window.Login();
+
+            if(window.Login())
+            {
+                window.Chat();
+            }
+            else
+            {
+                cout<<endl<<"Max attempts reached... returning to main menu"<<endl;
+                //Chat session has ended or max number of tries exceeded. 
+                window.Disconnect();
+            }
+
             break;
         
         default:
@@ -34,7 +46,5 @@ int main(int argc, char** argv)
         }
 
         //clear input buffer for next user input 
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 }
