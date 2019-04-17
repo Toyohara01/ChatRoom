@@ -35,8 +35,8 @@ class Enigma : public Crypto
         static char rotor3[26][2];
         static char alphabet[26];
         static char reflector[26];
-
         unsigned int key[3];
+        
         std::string Encrypt(std::string input);
         std::string Decrypt(std::string input);
         int findIndex(char letter, int mode, int side=0, int refIdx=0);
