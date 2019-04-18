@@ -17,6 +17,8 @@
 #include <functional>
 #include <mutex>
 
+#include "Exception.hpp"
+
 using namespace std;
 
 //Constants 

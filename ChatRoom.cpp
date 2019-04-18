@@ -58,14 +58,8 @@ void ChatRoom::RemoveFromChatroom(int connectionID)
     //Locate user
     vector<User>::iterator userIterator = LocateUser(connectionID);
 
-    //Terminate listening thread for user 
-    (*userIterator).continueReading = false;
-
-    //Wait for thread to terminate
-    if((*userIterator).messageListener->joinable())
-    {
-        (*userIterator).messageListener->join();
-    }
+        
+    cout<<"Thread terminated"<<endl;
 
     //Close socket
     (*userIterator).connection->CloseConnection();
@@ -73,6 +67,7 @@ void ChatRoom::RemoveFromChatroom(int connectionID)
 
     //delete user from vector 
     this->connections.erase(userIterator);
+    cout<<"Connections: "<<this->connections.size()<<endl;
 }
 
 void ChatRoom::ReadHandler(int connectionID)
@@ -86,13 +81,26 @@ void ChatRoom::ReadHandler(int connectionID)
         
         newMessage.clear();
 
-        newMessage = (*userIterator).connection->Read();
-        cout<<newMessage<<endl;
-
-        continueRead = (*userIterator).continueReading;
+        try
+        {
+            newMessage = (*userIterator).connection->Read();
+        }
+        catch(const ReadError& e)
+        {
+            continueRead = false;
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+        
+        if(newMessage != "")
+        {
+            cout<<newMessage<<endl;
+        }
 
         //broadcast 
-        if(this->connections.size() > 0)
+        if(this->connections.size() > 0 && newMessage != "")
         {
             for(vector<User>::iterator it = this->connections.begin(); it < this->connections.end(); it++)
             {
@@ -104,6 +112,8 @@ void ChatRoom::ReadHandler(int connectionID)
             }
         }
     }
+
+    RemoveFromChatroom(connectionID);
 }
 
 

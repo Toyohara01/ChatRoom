@@ -31,8 +31,6 @@ class Client
 {
     private:	
 	int connectionID;
-	FILE* readStream;
-	FILE* writeStream;
 
     public:
 	~Client();

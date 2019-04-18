@@ -123,8 +123,7 @@ string Server::Read()
 
         if(bytesRead <= 0)
         {
-            perror("Error on receiving packet");
-            //exit(EXIT_FAILURE);
+            throw ReadError();
         }
 
         string message(buffer);
