@@ -80,16 +80,29 @@ void ChatRoom::ReadHandler(int connectionID)
     bool continueRead = true;
     vector<User>::iterator userIterator = LocateUser(connectionID);
 
-    cout<<"ReadHandler() reached."<<endl;
     while(continueRead)
     {
         string newMessage;
         
         newMessage.clear();
 
-        cout<<(*userIterator).connection->Read()<<endl;
+        newMessage = (*userIterator).connection->Read();
+        cout<<newMessage<<endl;
 
         continueRead = (*userIterator).continueReading;
+
+        //broadcast 
+        if(this->connections.size() > 0)
+        {
+            for(vector<User>::iterator it = this->connections.begin(); it < this->connections.end(); it++)
+            {
+                if(it != userIterator)
+                {
+                    //Critical section
+                    (*it).connection->Send(newMessage);
+                }
+            }
+        }
     }
 }
 
@@ -144,8 +157,7 @@ void ChatRoom::Admit()
 
         this->connections.push_back(User(newClientID, newPort, temp, newConnection, new thread(&ChatRoom::ReadHandler, this, newClientID))); 
         cout<<"connections: "<<this->connections.size()<<endl;
-        
-        
+                
     }
     else
     {

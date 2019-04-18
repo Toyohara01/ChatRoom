@@ -98,7 +98,7 @@ void Server::CloseConnection()
     
     if(close(this->connectionID)< 0)
     {
-        //perror("Error on closing socket");
+        // perror("Error on closing socket");
     }
 }
 
@@ -135,11 +135,14 @@ string Server::Read()
  
 void Server::Send(string input)
 {
+    static mutex mtx;
     char messageBuffer[BUFFER_SIZE];
     strcpy(messageBuffer, input.c_str());
 
     //while loop that continues to send until all bytes in buffer are sent?  
+    mtx.lock();
     ssize_t bytesSent = send(this->connectionID, messageBuffer, sizeof(messageBuffer), 0);
+    mtx.unlock();
 
     if(bytesSent <= 0)
     {

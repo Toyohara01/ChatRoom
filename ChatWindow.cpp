@@ -63,8 +63,11 @@ bool ChatWindow::Login()
     //Disconnect
     Disconnect();
 
-    //Get new port
-    this->port = (uint16_t)stoul(portString, nullptr);
+    if(portString != "")
+    {
+        //Get new port
+        this->port = (uint16_t)stoul(portString, nullptr);
+    }
 
     //Wait a bit for server to setup new socket
     this_thread::sleep_for(chrono::milliseconds(50));

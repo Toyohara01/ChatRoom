@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include <thread> 
 #include <functional>
+#include <mutex>
 
 using namespace std;
 
@@ -35,6 +36,7 @@ private:
 	void Listen(int sockID);
 
 public:
+
 	Server();
     Server(string ip, uint16_t port);
 	~Server();
@@ -44,6 +46,8 @@ public:
 	string Read();
 	int CreateListeningSocket();
 	int Accept();	
+
+
 };
 
 #endif
