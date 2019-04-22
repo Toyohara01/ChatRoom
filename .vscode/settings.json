@@ -6,6 +6,7 @@
         "fstream": "cpp",
         "__mutex_base": "cpp",
         "vector": "cpp",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "xstring": "cpp"
     }
 }

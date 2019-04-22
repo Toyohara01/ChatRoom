@@ -2,10 +2,13 @@
 #include <random>
 #include <cstdlib>
 #include <string>
+#include <ctime>
 #include "Crypto.hpp"
 #include "Crypto.cpp" 
 
 using namespace std;
+
+void gen_random(char *s, const int len);
 
 int main()
 {
@@ -14,31 +17,63 @@ int main()
     Enigma decryptObj;
 
     //declare variables
-    string userText, encText, decText;
-    int pass=0, fail=0;
+    string encText, decText;
+    char testText[32];
+    int pass=0, fail=0, testNum=0, i=0;
+    double avgTime=0;
     
-    cout << "Enter string you want to test: ";
-    getline(cin, userText);
+    cout << "Enter number of tests: ";
+    cin >> testNum;
 
-    //encrypt string and display ciphertext
-    encText = encryptObj.callEncrypt(userText);
-    cout << "Encrypted text is: " + encText << endl;
-
-    //decrypt string and display plaintext
-    decText = decryptObj.callDecrypt(encText);
-    cout << "Decrypted text is: " + decText << endl;
-
-    //if the input string is not equal to the decrypted string
-    if(userText != decText)
+    for(i=0;i<testNum;i++)
     {
-        fail++;
+        gen_random(testText, 31);
+
+        cout << "Test text is: " << testText << endl;
+
+        clock_t start = clock();
+
+        //encrypt string and display ciphertext
+        encText = encryptObj.callEncrypt(testText);
+        cout << "Encrypted text is: " + encText << endl;
+
+        //decrypt string and display plaintext
+        decText = decryptObj.callDecrypt(encText);
+        cout << "Decrypted text is: " + decText << endl << endl;
+
+        clock_t end = clock();
+
+        avgTime = avgTime + double(end - start);
+
+        //if the input string is not equal to the decrypted string
+        if(testText != decText)
+        {
+            fail++;
+        }
+        //otherwise the strings are equal to eachother
+        else
+        {
+            pass++;
+        }
     }
-    //otherwise the strings are equal to eachother
-    else
-    {
-        pass++;
-    }
-    
+
+    avgTime = avgTime/testNum;
+
     cout << pass << " successes" << endl;
     cout << fail << " failures" << endl;
+    cout << "Average time to execute: " << avgTime << endl;
+}
+
+void gen_random(char *s, const int len)
+{
+    static const char alphanum[] =
+        "0123456789"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+//        "abcdefghijklmnopqrstuvwxyz";
+
+    for (int i = 0; i < len; ++i) {
+        s[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
+    }
+
+    s[len] = 0;
 }
