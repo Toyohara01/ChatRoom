@@ -4,6 +4,7 @@
 
 #include "Archive.hpp"
 
+
 /******************************************************************************/
 class buffered_fileReader
 {
@@ -58,6 +59,21 @@ size_t buffered_fileReader::getNumberOfElements()
 
 }
 /******************************************************************************/
+
+/******************************************************************************/
+
+char* stripeFile(char *inputFileName, int offsetSectors)
+{
+	int fd[5], idx;
+	FILE *fdin;
+	unsigned char stripe[5 * STRIP_SIZE];
+	int offset = 0, bread = 0, btoread = (4 * STRIP_SIZE), bwritten = 0, btowrite = (STRIP_SIZE), sectorCnt = 0, byteCnt = 0;
+
+	//assert((fd[0] = file.open("Chatroom.txt", O_RDWR | O_CREAT, 0064)) != 0);
+}
+
+/******************************************************************************/
+
 
 // Archiving will put file / message into a destination
 Archive::Archive()
@@ -136,7 +152,7 @@ void Archive::Load(string message)
 
 /******************************************************************************/
 // Raid-5 encoding 
-char* Archive::xorArchive(char *LBA1,
+void Archive::xorArchive(char *LBA1,
 	char *LBA2,
 	char *LBA3,
 	char *LBA4,
@@ -155,12 +171,13 @@ char* Archive::xorArchive(char *LBA1,
 //
 
 // Raid-5 Rebuild
-char* Archive::rebuildArchive(unsigned char *LBA1,
-	unsigned char *LBA2,
-	unsigned char *LBA3,
-	unsigned char *PLBA,
-	unsigned char *RLBA)
+void Archive::rebuildArchive(char *LBA1,
+	char *LBA2,
+	char *LBA3,
+	char *PLBA,
+	char *RLBA)
 {
+	int idx;
 	unsigned char checkParity;
 
 	for (int idx = 0; idx<SECTOR_SIZE; idx++)
@@ -173,6 +190,32 @@ char* Archive::rebuildArchive(unsigned char *LBA1,
 		*(RLBA + idx) = (*(PLBA + idx)) ^ (checkParity);
 	}
 }
+
+int checkEquiv(char *LBA1,
+	char *LBA2)
+{
+	int idx;
+
+	for (idx = 0; idx<SECTOR_SIZE; idx++)
+	{
+		if ((*(LBA1 + idx)) != (*(LBA2 + idx)))
+		{
+			cout << "Equivalence check mismatch at byte " << idx << ": LBA1=0x" << (*LBA1 + idx) << ", LBA2=0x" << ((*LBA2 + idx)) << endl;
+		}
+	}
+}
+
+void printBuffer(char *bufferToPrint)
+{
+	int idx;
+
+	for (idx = 0; idx < SECTOR_SIZE; idx++)
+	{
+		cout << bufferToPrint[idx];
+	}
+	cout << endl;
+}
+
 /******************************************************************************/
 
 int main()
@@ -182,6 +225,24 @@ int main()
 
 	// array bounds
 	string msg;
+
+
+	int idx, LBAidx;
+
+#define theMessages "#This is a test case string of 0123456789#"
+
+#define NULL_RAID_STRING "#FFFFFFFFFFFFFFFF"
+
+	static unsigned char testRebuild[MAX_LBAS][SECTOR_SIZE];
+	static unsigned char testLBA1[MAX_LBAS][SECTOR_SIZE];
+	static unsigned char testLBA2[MAX_LBAS][SECTOR_SIZE];
+	static unsigned char testLBA3[MAX_LBAS][SECTOR_SIZE];
+	static unsigned char testLBA4[MAX_LBAS][SECTOR_SIZE];
+
+	char testPLBA[MAX_LBAS][SECTOR_SIZE];
+
+#define PTR_CAST (char *)
+
 
 	// get messages
 	do {
@@ -203,9 +264,8 @@ int main()
 
 	// pass username and pwd
 	do {
-		cout << "View messages(1), delete(2), archived(3), quit(4)" << endl;
+		cout << "View messages(1), delete(2), archived(3), quit(4), CheckEquiv(5), PerformRAID(6)" << endl;
 		cin >> options;
-
 
 		if (options == 1)
 		{
@@ -233,68 +293,78 @@ int main()
 			cout << "Archived successfully" << endl;
 		}
 
+		// check for file equivalence
 		else if (options == 5)
 		{
+			/******************************************************************************/
 			string file1, file2;
-			ifstream Mary1, Mary2;
+			ifstream chatroomFile1, chatroomFile2;
 
 			file1 = "chatroom.txt";
 			file2 = "backupChatroom.txt";
 
-			Mary1.open(file1.c_str(), ios::binary); //c_str() returns C-style string pointer
-			Mary2.open(file2.c_str(), ios::binary);
+			//c_str() returns C-style string pointer
+			chatroomFile1.open(file1.c_str(), ios::binary);
+			chatroomFile2.open(file2.c_str(), ios::binary);
 
-			if (!Mary1)
+			if (!chatroomFile1)
 			{
 				cout << "Couldn't open the file  " << file1 << endl;
 				return 1;
 			}
 
-			if (!Mary2)
+			if (!chatroomFile2)
 			{
 				cout << "Couldn't open the file " << file2 << endl;
 				return 1;
 			}
 
 			//---------- compare number of lines in both files ------------------//
-			int c1, c2;
-			c1 = 0;
-			c2 = 0;
+			int compare1, compare2;
+
+			compare1 = 0;
+			compare2 = 0;
 			string str;
-			while (!Mary1.eof())
-			{
-				getline(Mary1, str);
-				c1++;
-			}
-			//    Mary1.clear();   //  set new value for error control state  //
-			//    Mary2.seekg(0,ios::beg);
 
-			while (!Mary2.eof())
+			while (!chatroomFile1.eof())
 			{
-				getline(Mary2, str);
-				c2++;
+				getline(chatroomFile1, str);
+				compare1++;
 			}
 
-			Mary1.clear();  //add
-			Mary1.seekg(0, ios::beg);  //add
+			//    chatroomFile1.clear();   //  set new value for error control state  //
+			//    chatroomFile2.seekg(0,ios::beg);
 
-			Mary2.clear();
-			Mary2.seekg(0, ios::beg);
-
-			if (c1 != c2)
+			while (!chatroomFile2.eof())
 			{
-				cout << "Different number of lines in files!" << "\n";
-				cout << file1 << " has " << c1 << " lines and " << file2 << " has" << c2 << " lines" << "\n";
-				return 1;
+				getline(chatroomFile2, str);
+				compare2++;
+			}
+
+
+			chatroomFile1.clear();
+			chatroomFile1.seekg(0, ios::beg);
+
+			chatroomFile2.clear();
+			chatroomFile2.seekg(0, ios::beg);
+
+			if (compare1 != compare2)
+			{
+				cout << "The files have a different number of lines" << endl;
+				cout << file1 << " has " << compare1 << " lines and " <<
+					file2 << " has " << compare2 << " lines" << endl;
+				//return 1;
 			}
 
 			//---------- compare two files line by line ------------------//
-			char string1[256], string2[256];
+			char string1[512], string2[512];
 			int j = 0, error_count = 0;
-			while (!Mary1.eof())
+
+
+			while (!chatroomFile1.eof())
 			{
-				Mary1.getline(string1, 256);
-				Mary2.getline(string2, 256);
+				chatroomFile1.getline(string1, 512);
+				chatroomFile2.getline(string2, 512);
 				j++;
 				if (strcmp(string1, string2) != 0)
 				{
@@ -304,13 +374,68 @@ int main()
 					error_count++;
 				}
 			}
-			if (error_count > 0) {
+
+			if (error_count > 0)
+			{
 				cout << "files are diffrent" << endl;
 			}
-			else { cout << "files are the same" << endl; }
+			else
+			{
+				cout << "files are the same" << endl;
+			}
+			/******************************************************************************/
+		}
+		else if (options == 6)
+		{
+			// string file1;
+			// file1="chatroom.txt";
+			ifstream  src("chatroom.txt", std::ios::out);
 
+			// set all test buffers
+			for (idx = 0; idx<MAX_LBAS; idx++)
+			{
+
+				// need this to process chatroom.txt
+				memcpy(&testLBA1[idx], theMessages, SECTOR_SIZE);
+				memcpy(&testLBA2[idx], theMessages, SECTOR_SIZE);
+				memcpy(&testLBA3[idx], theMessages, SECTOR_SIZE);
+				memcpy(&testLBA4[idx], theMessages, SECTOR_SIZE);
+				memcpy(&testRebuild[idx], NULL_RAID_STRING, SECTOR_SIZE);
+			}
+
+			for (idx = 0; idx<MAX_LBAS; idx++)
+			{
+				LBAidx = idx % MAX_LBAS;
+
+				// Computer XOR from 4 LBAs for RAID-5
+				cout << "Test Case 0 - Functional RAID-5" << endl;
+				inputMessage.xorArchive(PTR_CAST &testLBA1[LBAidx],
+					PTR_CAST &testLBA2[LBAidx],
+					PTR_CAST &testLBA3[LBAidx],
+					PTR_CAST &testLBA4[LBAidx],
+					PTR_CAST &testPLBA[LBAidx]);
+
+				// Now rebuild LBA into test to verify
+				inputMessage.rebuildArchive(PTR_CAST &testLBA1[LBAidx],
+					PTR_CAST &testLBA2[LBAidx],
+					PTR_CAST &testLBA3[LBAidx],
+					PTR_CAST &testLBA4[LBAidx],
+					PTR_CAST &testRebuild[LBAidx]);
+
+				cout << "LBA 4= " << endl;
+				printBuffer((char *)&testLBA4[4]);
+				//getchar();
+
+				cout << "Recovered LBA 4= " << endl;
+				printBuffer((char *)&testRebuild[0]);
+
+				assert(memcmp(testRebuild, testLBA4, SECTOR_SIZE) != 0);
+			}
 		}
 
 	} while (options != 4);
+
+
+
 
 }
