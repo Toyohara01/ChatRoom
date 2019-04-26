@@ -18,7 +18,7 @@ int main()
 
     //declare variables
     string encText, decText;
-    char testText[32];
+    char testText[2048];
     int pass=0, fail=0, testNum=0, i=0;
     double avgTime=0;
     
@@ -27,15 +27,15 @@ int main()
 
     for(i=0;i<testNum;i++)
     {
-        gen_random(testText, 31);
+        gen_random(testText, 2047);
 
-        cout << "Test text is: " << testText << endl;
+        cout << "Test text is: " << testText << endl << endl;
 
         clock_t start = clock();
 
         //encrypt string and display ciphertext
         encText = encryptObj.callEncrypt(testText);
-        cout << "Encrypted text is: " + encText << endl;
+        cout << "Encrypted text is: " + encText << endl << endl;
 
         //decrypt string and display plaintext
         decText = decryptObj.callDecrypt(encText);
@@ -68,8 +68,7 @@ void gen_random(char *s, const int len)
 {
     static const char alphanum[] =
         "0123456789"
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-//        "abcdefghijklmnopqrstuvwxyz";
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
 
     for (int i = 0; i < len; ++i) {
         s[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
