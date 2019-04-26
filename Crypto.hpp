@@ -11,21 +11,6 @@
 #ifndef CRYPTO_HPP
 #define CRYPTO_HPP
 
-typedef enum rotor_name
-{
-    FIRST_ROTOR,
-    SECOND_ROTOR,
-    THIRD_ROTOR,
-    ALPHABET,
-    REFLECTOR
-}ROTOR;
-
-typedef enum rotor_side
-{
-    LEFT,
-    RIGHT
-}SIDE;
-
 class Crypto
 {
     protected:
@@ -40,6 +25,22 @@ class Crypto
 
 class Enigma : public Crypto
 {
+        
+    typedef enum rotor_name
+    {
+        FIRST_ROTOR,
+        SECOND_ROTOR,
+        THIRD_ROTOR,
+        ALPHABET,
+        REFLECTOR
+    }ROTOR;
+
+    typedef enum rotor_side
+    {
+        LEFT,
+        RIGHT
+    }SIDE;
+
     private:
         static char rotor1[26][2];
         static char rotor2[26][2];
