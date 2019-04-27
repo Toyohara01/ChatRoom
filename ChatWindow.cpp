@@ -24,8 +24,7 @@ void ChatWindow::StringInterpreter(string input) //Create new message structure 
     }
     else
     {
-        client.Send(input);
-        cout<<"\t\t" + input<<endl; //figure out buffer length parse then display accordingly. Handled by Viewing logic. 
+        client.Send(input); 
     }
     //Ideally it'll check to see if a defined function was entered execute that process 
     //but for now it'll display and send that input to other clients

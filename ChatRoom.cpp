@@ -74,6 +74,11 @@ void ChatRoom::ReadHandler(int connectionID)
     bool continueRead = true;
     vector<User>::iterator userIterator = LocateUser(connectionID);
 
+    //Place thread to sleep allow new vector member to be added 
+    this_thread::sleep_for(chrono::milliseconds(10));
+    userIterator = LocateUser(connectionID);
+    User user = (*userIterator);
+    
     while(continueRead)
     {
         string newMessage;
@@ -82,7 +87,7 @@ void ChatRoom::ReadHandler(int connectionID)
 
         try
         {
-            newMessage = (*userIterator).connection->Read();
+            newMessage = (*(*userIterator).connection).Read();
         }
         catch(const ReadError& e)
         {
