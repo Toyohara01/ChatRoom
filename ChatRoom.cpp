@@ -97,6 +97,8 @@ void ChatRoom::ReadHandler(int connectionID)
         {
             cout<<newMessage<<endl;
         }
+        
+        newMessage = (*userIterator).username + ": " + newMessage;
 
         //broadcast 
         if(this->connections.size() > 0 && newMessage != "")
@@ -106,7 +108,7 @@ void ChatRoom::ReadHandler(int connectionID)
                 if(it != userIterator)
                 {
                     //Critical section
-                    (*it).connection->Send((*userIterator).username + ": " + newMessage);
+                    (*it).connection->Send(newMessage);
                 }
             }
         }

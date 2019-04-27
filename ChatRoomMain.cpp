@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-    ChatRoom room("192.168.0.71", 55500);
+    ChatRoom room("127.0.0.1", 55500);
 
     room.Startup();
 
