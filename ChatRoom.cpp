@@ -106,7 +106,7 @@ void ChatRoom::ReadHandler(int connectionID)
                 if(it != userIterator)
                 {
                     //Critical section
-                    (*it).connection->Send((*userIterator).username + ": " newMessage);
+                    (*it).connection->Send((*userIterator).username + ": " + newMessage);
                 }
             }
         }
