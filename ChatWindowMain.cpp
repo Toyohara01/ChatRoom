@@ -8,10 +8,9 @@ int main(int argc, char** argv)
     string userChoiceStr;
 
     // Get IP Address and port of server to connect to. 
-    string IPAddress = "127.0.0.1";
+    string IPAddress = "192.168.0.71";
     uint16_t Port = 55500; //Hardcode for initial connection then reassign once connection is made 
    
-    class ChatWindow window(IPAddress, Port);
 
     //Add logic for menu. 
     while(userChoiceStr != "quit")
@@ -26,18 +25,20 @@ int main(int argc, char** argv)
         switch (userChoice)
         {            
         case LOGIN:
-
-            if(window.Login())
             {
-                window.Chat();
-            }
-            else
-            {
-                cout<<endl<<"Max attempts reached... returning to main menu"<<endl;
-                //Chat session has ended or max number of tries exceeded. 
-                window.Disconnect();
-            }
+                ChatWindow window(IPAddress, Port);
 
+                if(window.Login())
+                {
+                    window.Chat();
+                }
+                else
+                {
+                    cout<<endl<<"Max attempts reached... returning to main menu"<<endl;
+                    //Chat session has ended or max number of tries exceeded. 
+                    window.Disconnect();
+                }
+            }
             break;
         
         default:

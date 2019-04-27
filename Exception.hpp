@@ -3,9 +3,7 @@
 
 #include <exception>
 
-using namespace std;
-
-class ReadError: public exception
+class ReadError: public std::exception
 {
   virtual const char* what() const throw()
   {

@@ -58,7 +58,6 @@ void ChatRoom::RemoveFromChatroom(int connectionID)
     //Locate user
     vector<User>::iterator userIterator = LocateUser(connectionID);
 
-        
     cout<<"Thread terminated"<<endl;
 
     //Close socket
@@ -107,7 +106,7 @@ void ChatRoom::ReadHandler(int connectionID)
                 if(it != userIterator)
                 {
                     //Critical section
-                    (*it).connection->Send(newMessage);
+                    (*it).connection->Send((*userIterator).username + ": " newMessage);
                 }
             }
         }
@@ -115,8 +114,6 @@ void ChatRoom::ReadHandler(int connectionID)
 
     RemoveFromChatroom(connectionID);
 }
-
-
 
 vector<User>::iterator ChatRoom::LocateUser(int connectionID)
 {

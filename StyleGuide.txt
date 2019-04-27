@@ -13,7 +13,7 @@ File format
     3. #define constants will be defined after namespace if one is defined. 
 
 Indentation and Brackets
-    1. All opening and closing brackets shall be placed on thier own line.
+    1. All opening and closing brackets shall be placed on their own line.
        (ex: 
             while(variableName < 5)
             {
@@ -32,8 +32,8 @@ Functions
     3. All functions shall have one point of entry and one point of exit. Multiple return statements will not be allowed. 
 
 Classes
-    1. All classes will have a constructor definiton and destructor. 
-    2. All classses will have the following format. 
+    1. All classes will have a constructor definition and destructor. 
+    2. All classes will have the following format. 
 
 class example 
 {
@@ -45,7 +45,7 @@ public:
     ~example();
 };
 
-    3. All variable referneces to a class defined variable will use this->var to aid in readability.
+    3. All variable refereneces to a class defined variable will use this->var to aid in readability.
 
 Comments
     1. Comments shall end with the team member's initials
