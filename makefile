@@ -5,7 +5,7 @@ CC = g++
 CDEFS=
 CFLAGS= $(INCLUDE_DIRS) $(CDEFS) -Wall -pthread --coverage -g
 CHATROOMOBJFILES = Server.o ChatRoom.o Message.o ChatRoomMain.o
-CHATWINDOWOBJFILES= ChatWindow.o Client.o Message.o ChatWindowMain.o ViewingLogic.o Crypto.o Archive.o
+CHATWINDOWOBJFILES= ChatWindow.o Client.o Message.o ChatWindowMain.o Crypto.o Archive.o
 LIBS= 
 
 SRCS= ${HFILES} ${CFILES}
@@ -37,9 +37,6 @@ Server.o: Server.cpp Server.hpp
 
 Message.o: Message.cpp Message.hpp
 	$(CC) $(CFLAGS) -std=c++11 -c Message.cpp
-
-ViewingLogic.o: ViewingLogic.cpp ViewingLogic.hpp
-	$(CC) $(CFLAGS) -c ViewingLogic.cpp
 
 ChatRoom.o: ChatRoom.cpp ChatRoom.hpp
 	$(CC) $(CFLAGS) -std=c++11 -c ChatRoom.cpp

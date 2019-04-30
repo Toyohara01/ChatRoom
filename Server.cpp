@@ -198,6 +198,8 @@ void Server::Disconnect()
     {
         perror("Error on closing socket");
     }
+
+    this->sockID = -1;
 }
 
 /**************************************************************************

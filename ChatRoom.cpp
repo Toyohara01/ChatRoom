@@ -6,6 +6,7 @@ ChatRoom::ChatRoom(string IPAddress, uint16_t port)
     this->port = port;
     this->server = Server(IPAddress, port);
     this->connections.reserve(10);
+    this->continueListening = true;
 }
 
 ChatRoom::~ChatRoom()
@@ -26,32 +27,38 @@ void ChatRoom::Shutdown()
         {
             RemoveFromChatroom((*index).connectionID);
         }
-
-        server.Disconnect();
     }
+    this->continueListening = false;
+    server.Disconnect();
 }
 
 void ChatRoom::ListenForConnections()
 {
     // Thread handler for accepting connections 
     // Accept connections when admit thread is not active.
-    this->server.Accept();
-    
-    if(this->connections.size() <= MAX_CONNECTIONS) //Add client 
+    if(this->server.Accept() > 0)
     {
-        Admit();   
-    }
-    else
-    {
-        //reject connection.
-        server.Send("Chatroom is full.");
-    }
-    
-    this_thread::sleep_for(chrono::milliseconds(10));
-    server.CloseConnection();
+        if(this->connections.size() <= MAX_CONNECTIONS) //Add client 
+        {
+            Admit();   
+        }
+        else
+        {
+            //reject connection.
+            server.Send("Chatroom is full.");
+        }
+        
+        this_thread::sleep_for(chrono::milliseconds(10));
+        server.CloseConnection();
 
-    //Continue Listening 
-    ListenForConnections();
+        if(continueListening)
+        {
+            //Continue Listening 
+            ListenForConnections();
+        }
+    }
+    
+    
 }
 
 void ChatRoom::RemoveFromChatroom(int connectionID)
@@ -64,6 +71,10 @@ void ChatRoom::RemoveFromChatroom(int connectionID)
     //Close socket
     (*userIterator).connection->CloseConnection();
     (*userIterator).connection->Disconnect();
+
+    //free memory 
+    free((*userIterator).connection);
+    free((*userIterator).messageListener);
 
     //delete user from vector 
     this->connections.erase(userIterator);

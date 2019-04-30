@@ -7,6 +7,8 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
+    bool terminate = true;
+
     ChatRoom room("127.0.0.1", 55500);
 
     room.Startup();
@@ -16,11 +18,16 @@ int main(int argc, char** argv)
 
 
  
-    while(true)
+    while(terminate)
     {
         string input;
         getline(cin, input);
-      //  server->Send(input);
+
+        if(input == "quit")
+        {
+          room.Shutdown();
+          listenForConnnectionThread.join();
+          terminate = false;
+        }
     }
-    //Archive archive("hello.txt");
 }

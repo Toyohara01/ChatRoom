@@ -20,7 +20,6 @@ typedef struct User
     uint16_t port;
     string username;
     thread *messageListener;
-    thread *exitThread;
     Server *connection;
     bool continueReading;
 
@@ -34,7 +33,6 @@ typedef struct User
         this->messageListener = listener;
         this->connection = connection;
         this->continueReading = true;
-        this->exitThread = NULL;
     }
 }User;
 
