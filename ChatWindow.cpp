@@ -1,5 +1,5 @@
 #include "ChatWindow.hpp"
-#include "Crypto.hpp"
+#include "Archive.hpp"
 
 ChatWindow::ChatWindow(string ip, uint16_t port)
 {
@@ -19,18 +19,18 @@ void ChatWindow::Connect()
  */
 void ChatWindow::StringInterpreter(string input) //Create new message structure populate data send then display. 
 {
-    Enigma encryptObj;
-
     if(input == "quit")
     {
         this->continueSession = false;
     }
     else
     {
-        //encrypt string before sending. LAD
-        encryptObj.callEncrypt(input);
-
-        client.Send(input); 
+        
+		Archive.Save(input);
+		
+		
+		client.Send(input); 
+		
     }
     //Ideally it'll check to see if a defined function was entered execute that process 
     //but for now it'll display and send that input to other clients
