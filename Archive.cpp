@@ -26,27 +26,23 @@ buffered_fileReader::buffered_fileReader(string path, size_t size)
 	m_fs.seekg(0, m_fs.end);
 	m_fileSize = m_fs.tellg();
 	m_fs.seekg(0, m_fs.beg);
-
-
 }
 
-size_t buffered_fileReader::getNumberOfElements()
-{
+// size_t buffered_fileReader::getNumberOfElements()
+// {
 
-}
+// }
 
-// Stripe file over multiple disks
-char* stripeFile(char *inputFileName, int offsetSectors)
-{
-	int fd[5], idx;
-	FILE *fdin;
-	unsigned char stripe[5 * STRIP_SIZE];
-	int offset = 0, bread = 0, btoread = (4 * STRIP_SIZE), bwritten = 0, btowrite = (STRIP_SIZE), sectorCnt = 0, byteCnt = 0;
+// // Stripe file over multiple disks
+// char* stripeFile(char *inputFileName, int offsetSectors)
+// {
+// int fd[5], idx;
+// FILE *fdin;
+// unsigned char stripe[5*STRIP_SIZE];
+// int offset = 0, bread = 0, btoread = (4*STRIP_SIZE), bwritten = 0, btowrite = (STRIP_SIZE), sectorCnt = 0, byteCnt = 0;
 
-	//assert((fd[0] = file.open("Chatroom.txt", O_RDWR | O_CREAT, 0064)) != 0);
-}
-
-
+// //assert((fd[0] = file.open("Chatroom.txt", O_RDWR | O_CREAT, 0064)) != 0);
+// }
 
 // Archiving will put file / message into a destination
 Archive::Archive()
@@ -55,7 +51,7 @@ Archive::Archive()
 	cout << "File is being opened" << endl;
 }
 
-
+// Archive destructor
 Archive::~Archive()
 {
 	cout << "File is being closed" << endl;
@@ -123,7 +119,7 @@ void Archive::Load(string message)
 
 }
 
-/******************************************************************************/
+/**********************************RAID****************************************/
 // Raid-5 encoding 
 void Archive::xorArchive(char *LBA1,
 	char *LBA2,
@@ -153,7 +149,7 @@ void Archive::rebuildArchive(char *LBA1,
 	int idx;
 	/*unsigned*/ char checkParity;
 
-	for (int idx = 0; idx<SECTOR_SIZE; idx++)
+	for (idx = 0; idx<SECTOR_SIZE; idx++)
 	{
 		// Parity check word is simply XOR of remaining good LBAs
 		checkParity = (*(LBA1 + idx)) ^ (*(LBA2 + idx)) ^ (*(LBA3 + idx));
@@ -164,8 +160,8 @@ void Archive::rebuildArchive(char *LBA1,
 	}
 }
 
-int checkEquiv(char *LBA1,
-	char *LBA2)
+// Check disk equivalence
+int checkEquiv(char *LBA1, char *LBA2)
 {
 	int idx;
 
@@ -176,8 +172,10 @@ int checkEquiv(char *LBA1,
 			cout << "Equivalence check mismatch at byte " << idx << ": LBA1=0x" << (*LBA1 + idx) << ", LBA2=0x" << ((*LBA2 + idx)) << endl;
 		}
 	}
+	return idx;
 }
 
+// print buffer
 void printBuffer(char *bufferToPrint)
 {
 	int idx;
@@ -199,23 +197,7 @@ int main()
 	// array bounds
 	string msg;
 
-
-	int idx, LBAidx;
-
-#define theMessages "#This is a test case string of 0123456789#"
-
-#define NULL_RAID_STRING "#FFFFFFFFFFFFFFFF#"
-
-	static unsigned char testRebuild[MAX_LBAS][SECTOR_SIZE];
-	static unsigned char testLBA1[MAX_LBAS][SECTOR_SIZE];
-	static unsigned char testLBA2[MAX_LBAS][SECTOR_SIZE];
-	static unsigned char testLBA3[MAX_LBAS][SECTOR_SIZE];
-	static unsigned char testLBA4[MAX_LBAS][SECTOR_SIZE];
-
-	char testPLBA[MAX_LBAS][SECTOR_SIZE];
-
-#define PTR_CAST (char *)
-
+	int idx/*, LBAidx*/;
 
 	// get messages
 	do {
@@ -365,7 +347,7 @@ int main()
 			// file1="chatroom.txt";
 			ifstream  src("chatroom.txt", ios::out);
 			ofstream dir("chatroom.txt", ios::in);
-			string arr[500] = "chatroom.txt";
+			//string arr[500] = "chatroom.txt";
 
 			// set all test buffers
 			for (idx = 0; idx<MAX_LBAS; idx++)

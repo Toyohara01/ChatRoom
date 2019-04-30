@@ -15,6 +15,20 @@
 
 #define MAX_LBAS (1000)
 
+#define theMessages "#This is a test case string of 0123456789#"
+
+#define NULL_RAID_STRING "#FFFFFFFFFFFFFFFF#"
+
+#define PTR_CAST (char *)
+
+static unsigned char testRebuild[MAX_LBAS][SECTOR_SIZE];
+static unsigned char testLBA1[MAX_LBAS][SECTOR_SIZE];
+static unsigned char testLBA2[MAX_LBAS][SECTOR_SIZE];
+static unsigned char testLBA3[MAX_LBAS][SECTOR_SIZE];
+static unsigned char testLBA4[MAX_LBAS][SECTOR_SIZE];
+
+char testPLBA[MAX_LBAS][SECTOR_SIZE];
+
 using namespace std;
 
 class Archive
@@ -56,10 +70,7 @@ public:
 
 	int checkEquiv(char *LBA1, char *LBA2);
 
-	/******************************************************************************/
 };
 
-
-/******************************************************************************/
 
 #endif //ARCHIVE_HPP
