@@ -28,7 +28,6 @@ private:
     void Connect();
     
     void readMessageHandler();
-    void GarbageCollector();
     void StringInterpreter(string input);
 
 public:

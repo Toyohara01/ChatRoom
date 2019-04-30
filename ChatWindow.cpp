@@ -167,7 +167,7 @@ void ChatWindow::readMessageHandler()
         }
 
         //save encrypted string that was received
-        storageObj.save(input);
+        storageObj.Save(stringReceived);
 
         //Decrypt string for reading
         stringReceived = decryptObj.callDecrypt(stringReceived);
@@ -181,29 +181,7 @@ void ChatWindow::readMessageHandler()
     this_thread::sleep_for(chrono::milliseconds(10));
 }
 
-void ChatWindow::GarbageCollector()
-{
-    while(this->continueSession)
-    {
-        vector<thread>::iterator threadPtr;
 
-        if(this->processMessagesThreadBuffer.size() > 0)
-        {
-            for(threadPtr = this->processMessagesThreadBuffer.begin(); threadPtr < processMessagesThreadBuffer.end(); threadPtr++)
-            {
-                if((*threadPtr).joinable() == false)
-                {
-                    vector<thread>::iterator tempPtr = threadPtr;
-                    threadPtr--;
-
-                    this->processMessagesThreadBuffer.erase(tempPtr);
-                }
-            }
-        }
-
-        this_thread::sleep_for(chrono::seconds(10));
-    }
-}
 
 void ChatWindow::Logout()
 {
