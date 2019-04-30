@@ -21,6 +21,7 @@ void ChatWindow::Connect()
 void ChatWindow::StringInterpreter(string input) //Create new message structure populate data send then display. 
 {
     Enigma encryptObj;
+    Archive storageObj;
 
     if(input == "quit")
     {
@@ -31,7 +32,7 @@ void ChatWindow::StringInterpreter(string input) //Create new message structure 
         //encrypt input before sending. LAD
         encryptObj.callEncrypt(input);
 
-		Archive.Save(input);
+		storageObj.Save(input);
 		
 		client.Send(input); 
     }

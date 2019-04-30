@@ -1,5 +1,14 @@
-#include "../../Crypto.hpp"
 
+/******************************************************************************
+* enigmaTest.cpp                                                              *
+*   Test driver for the Crypto module, runs a user specified number of test   *
+*   cases in which a random string is generated, encryped and decrypted.      *
+*                                                                             *
+* Author: Lukas DeLong                                                        *
+* Spring 2019                                                                 *
+* SE420/SE310                                                                 *
+*******************************************************************************/
+#include "../../Crypto.hpp"
 #include <iostream>
 #include <random>
 #include <cstdlib>
