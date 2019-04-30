@@ -38,6 +38,12 @@ Crypto.o: ../../Crypto.hpp ../../Crypto.hpp
 CryptoTests.o: enigmaTest.cpp
 	$(CC) $(CFLAGS) -std=c++11 -c enigmaTest.cpp
 
+
+
+// TT
+Archive.o: ../../Archive.hpp ../../Arhive
+
+
 remove:
 	-rm -f *.o *.d *.exe 
 

@@ -2,6 +2,16 @@
 #define BUFFERED_FILEREADER_HPP
 
 
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <stdio.h>
+#include <ctime>
+#include <string.h>
+#include <assert.h>
+
+
+using namespace std;
 class buffered_fileReader
 {
 private:
