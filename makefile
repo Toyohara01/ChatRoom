@@ -5,7 +5,7 @@ CC = g++
 CDEFS=
 CFLAGS= $(INCLUDE_DIRS) $(CDEFS) -Wall -pthread -g
 CHATROOMOBJFILES = Server.o ChatRoom.o Message.o ChatRoomMain.o
-CHATWINDOWOBJFILES= ChatWindow.o Client.o Message.o ChatWindowMain.o ViewingLogic.o Crypto.o
+CHATWINDOWOBJFILES= ChatWindow.o Client.o Message.o ChatWindowMain.o ViewingLogic.o Crypto.o Archive.o
 LIBS= 
 
 SRCS= ${HFILES} ${CFILES}
