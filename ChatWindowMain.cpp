@@ -28,7 +28,6 @@ int main(int argc, char** argv)
     messages.clear();
     string userChoiceStr, msg;
     Archive inputMessage;
-    int idx;
 
     // Get IP Address and port of server to connect to. 
     string IPAddress = "127.0.0.1";

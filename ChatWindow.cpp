@@ -153,17 +153,13 @@ void ChatWindow::readMessageHandler()
         {
             stringReceived = client.Read();
         }
-        catch(const std::exception& e)
+        catch(const exception& e)
         {
-            std::cerr << e.what() << '\n';
+            cerr << e.what() << '\n';
         }
         catch(const NetworkError& e)
         {
             this->continueSession = false;
-        }
-        catch(const std::exception& e)
-        {
-            std::cerr << e.what() << '\n';
         }
 
         //save encrypted string that was received
