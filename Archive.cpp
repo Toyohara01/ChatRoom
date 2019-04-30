@@ -178,7 +178,7 @@ void Archive::rebuildArchive(char *LBA1,
 	char *RLBA)
 {
 	int idx;
-	unsigned char checkParity;
+	/*unsigned*/ char checkParity;
 
 	for (int idx = 0; idx<SECTOR_SIZE; idx++)
 	{
@@ -231,7 +231,7 @@ int main()
 
 #define theMessages "#This is a test case string of 0123456789#"
 
-#define NULL_RAID_STRING "#FFFFFFFFFFFFFFFF"
+#define NULL_RAID_STRING "#FFFFFFFFFFFFFFFF#"
 
 	static unsigned char testRebuild[MAX_LBAS][SECTOR_SIZE];
 	static unsigned char testLBA1[MAX_LBAS][SECTOR_SIZE];
@@ -264,7 +264,8 @@ int main()
 
 	// pass username and pwd
 	do {
-		cout << "View messages(1), delete(2), archived(3), quit(4), CheckEquiv(5), PerformRAID(6)" << endl;
+		cout << "View messages(1), delete(2), Quit(4)" << endl;
+		cout << "PerformRAID-0(7)\nPerformRaid-1(3)\nPerformRAID-4(8)\nPerformRAID-5(6)\nCheckEquivalence(5)" << endl;
 		cin >> options;
 
 		if (options == 1)
@@ -290,7 +291,7 @@ int main()
 
 			dst << src.rdbuf();
 
-			cout << "Archived successfully" << endl;
+			cout << "Disk 2 copied contents successfully" << endl;
 		}
 
 		// check for file equivalence
@@ -377,11 +378,11 @@ int main()
 
 			if (error_count > 0)
 			{
-				cout << "files are diffrent" << endl;
+				cout << "The two disks are different" << endl;
 			}
 			else
 			{
-				cout << "files are the same" << endl;
+				cout << "Disks match" << endl;
 			}
 			/******************************************************************************/
 		}
@@ -389,7 +390,9 @@ int main()
 		{
 			// string file1;
 			// file1="chatroom.txt";
-			ifstream  src("chatroom.txt", std::ios::out);
+			ifstream  src("chatroom.txt", ios::out);
+			ofstream dir("chatroom.txt", ios::in);
+			string arr[500] = "chatroom.txt";
 
 			// set all test buffers
 			for (idx = 0; idx<MAX_LBAS; idx++)
@@ -403,39 +406,35 @@ int main()
 				memcpy(&testRebuild[idx], NULL_RAID_STRING, SECTOR_SIZE);
 			}
 
-			for (idx = 0; idx<MAX_LBAS; idx++)
-			{
-				LBAidx = idx % MAX_LBAS;
+			// for(idx=0; idx<MAX_LBAS;idx++)
+			// {
+			// LBAidx = idx % MAX_LBAS;
 
-				// Computer XOR from 4 LBAs for RAID-5
-				cout << "Test Case 0 - Functional RAID-5" << endl;
-				inputMessage.xorArchive(PTR_CAST &testLBA1[LBAidx],
-					PTR_CAST &testLBA2[LBAidx],
-					PTR_CAST &testLBA3[LBAidx],
-					PTR_CAST &testLBA4[LBAidx],
-					PTR_CAST &testPLBA[LBAidx]);
+			// Computer XOR from 4 LBAs for RAID-5
+			cout << "Test Case 0 - Functional RAID-5" << endl;
+			inputMessage.xorArchive(PTR_CAST &testLBA1[0],
+				PTR_CAST &testLBA2[0],
+				PTR_CAST &testLBA3[0],
+				PTR_CAST &testLBA4[0],
+				PTR_CAST &testPLBA[0]);
 
-				// Now rebuild LBA into test to verify
-				inputMessage.rebuildArchive(PTR_CAST &testLBA1[LBAidx],
-					PTR_CAST &testLBA2[LBAidx],
-					PTR_CAST &testLBA3[LBAidx],
-					PTR_CAST &testLBA4[LBAidx],
-					PTR_CAST &testRebuild[LBAidx]);
+			// Now rebuild LBA into test to verify
+			inputMessage.rebuildArchive(PTR_CAST &testLBA1[0],
+				PTR_CAST &testLBA2[0],
+				PTR_CAST &testLBA3[0],
+				PTR_CAST &testLBA4[0],
+				PTR_CAST &testRebuild[0]);
 
-				cout << "LBA 4= " << endl;
-				printBuffer((char *)&testLBA4[4]);
-				//getchar();
+			cout << "LBA 4= " << endl;
+			printBuffer((char *)&testLBA4[0]);
+			getchar();
 
-				cout << "Recovered LBA 4= " << endl;
-				printBuffer((char *)&testRebuild[0]);
+			cout << "Recovered LBA 4= " << endl;
+			printBuffer((char *)&testRebuild[0]);
+			getchar();
 
-				assert(memcmp(testRebuild, testLBA4, SECTOR_SIZE) != 0);
-			}
+			assert(memcmp(testRebuild, testLBA4, SECTOR_SIZE) != 0);
+			//}
 		}
-
 	} while (options != 4);
-
-
-
-
 }

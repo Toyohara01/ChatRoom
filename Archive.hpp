@@ -9,11 +9,11 @@
 #include <string.h>
 #include <assert.h>
 
-#define SECTOR_SIZE (2048)
+#define SECTOR_SIZE (512)
 
 #define STRIP_SIZE (1024)
 
-#define MAX_LBAS (250)
+#define MAX_LBAS (1000)
 
 using namespace std;
 
@@ -54,8 +54,7 @@ public:
 		char *PLBA,
 		char *RLBA);
 
-	int checkEquiv(char *LBA1,
-		char *LBA2);
+	int checkEquiv(char *LBA1, char *LBA2);
 
 	/******************************************************************************/
 };
