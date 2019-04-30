@@ -3,37 +3,13 @@
 // system calls to read every x seconds to save 
 
 #include "Archive.hpp"
-
+#include "buffered_fileReader.hpp"
 
 /******************************************************************************/
-class buffered_fileReader
-{
-private:
 
-	// member vairables for reading the file
-	ifstream m_fs;
-	size_t m_fileSize;
-	string m_path; // idk
-
-				   // member variables to work on the file
-	size_t m_bufferSize;
-	size_t m_elements; // number of elements in buffers
-	size_t m_loadedElements;
-	size_t m_globalAddress;
-
-public:
-	buffered_fileReader();
-	buffered_fileReader(string path, size_t size);
-
-	// getter for buffers
-	size_t getNumberOfElements();
-	size_t getBufferSize();
-	char *getBuffer();
-};
 
 buffered_fileReader::buffered_fileReader()
 {
-
 }
 
 // initial values are set
@@ -58,10 +34,8 @@ size_t buffered_fileReader::getNumberOfElements()
 {
 
 }
-/******************************************************************************/
 
-/******************************************************************************/
-
+// Stripe file over multiple disks
 char* stripeFile(char *inputFileName, int offsetSectors)
 {
 	int fd[5], idx;
@@ -72,7 +46,6 @@ char* stripeFile(char *inputFileName, int offsetSectors)
 	//assert((fd[0] = file.open("Chatroom.txt", O_RDWR | O_CREAT, 0064)) != 0);
 }
 
-/******************************************************************************/
 
 
 // Archiving will put file / message into a destination
