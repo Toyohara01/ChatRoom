@@ -6,12 +6,14 @@ CDEFS=
 PFLAGS= $(INCLUDE_DIRS) $(CDEFS) -Wall -g
 CFLAGS= $(INCLUDE_DIRS) $(CDEFS) -Wall -g --coverage
 SOCKETTESTSOBJFILES = Server.o Client.o SocketTests.o
+CRYPTOTESTSOBJFILES = Crypto.o enigmaTest.o
 LIBS= 
 
 SRCS= ${HFILES} ${CFILES}
 OBJS= ${CFILES:.c=.o}
 
 SOCKETTESTS=socketTests
+CRYPTOTESTS=CryptoTests
 
 all:	${SOCKETTESTS}
 
@@ -27,7 +29,11 @@ Server.o: ../../Server.cpp ../../Server.hpp
 SocketTests.o: SocketTests.cpp
 	$(CC) $(CFLAGS) -c SocketTests.cpp
 
+Crypto.o: Crypto.hpp Crypto.hpp
+	$(CC) $(CFLAGS) -std=c++11 -c Crypto.cpp
 
+CryptoTests.o: enigmaTest.cpp
+	$(CC) $(CFLAGS) -std=c++11 -c enigmaTest.cpp
 
 
 
