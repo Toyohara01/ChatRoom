@@ -19,10 +19,8 @@ int main(int argc, char** argv)
     enum menuChoices {LOGIN = 1, 
 					CHATHISTORY = 2,
 					DELETE = 3,
-					RAID0 = 4,
-					RAID1 = 5,
-					RAID4 = 6,
-					EQUIV = 7};
+					RAID1 = 4,
+					EQUIV = 5};
 					
     vector<class Message> messages;
     messages.clear();
@@ -40,10 +38,8 @@ int main(int argc, char** argv)
         cout <<"Menu:"<<endl<<"1) Login to chatroom"<<endl;
 		cout <<"2) View previous Messages"<<endl;
 		cout <<"3) Delete Messages"<<endl;
-		cout <<"4) PerformRAID-0"<<endl;
-		cout <<"5) PerformRaid-1" << endl;
-		cout <<"6) PerformRAID-4" << endl;
-		cout <<"7) CheckEquivalence" << endl;//add more functionality 
+		cout <<"4) PerformRaid-1" << endl;
+		cout <<"5) CheckEquivalence" << endl;//add more functionality 
         
         
         getline(cin, userChoiceStr);
@@ -86,10 +82,6 @@ int main(int argc, char** argv)
 					file1.close();
                     break;
 				}
-			case RAID0:
-				{
-					break;
-				}
 			case RAID1:
 				{
 					// TEST CASE #2 (COPY FILE)
@@ -104,10 +96,6 @@ int main(int argc, char** argv)
 					cout << "Disk 2 copied contents successfully" << endl;
 					cout <<	"Original and backup now match" << endl;	
                     break;				
-				}
-			case RAID4:
-				{
-                    break;
 				}
 			case EQUIV:
 				{
