@@ -24,6 +24,8 @@
 
 // char testPLBA[MAX_LBAS][SECTOR_SIZE];
 
+char testPLBA[MAX_LBAS][SECTOR_SIZE];
+
 // print buffer
 void printBuffer(char *bufferToPrint)
 {

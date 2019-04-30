@@ -9,6 +9,8 @@
 #include <string.h>
 #include <assert.h>
 
+using namespace std;
+
 #define SECTOR_SIZE (512)
 
 #define STRIP_SIZE (1024)
@@ -27,9 +29,9 @@ static unsigned char testLBA2[MAX_LBAS][SECTOR_SIZE];
 static unsigned char testLBA3[MAX_LBAS][SECTOR_SIZE];
 static unsigned char testLBA4[MAX_LBAS][SECTOR_SIZE];
 
-char testPLBA[MAX_LBAS][SECTOR_SIZE];
+//char testPLBA[MAX_LBAS][SECTOR_SIZE];
 
-using namespace std;
+
 
 class Archive
 {
