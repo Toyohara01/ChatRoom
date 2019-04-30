@@ -28,7 +28,7 @@ int main(int argc, char** argv)
     Archive inputMessage;
 
     // Get IP Address and port of server to connect to. 
-    string IPAddress = "172.30.120.242";
+    string IPAddress = "172.30.230.36";
     uint16_t Port = 55500; //Hardcode for initial connection then reassign once connection is made 
    
 

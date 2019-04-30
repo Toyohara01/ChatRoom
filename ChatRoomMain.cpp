@@ -9,7 +9,7 @@ int main(int argc, char** argv)
 {
     bool terminate = true;
 
-    ChatRoom room("172.30.120.242", 55500);
+    ChatRoom room("172.30.230.36", 55500);
 
     room.Startup();
 
