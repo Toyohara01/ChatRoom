@@ -19,8 +19,6 @@
 
 #include "Exception.hpp"
 
-using namespace std;
-
 //Constants 
 #define BUFFER_SIZE 2048
 #define CONNECTIONACCEPTANCERATE 1
@@ -30,7 +28,7 @@ class Server
 private:
 	int sockID;
 	int connectionID;
-	string ipAddress;
+	std::string ipAddress;
 	uint16_t port;
 
 	int SetupSocket();
@@ -40,16 +38,14 @@ private:
 public:
 
 	Server();
-    Server(string ip, uint16_t port);
+    Server(std::string ip, uint16_t port);
 	~Server();
 	void Disconnect();
 	void CloseConnection();
-	void Send(string input);
-	string Read();
+	void Send(std::string input);
+	std::string Read();
 	int CreateListeningSocket();
 	int Accept();	
-
-
 };
 
 #endif

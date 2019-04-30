@@ -61,7 +61,7 @@ char Enigma::reflector[26]=
     'C', 'V', 'V', 'J', 'A', 'T'
 };
 
-Enigma::Enigma() //base off of time zone
+Enigma::Enigma()
 {
     //find current time and date. LAD
     time_t currentDate = time(0);

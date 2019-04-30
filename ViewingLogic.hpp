@@ -1,7 +1,9 @@
 #ifndef VIEWINGLOGIC_HPP
 #define VIEWINGLOGIC_HPP
 
-#include <curses.h>
+#include<iostream> 
+#include<vector>
+#include<iterator> 
 
 class ViewingLogic
 {
@@ -16,7 +18,7 @@ public:
     void ClearLine();
     void ClearWindow();
 
-
+    static void Display(std::vector<std::string> input);
 };
 
 #endif //VIEWINGLOGIC_HPP

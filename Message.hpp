@@ -104,6 +104,7 @@ public:
 	Message(); 
     Message(string packet, Type messageType);
 	vector<string> parse(string input);
+	
     ~Message();
 };
 

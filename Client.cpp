@@ -1,3 +1,5 @@
+
+
 #include "Client.hpp"
 
 Client::~Client()
@@ -68,9 +70,5 @@ int Client::Connect(string ip, uint16_t port)
 
 void Client::Disconnect()
 {
-    if(close(connectionID) < 0)
-    {
-        //perror("Error on closing socket");
-        //exit(EXIT_FAILURE);
-    }
+    close(this->connectionID);
 }
