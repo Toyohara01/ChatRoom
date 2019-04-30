@@ -16,15 +16,15 @@
 
 // using namespace std;
 
-// static unsigned char testRebuild[MAX_LBAS][SECTOR_SIZE];
-// static unsigned char testLBA1[MAX_LBAS][SECTOR_SIZE];
-// static unsigned char testLBA2[MAX_LBAS][SECTOR_SIZE];
-// static unsigned char testLBA3[MAX_LBAS][SECTOR_SIZE];
-// static unsigned char testLBA4[MAX_LBAS][SECTOR_SIZE];
-
-// char testPLBA[MAX_LBAS][SECTOR_SIZE];
+static unsigned char testRebuild[MAX_LBAS][SECTOR_SIZE];
+static unsigned char testLBA1[MAX_LBAS][SECTOR_SIZE];
+static unsigned char testLBA2[MAX_LBAS][SECTOR_SIZE];
+static unsigned char testLBA3[MAX_LBAS][SECTOR_SIZE];
+static unsigned char testLBA4[MAX_LBAS][SECTOR_SIZE];
 
 char testPLBA[MAX_LBAS][SECTOR_SIZE];
+
+
 
 // print buffer
 void printBuffer(char *bufferToPrint)
