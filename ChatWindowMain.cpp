@@ -1,6 +1,26 @@
 #include "ChatWindow.hpp"
 #include "Archive.hpp"
 
+static unsigned char testRebuild[MAX_LBAS][SECTOR_SIZE];
+static unsigned char testLBA1[MAX_LBAS][SECTOR_SIZE];
+static unsigned char testLBA2[MAX_LBAS][SECTOR_SIZE];
+static unsigned char testLBA3[MAX_LBAS][SECTOR_SIZE];
+static unsigned char testLBA4[MAX_LBAS][SECTOR_SIZE];
+
+char testPLBA[MAX_LBAS][SECTOR_SIZE];
+
+// print buffer
+void printBuffer(char *bufferToPrint)
+{
+	int idx;
+
+	for (idx = 0; idx < SECTOR_SIZE; idx++)
+	{
+		cout << bufferToPrint[idx];
+	}
+	cout << endl;
+}
+
 int main(int argc, char** argv)
 {
     enum menuChoices {LOGIN = 1, 
@@ -14,7 +34,9 @@ int main(int argc, char** argv)
 					
     vector<class Message> messages;
     messages.clear();
-    string userChoiceStr;
+    string userChoiceStr, msg;
+    Archive inputMessage;
+    int idx;
 
     // Get IP Address and port of server to connect to. 
     string IPAddress = "127.0.0.1";
@@ -232,6 +254,6 @@ int main(int argc, char** argv)
 					}
 				}
 
-        //clear input buffer for next user input 
-    }
+        }//clear input buffer for next user input 
+    }   
 }
