@@ -1,5 +1,13 @@
-#include "../../Crypto.hpp"
 
+/******************************************************************************
+* enigmaTest.cpp                                                              *
+*   Test driver for the Crypto module                                         *
+*                                                                             *
+* Author: Lukas DeLong                                                        *
+* Spring 2019                                                                 *
+* SE420/SE310                                                                 *
+*******************************************************************************/
+#include "../../Crypto.hpp"
 #include <iostream>
 #include <random>
 #include <cstdlib>

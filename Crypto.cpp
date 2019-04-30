@@ -8,7 +8,6 @@
 * Spring 2019                                                                 *
 * SE420/SE310                                                                 *
 *******************************************************************************/
-
 #include "Crypto.hpp"
 #include <iostream>
 #include <ctime>
