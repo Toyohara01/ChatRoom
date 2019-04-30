@@ -54,7 +54,7 @@ remove:
 
 clean:
 	-rm -f *.o *.d *.exe *.gcov *.gcda *.gcno
-	-rm -f ${SOCKETTESTS} ${GARBAGE}
+	-rm -f ${SOCKETTESTS} ${ARCHIVETEST} ${ENIGMATEST} ${GARBAGE}
 
 depend:
 

@@ -26,6 +26,7 @@ void ChatWindow::StringInterpreter(string input) //Create new message structure 
     if(input == "quit")
     {
         this->continueSession = false;
+        this->client.Disconnect();
     }
     else
     {
@@ -47,6 +48,8 @@ void ChatWindow::StringInterpreter(string input) //Create new message structure 
 void ChatWindow::ProcessMessage(string input) //change to message input later 
 {
     cout<<input<<endl;
+
+    this_thread::sleep_for(chrono::milliseconds(10));
 }
 
 bool ChatWindow::Login()
@@ -131,21 +134,47 @@ void ChatWindow::Chat()
 
         StringInterpreter(input);
     }
+
+    this->readMessagesThread.join();
 }
 
 void ChatWindow::readMessageHandler()
 {
     Enigma decryptObj;
 
+    //thread garbageCollector(&ChatWindow::GarbageCollector, this);
+
     while(continueSession)
     {
-        string stringReceived = client.Read();
+        string stringReceived;
+
+        try
+        {
+            stringReceived = client.Read();
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+        catch(const NetworkError& e)
+        {
+            this->continueSession = false;
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
 
         //Decrypt string for reading
         stringReceived = decryptObj.callDecrypt(stringReceived);
 
-        this->processMessagesThreadBuffer.push_back(thread(&ChatWindow::ProcessMessage, this, stringReceived));
+        ProcessMessage(stringReceived);
+        //this->processMessagesThreadBuffer.push_back(thread(&ChatWindow::ProcessMessage, this, stringReceived));
     }
+
+    //garbageCollector.join();
+
+    this_thread::sleep_for(chrono::milliseconds(10));
 }
 
 void ChatWindow::GarbageCollector()
@@ -168,7 +197,7 @@ void ChatWindow::GarbageCollector()
             }
         }
 
-        this_thread::sleep_for(chrono::seconds(1));
+        this_thread::sleep_for(chrono::seconds(10));
     }
 }
 

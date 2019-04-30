@@ -20,30 +20,34 @@ int main(int argc, char** argv)
         
         getline(cin, userChoiceStr);
         
-        int userChoice = stoi(userChoiceStr);
+        if(userChoiceStr != "quit")
+        {
+            int userChoice = stoi(userChoiceStr);
 
-        switch (userChoice)
-        {            
-        case LOGIN:
-            {
-                ChatWindow window(IPAddress, Port);
+            switch (userChoice)
+            {            
+            case LOGIN:
+                {
+                    ChatWindow window(IPAddress, Port);
 
-                if(window.Login())
-                {
-                    window.Chat();
-                }
-                else
-                {
-                    cout<<endl<<"Max attempts reached... returning to main menu"<<endl;
-                    //Chat session has ended or max number of tries exceeded. 
+                    if(window.Login())
+                    {
+                        window.Chat();
+                    }
+                    else
+                    {
+                        cout<<endl<<"Max attempts reached... returning to main menu"<<endl;
+                        //Chat session has ended or max number of tries exceeded. 
+                    }
+
                     window.Disconnect();
                 }
+                break;
+            
+            default:
+                cout<<"Invalid choice entered please try again."<<endl;
+                break;
             }
-            break;
-        
-        default:
-            cout<<"Invalid choice entered please try again."<<endl;
-            break;
         }
 
         //clear input buffer for next user input 
