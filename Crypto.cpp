@@ -75,9 +75,6 @@ Enigma::Enigma()
 
 int Enigma::findIndex(char letter, ROTOR mode, SIDE side, int refIdx)
 {
-    //varaible for searching through array. LAD
-    int arrayIdx = 0;
-
     //mode determines what rotor to search through. LAD
     switch(mode)
     {
@@ -143,19 +140,22 @@ int Enigma::findIndex(char letter, ROTOR mode, SIDE side, int refIdx)
         //invalid input. LAD
         default:
             cout << "something went wrong with mode arguement." << endl; //NOTE: replace with actual error handling. LAD
+            return(0);
         break;
     }
+
+    return(0);
 }
 
 string Enigma::Encrypt(string input)    //NOTE: need to add rotor rotation stuff. LAD
 {
     //define variables. LAD
     char tempChar;
-    int tempIdx, i;
+    int tempIdx;
     string tempString;
 
     //loop through every character in the input string. LAD
-    for(int i=0; i<input.length();i++)
+    for(unsigned int i=0; i<input.length();i++)
     {
         //if the current character is a letter
         if(isalpha(input.at(i)))
@@ -267,11 +267,11 @@ string Enigma::Decrypt(string input)
 {
     //define variables. LAD
     char tempChar;
-    int tempIdx, i;
+    int tempIdx;
     string tempString;
 
     //loop through every character in the input string. LAD
-    for(int i=0; i<input.length();i++)
+    for(unsigned int i=0; i<input.length();i++)
     {
         //if the current character is a letter
         if(isalpha(input.at(i)))

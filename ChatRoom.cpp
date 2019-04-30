@@ -89,7 +89,7 @@ void ChatRoom::ReadHandler(int connectionID)
         {
             newMessage = (*(*userIterator).connection).Read();
         }
-        catch(const ReadError& e)
+        catch(const NetworkError& e)
         {
             continueRead = false;
         }

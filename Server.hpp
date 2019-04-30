@@ -1,3 +1,11 @@
+/**************************************************************************
+ * 
+ * Module that gives the hosting capabilities to a higher class.
+ * Allows for sockets to be created and bounded to a port and allows
+ * for connections to be established so that messages can be sent back 
+ * and forth over a network. 
+ * 
+***************************************************************************/
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
