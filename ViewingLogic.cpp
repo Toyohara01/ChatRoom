@@ -36,6 +36,6 @@ static void Display(std::vector<std::string> input)
         {
             std::cout<<temp<<std::endl;
         }
-        
+
     }
 }

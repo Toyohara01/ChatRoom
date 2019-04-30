@@ -203,7 +203,10 @@ void Server::Disconnect()
 
 /**************************************************************************
  * 
+ * Receives message from client over the network. 
  * 
+ * Outputs: 
+ *      -> message received 
  * 
 ***************************************************************************/
 std::string Server::Read()
@@ -213,12 +216,14 @@ std::string Server::Read()
         char buffer[BUFFER_SIZE];
         memset(buffer, '\0', BUFFER_SIZE);
 
-        //Insert a recursive reading until buffer is full. If it needs to be full. full of '\0'?
+        //Insert a recursive reading until buffer is full. KAP
         ssize_t bytesRead = read(this->connectionID, buffer, BUFFER_SIZE);
 
+        // Throw exception if zero bytes are read, connction interrupted begin
+        // throw exception KAP
         if(bytesRead <= 0)
         {
-            throw ReadError();
+            throw NetworkError();
         }
 
         std::string message(buffer);
@@ -226,21 +231,27 @@ std::string Server::Read()
         return message; 
     }
 }
- 
+
+ /**************************************************************************
+ * 
+ * Sends message to client over the network. 
+ * 
+***************************************************************************/
 void Server::Send(std::string input)
 {
     static std::mutex mtx;
     char messageBuffer[BUFFER_SIZE];
     strcpy(messageBuffer, input.c_str());
 
-    //while loop that continues to send until all bytes in buffer are sent?  
+    // Allow only one thread to send message at a time KAP
     mtx.lock();
     ssize_t bytesSent = send(this->connectionID, messageBuffer, sizeof(messageBuffer), 0);
     mtx.unlock();
 
+    //If 0 bytes are sent then connection was interuptted during send 
+    // throw exception KAP
     if(bytesSent <= 0)
     {
-        perror("Error sending packet");
-        exit(EXIT_FAILURE);
+        throw NetworkError();
     }
 }

@@ -3,7 +3,7 @@
 
 #include <exception>
 
-class ReadError: public std::exception
+class NetworkError: public std::exception
 {
   virtual const char* what() const throw()
   {
