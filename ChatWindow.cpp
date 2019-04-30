@@ -141,6 +141,7 @@ void ChatWindow::Chat()
 void ChatWindow::readMessageHandler()
 {
     Enigma decryptObj;
+    Archive storageObj;
 
     //thread garbageCollector(&ChatWindow::GarbageCollector, this);
 
@@ -164,6 +165,9 @@ void ChatWindow::readMessageHandler()
         {
             std::cerr << e.what() << '\n';
         }
+
+        //save encrypted string that was received
+        storageObj.save(input);
 
         //Decrypt string for reading
         stringReceived = decryptObj.callDecrypt(stringReceived);
