@@ -30,7 +30,7 @@ void ChatWindow::StringInterpreter(string input) //Create new message structure 
     else
     {
         //encrypt input before sending. LAD
-        encryptObj.callEncrypt(input);
+        input = encryptObj.callEncrypt(input);
 
 		storageObj.Save(input);
 		
@@ -142,7 +142,7 @@ void ChatWindow::readMessageHandler()
         string stringReceived = client.Read();
 
         //Decrypt string for reading
-        decryptObj.callDecrypt(stringReceived);
+        stringReceived = decryptObj.callDecrypt(stringReceived);
 
         this->processMessagesThreadBuffer.push_back(thread(&ChatWindow::ProcessMessage, this, stringReceived));
     }

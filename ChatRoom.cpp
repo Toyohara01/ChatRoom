@@ -5,6 +5,7 @@ ChatRoom::ChatRoom(string IPAddress, uint16_t port)
     this->IPAddress = IPAddress;
     this->port = port;
     this->server = Server(IPAddress, port);
+    this->connections.reserve(10);
 }
 
 ChatRoom::~ChatRoom()
@@ -150,9 +151,6 @@ void ChatRoom::Admit()
 
     newClientID = newConnection->Accept();
     string temp = newConnection->Read();
-
-    this->server.CloseConnection();
-
     
     numOfTries++;
 

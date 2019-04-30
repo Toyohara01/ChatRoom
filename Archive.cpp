@@ -9,13 +9,13 @@
 Archive::Archive()
 {
 	//archivedMessage = /*filepath*/message;
-	cout << "File is being opened" << endl;
+	//cout << "File is being opened" << endl;
 }
 
 // Archive destructor
 Archive::~Archive()
 {
-	cout << "File is being closed" << endl;
+	//cout << "File is being closed" << endl;
 }
 
 // Save the message into the arhive

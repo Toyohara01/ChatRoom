@@ -3,7 +3,7 @@ LIB_DIRS =
 CC = g++
 
 CDEFS=
-CFLAGS= $(INCLUDE_DIRS) $(CDEFS) -Wall -pthread -g
+CFLAGS= $(INCLUDE_DIRS) $(CDEFS) -Wall -pthread --coverage -g
 CHATROOMOBJFILES = Server.o ChatRoom.o Message.o ChatRoomMain.o
 CHATWINDOWOBJFILES= ChatWindow.o Client.o Message.o ChatWindowMain.o ViewingLogic.o Crypto.o Archive.o
 LIBS= 
@@ -57,7 +57,7 @@ remove:
 	-rm -f *.o *.d *.exe 
 
 clean:
-	-rm -f *.o *.d *.exe 
+	-rm -f *.o *.d *.exe *.gcov *.gcda *.gcno
 	-rm -f ${CHATROOM} ${CHATWINDOW} ${GARBAGE}
 
 depend:
