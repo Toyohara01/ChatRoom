@@ -43,7 +43,7 @@ int main()
 
         clock_t end = clock();
 
-        avgTime = avgTime + double(end - start);
+        avgTime = (avgTime + double(end - start))/CLOCKS_PER_SEC;
 
         //if the input string is not equal to the decrypted string
         if(testText != decText)
@@ -61,7 +61,7 @@ int main()
 
     cout << pass << " successes" << endl;
     cout << fail << " failures" << endl;
-    cout << "Average time to execute: " << avgTime << endl;
+    cout << "Average time(s) to execute: " << avgTime << endl;
 }
 
 void gen_random(char *s, const int len)
