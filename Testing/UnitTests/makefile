@@ -38,7 +38,8 @@ CryptoTests.o: enigmaTest.cpp
 
 
 // TT
-Archive.o: ../../Archive.hpp ../../Arhive
+Archive.o: ../../Archive.hpp ../../Archive.cpp
+	$(CC) $(CFLAGS) -c ../../Archive.cpp
 
 
 remove:
