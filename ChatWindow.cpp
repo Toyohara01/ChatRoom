@@ -131,9 +131,14 @@ void ChatWindow::Chat()
 
 void ChatWindow::readMessageHandler()
 {
+    Enigma decryptObj;
+
     while(continueSession)
     {
         string stringReceived = client.Read();
+
+        //Decrypt string for reading
+        decryptObj.callDecrypt(stringReceived);
 
         this->processMessagesThreadBuffer.push_back(thread(&ChatWindow::ProcessMessage, this, stringReceived));
     }
