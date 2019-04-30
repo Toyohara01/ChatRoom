@@ -271,11 +271,14 @@ string Enigma::Decrypt(string input)
 {
     //define variables. LAD
     char tempChar;
-    int tempIdx;
+    int tempIdx, beginIdx;
     string tempString;
 
+    //Find begining of the message
+    beginIdx = input.find(':');
+
     //loop through every character in the input string. LAD
-    for(unsigned int i=0; i<input.length();i++)
+    for(unsigned int i=beginIdx; i<input.length();i++)
     {
         //if the current character is a letter
         if(isalpha(input.at(i)))
