@@ -27,7 +27,6 @@ class Crypto
 
 class Enigma : public Crypto
 {
-        
     typedef enum rotor_name
     {
         FIRST_ROTOR,

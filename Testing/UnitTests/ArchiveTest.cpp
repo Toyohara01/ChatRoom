@@ -6,16 +6,6 @@
 #include <assert.h>
 #include <string.h>
 
-
-
-// #define MAX_LBAS (1000)
-// #define SECTOR_SIZE (512)
-// #define theMessages "#This is a test case string of 0123456789#"
-// #define NULL_RAID_STRING "#FFFFFFFFFFFFFFFF#"
-// #define PTR_CAST (char *)
-
-// using namespace std;
-
 static unsigned char testRebuild[MAX_LBAS][SECTOR_SIZE];
 static unsigned char testLBA1[MAX_LBAS][SECTOR_SIZE];
 static unsigned char testLBA2[MAX_LBAS][SECTOR_SIZE];
@@ -23,7 +13,6 @@ static unsigned char testLBA3[MAX_LBAS][SECTOR_SIZE];
 static unsigned char testLBA4[MAX_LBAS][SECTOR_SIZE];
 
 char testPLBA[MAX_LBAS][SECTOR_SIZE];
-
 
 
 // print buffer
@@ -40,7 +29,6 @@ void printBuffer(char *bufferToPrint)
 
 int main(int argc, char *argv[])
 {
-	//Archive inputMessage;
 	int idx;
 	Archive inputMessage;
 	int loop = 1, options = 0;
@@ -48,22 +36,24 @@ int main(int argc, char *argv[])
 	// array bounds
 	string msg;
 
-	//int idx/*, LBAidx*/;
-
 	// get messages
 	do {
-		cout << "Enter a message..." << endl;
+		cout << "Enter a message...(enter 'e' to exit)" << endl;
 
 		// Get line with spaces
 		getline(cin, msg);
 
 
-		if (msg == "exit")
+		// User will exit message input, and continue to next screen
+		if (msg == "e")
 		{
 			loop = 0;
 		}
+		
+		// User will keep inputting messages
 		else
 		{
+			// send message inputs to save
 			inputMessage.Save(msg);
 		}
 	} while (loop == 1);
@@ -71,13 +61,20 @@ int main(int argc, char *argv[])
 	// pass username and pwd
 	do {
 		cout << "View messages(1), delete(2), Quit(3)" << endl;
-		cout << "PerformRAID-0(4)\nPerformRaid-1(5)\nPerformRAID-4(6)\nPerformRAID-5(7)\nCheckEquivalence(8)" << endl;
+		cout << "PerformRAID-0(4)" << endl;
+		cout << "PerformRaid-1(5)" << endl;
+		cout << "PerformRAID-4(6)" << endl;
+		cout << "PerformRAID-5(7)" << endl;
+		cout << "CheckEquivalence(8)" << endl;
 		cin >> options;
 
+		// view messages
 		if (options == 1)
 		{
 			inputMessage.Load(msg);
 		}
+		
+		// delete all messages
 		else if (options == 2)
 		{
 			cout << "Messages deleted: " << endl;
@@ -98,13 +95,17 @@ int main(int argc, char *argv[])
 		// RAID-1
 		else if (options == 5)
 		{
+			// TEST CASE #2 (COPY FILE)
+			
 			// copy contents to another file
 			ifstream  src("chatroom.txt", std::ios::binary);
 			ofstream  dst("backupChatroom.txt", std::ios::binary);
 
+			// contents being placed in backup file
 			dst << src.rdbuf();
 
-			cout << "Disk 2 copied contents successfully" << endl;			
+			cout << "Disk 2 copied contents successfully" << endl;
+			cout <<	"Original and backup now match" << endl;
 		}
 		
 		// RAID-4
@@ -121,15 +122,17 @@ int main(int argc, char *argv[])
 			{
 
 				// need this to process chatroom.txt
+				// theMessages will be stored in testLBAN 
 				memcpy(&testLBA1[idx], theMessages, SECTOR_SIZE);
 				memcpy(&testLBA2[idx], theMessages, SECTOR_SIZE);
 				memcpy(&testLBA3[idx], theMessages, SECTOR_SIZE);
 				memcpy(&testLBA4[idx], theMessages, SECTOR_SIZE);
 				memcpy(&testRebuild[idx], NULL_RAID_STRING, SECTOR_SIZE);
 
-				// TEST CASE 1
+				// TEST CASE 1 (Ability to recover from data loss)
+				
 				// Computer XOR from 4 LBAs for RAID-5
-				cout << "Test Case 0 - Functional RAID-5" << endl;
+				cout << "Test Case 1 - Functional RAID-5" << endl;
 				inputMessage.xorArchive(PTR_CAST &testLBA1[0],
 					PTR_CAST &testLBA2[0],
 					PTR_CAST &testLBA3[0],
@@ -169,6 +172,7 @@ int main(int argc, char *argv[])
 			chatroomFile1.open(file1.c_str(), ios::binary);
 			chatroomFile2.open(file2.c_str(), ios::binary);
 
+			// Error statements in case files do not open
 			if (!chatroomFile1)
 			{
 				cout << "Couldn't open the file  " << file1 << endl;
@@ -181,22 +185,21 @@ int main(int argc, char *argv[])
 				return 1;
 			}
 
-			//---------- compare number of lines in both files ------------------//
+			// Compare number of lines in both files 
 			int compare1, compare2;
 
 			compare1 = 0;
 			compare2 = 0;
 			string str;
 
+			// Get contents in file1 until the end-of-file
 			while (!chatroomFile1.eof())
 			{
 				getline(chatroomFile1, str);
 				compare1++;
 			}
 
-			//    chatroomFile1.clear();   //  set new value for error control state  //
-			//    chatroomFile2.seekg(0,ios::beg);
-
+			// Get contents in file2 until the end-of-file
 			while (!chatroomFile2.eof())
 			{
 				getline(chatroomFile2, str);
@@ -210,6 +213,7 @@ int main(int argc, char *argv[])
 			chatroomFile2.clear();
 			chatroomFile2.seekg(0, ios::beg);
 
+			// If the files do not match show user witch lines do not
 			if (compare1 != compare2)
 			{
 				cout << "The files have a different number of lines" << endl;
@@ -218,7 +222,7 @@ int main(int argc, char *argv[])
 				//return 1;
 			}
 
-			//---------- compare two files line by line ------------------//
+			// Compare two files line by line
 			char string1[512], string2[512];
 			int j = 0, error_count = 0;
 
