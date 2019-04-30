@@ -15,7 +15,7 @@ OBJS= ${CFILES:.c=.o}
 SOCKETTESTS=socketTests
 CRYPTOTESTS=CryptoTests
 
-all:	${SOCKETTESTS}
+all:	${SOCKETTESTS} ${CRYPTOTESTS}
 
 $(SOCKETTESTS) : $(SOCKETTESTSOBJFILES)
 	$(CC) $(CFLAGS) $(SOCKETTESTSOBJFILES) -o $(SOCKETTESTS)
@@ -24,13 +24,16 @@ Client.o: ../../Client.hpp ../../Client.cpp
 	$(CC) $(CFLAGS) -std=c++11 -c ../../Client.cpp	
 
 Server.o: ../../Server.cpp ../../Server.hpp
-	$(CC) $(CFLAGS) -c ../../Server.cpp
+	$(CC) $(CFLAGS) -std=c++11 -c ../../Server.cpp
 
 SocketTests.o: SocketTests.cpp
-	$(CC) $(CFLAGS) -c SocketTests.cpp
+	$(CC) $(CFLAGS) -std=c++11 -c SocketTests.cpp
 
-Crypto.o: Crypto.hpp Crypto.hpp
-	$(CC) $(CFLAGS) -std=c++11 -c Crypto.cpp
+$(CRYPTOTESTS) : $(CRYPTOTESTSOBJFILES)
+	$(CC) $(CFLAGS) $(CRYPTOTESTSOBJFILES) -o $(CRYPTOTESTS)
+
+Crypto.o: ../../Crypto.hpp ../../Crypto.hpp
+	$(CC) $(CFLAGS) -std=c++11 -c ../../Crypto.cpp
 
 CryptoTests.o: enigmaTest.cpp
 	$(CC) $(CFLAGS) -std=c++11 -c enigmaTest.cpp
