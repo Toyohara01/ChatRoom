@@ -29,6 +29,12 @@ SocketTests.o: SocketTests.cpp
 
 
 
+
+
+// TT
+Archive.o: ../../Archive.hpp ../../Arhive
+
+
 remove:
 	-rm -f *.o *.d *.exe 
 
