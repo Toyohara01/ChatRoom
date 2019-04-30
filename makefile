@@ -24,7 +24,7 @@ $(CHATWINDOW) : $(CHATWINDOWOBJFILES)
 	$(CC) $(CFLAGS) $(CHATWINDOWOBJFILES) -o $(CHATWINDOW)
 
 Enigma.o: Enigma.hpp Enigma.cpp
-	$(CC) $(CFLAGS) -c Enigma.cpp
+	$(CC) $(CFLAGS) -std=c++11 -c Enigma.cpp
 
 Archive.o: Archive.hpp Archive.cpp
 	$(CC) $(CFLAGS) -c Archive.cpp
