@@ -23,8 +23,8 @@ $(CHATROOM) : $(CHATROOMOBJFILES)
 $(CHATWINDOW) : $(CHATWINDOWOBJFILES)
 	$(CC) $(CFLAGS) $(CHATWINDOWOBJFILES) -o $(CHATWINDOW)
 
-Enigma.o: Enigma.hpp Enigma.cpp
-	$(CC) $(CFLAGS) -std=c++11 -c Enigma.cpp
+Crypto.o: Crypto.hpp Crypto.cpp
+	$(CC) $(CFLAGS) -std=c++11 -c Crypto.cpp
 
 Archive.o: Archive.hpp Archive.cpp
 	$(CC) $(CFLAGS) -c Archive.cpp
