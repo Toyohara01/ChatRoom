@@ -1,7 +1,8 @@
 
 /******************************************************************************
 * enigmaTest.cpp                                                              *
-*   Test driver for the Crypto module                                         *
+*   Test driver for the Crypto module, runs a user specified number of test   *
+*   cases in which a random string is generated, encryped and decrypted.      *
 *                                                                             *
 * Author: Lukas DeLong                                                        *
 * Spring 2019                                                                 *
