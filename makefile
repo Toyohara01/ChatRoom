@@ -33,10 +33,10 @@ Client.o: Client.hpp Client.cpp
 	$(CC) $(CFLAGS) -std=c++11 -c Client.cpp	
 
 Server.o: Server.cpp Server.hpp
-	$(CC) $(CFLAGS) -c Server.cpp
+	$(CC) $(CFLAGS) -std=c++11 -c Server.cpp
 
 Message.o: Message.cpp Message.hpp
-	$(CC) $(CFLAGS) -c Message.cpp
+	$(CC) $(CFLAGS) -std=c++11 -c Message.cpp
 
 ViewingLogic.o: ViewingLogic.cpp ViewingLogic.hpp
 	$(CC) $(CFLAGS) -c ViewingLogic.cpp
