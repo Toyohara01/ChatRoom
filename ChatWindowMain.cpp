@@ -1,13 +1,6 @@
 #include "ChatWindow.hpp"
 #include "Archive.hpp"
 
-static unsigned char testRebuild[MAX_LBAS][SECTOR_SIZE];
-static unsigned char testLBA1[MAX_LBAS][SECTOR_SIZE];
-static unsigned char testLBA2[MAX_LBAS][SECTOR_SIZE];
-static unsigned char testLBA3[MAX_LBAS][SECTOR_SIZE];
-static unsigned char testLBA4[MAX_LBAS][SECTOR_SIZE];
-
-char testPLBA[MAX_LBAS][SECTOR_SIZE];
 
 // print buffer
 void printBuffer(char *bufferToPrint)
@@ -29,8 +22,7 @@ int main(int argc, char** argv)
 					RAID0 = 4,
 					RAID1 = 5,
 					RAID4 = 6,
-					RAID5 = 7,
-					EQUIV = 8};
+					EQUIV = 7};
 					
     vector<class Message> messages;
     messages.clear();
@@ -52,8 +44,7 @@ int main(int argc, char** argv)
 		cout <<"4) PerformRAID-0"<<endl;
 		cout <<"5) PerformRaid-1" << endl;
 		cout <<"6) PerformRAID-4" << endl;
-		cout <<"7) PerformRAID-5" << endl;
-		cout <<"8) CheckEquivalence" << endl;//add more functionality 
+		cout <<"7) CheckEquivalence" << endl;//add more functionality 
         
         
         getline(cin, userChoiceStr);
@@ -119,48 +110,6 @@ int main(int argc, char** argv)
 				{
                     break;
 				}
-			case RAID5:
-				{
-					// set all test buffers
-					for (idx = 0; idx<MAX_LBAS; idx++)
-					{
-
-						// need this to process "chatroom.txt" instead of "theMessages"
-						// theMessages will be stored in testLBAN 
-						memcpy(&testLBA1[idx], theMessages, SECTOR_SIZE);
-						memcpy(&testLBA2[idx], theMessages, SECTOR_SIZE);
-						memcpy(&testLBA3[idx], theMessages, SECTOR_SIZE);
-						memcpy(&testLBA4[idx], theMessages, SECTOR_SIZE);
-						memcpy(&testRebuild[idx], NULL_RAID_STRING, SECTOR_SIZE);
-
-						// TEST CASE 1 (Ability to recover from data loss)
-						
-						// Computer XOR from 4 LBAs for RAID-5
-						cout << "Test Case 1 - Functional RAID-5" << endl;
-						inputMessage.xorArchive(PTR_CAST &testLBA1[0],
-							PTR_CAST &testLBA2[0],
-							PTR_CAST &testLBA3[0],
-							PTR_CAST &testLBA4[0],
-							PTR_CAST &testPLBA[0]);
-
-						// Now rebuild LBA into test to verify
-						inputMessage.rebuildArchive(PTR_CAST &testLBA1[0],
-							PTR_CAST &testLBA2[0],
-							PTR_CAST &testLBA3[0],
-							PTR_CAST &testLBA4[0],
-							PTR_CAST &testRebuild[0]);
-
-						cout << "LBA 4= " << endl;
-						printBuffer((char *)&testLBA4[0]);
-						getchar();
-
-						cout << "Recovered LBA 4= " << endl;
-						printBuffer((char *)&testRebuild[0]);
-						getchar();
-
-						assert(memcmp(testRebuild, testLBA4, SECTOR_SIZE) != 0);
-                        break;					
-					}
 			case EQUIV:
 				{
 					string file1, file2;
@@ -262,4 +211,3 @@ int main(int argc, char** argv)
 
         }//clear input buffer for next user input 
     }   
-}
