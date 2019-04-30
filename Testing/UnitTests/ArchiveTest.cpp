@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
 			for (idx = 0; idx<MAX_LBAS; idx++)
 			{
 
-				// need this to process chatroom.txt
+				// need this to process "chatroom.txt" instead of "theMessages"
 				// theMessages will be stored in testLBAN 
 				memcpy(&testLBA1[idx], theMessages, SECTOR_SIZE);
 				memcpy(&testLBA2[idx], theMessages, SECTOR_SIZE);
