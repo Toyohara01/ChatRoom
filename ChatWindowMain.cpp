@@ -50,10 +50,10 @@ int main(int argc, char** argv)
 		cout <<"2) View previous Messages"<<endl;
 		cout <<"3) Delete Messages"<<endl;
 		cout <<"4) PerformRAID-0"<<endl;
-		cout <<"5)PerformRaid-1" << endl;
-		cout <<"6)PerformRAID-4" << endl;
-		cout <<"7)PerformRAID-5" << endl;
-		cout <<"8)CheckEquivalence" << endl;//add more functionality 
+		cout <<"5) PerformRaid-1" << endl;
+		cout <<"6) PerformRAID-4" << endl;
+		cout <<"7) PerformRAID-5" << endl;
+		cout <<"8) CheckEquivalence" << endl;//add more functionality 
         
         
         getline(cin, userChoiceStr);
@@ -79,10 +79,12 @@ int main(int argc, char** argv)
                     }
 
                     window.Disconnect();
+                    break;
                 }
 			case CHATHISTORY:
 				{
 					inputMessage.Load(msg);
+                    break;
 				}
 			case DELETE:
 				{
@@ -92,10 +94,11 @@ int main(int argc, char** argv)
 					file1.open("backupChatroom.txt", ofstream::trunc);
 					file.close();
 					file1.close();
+                    break;
 				}
 			case RAID0:
 				{
-					
+					break;
 				}
 			case RAID1:
 				{
@@ -109,11 +112,12 @@ int main(int argc, char** argv)
 					dst << src.rdbuf();
 
 					cout << "Disk 2 copied contents successfully" << endl;
-					cout <<	"Original and backup now match" << endl;					
+					cout <<	"Original and backup now match" << endl;	
+                    break;				
 				}
 			case RAID4:
 				{
-					
+                    break;
 				}
 			case RAID5:
 				{
@@ -154,7 +158,8 @@ int main(int argc, char** argv)
 						printBuffer((char *)&testRebuild[0]);
 						getchar();
 
-						assert(memcmp(testRebuild, testLBA4, SECTOR_SIZE) != 0);					
+						assert(memcmp(testRebuild, testLBA4, SECTOR_SIZE) != 0);
+                        break;					
 					}
 			case EQUIV:
 				{
@@ -244,7 +249,8 @@ int main(int argc, char** argv)
 					else
 					{
 						cout << "Disks match" << endl;
-					}					
+					}	
+                    break;				
 				}
 				break;
 					
