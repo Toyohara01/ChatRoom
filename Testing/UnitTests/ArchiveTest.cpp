@@ -70,8 +70,8 @@ int main(int argc, char *argv[])
 
 	// pass username and pwd
 	do {
-		cout << "View messages(1), delete(2), Quit(4)" << endl;
-		cout << "PerformRAID-0(7)\nPerformRaid-1(3)\nPerformRAID-4(8)\nPerformRAID-5(6)\nCheckEquivalence(5)" << endl;
+		cout << "View messages(1), delete(2), Quit(3)" << endl;
+		cout << "PerformRAID-0(4)\nPerformRaid-1(5)\nPerformRAID-4(6)\nPerformRAID-5(7)\nCheckEquivalence(8)" << endl;
 		cin >> options;
 
 		if (options == 1)
@@ -88,22 +88,77 @@ int main(int argc, char *argv[])
 			file.close();
 			file1.close();
 		}
-		else if (options == 3)
+		
+		// RAID-0
+		else if (options == 4)
 		{
 
+		}
+
+		// RAID-1
+		else if (options == 5)
+		{
 			// copy contents to another file
 			ifstream  src("chatroom.txt", std::ios::binary);
 			ofstream  dst("backupChatroom.txt", std::ios::binary);
 
 			dst << src.rdbuf();
 
-			cout << "Disk 2 copied contents successfully" << endl;
+			cout << "Disk 2 copied contents successfully" << endl;			
 		}
-
-		// check for file equivalence
-		else if (options == 5)
+		
+		// RAID-4
+		else if (options == 6)
 		{
-			/******************************************************************************/
+
+		}
+		
+		// RAID-5
+		else if (options == 7)
+		{
+			// set all test buffers
+			for (idx = 0; idx<MAX_LBAS; idx++)
+			{
+
+				// need this to process chatroom.txt
+				memcpy(&testLBA1[idx], theMessages, SECTOR_SIZE);
+				memcpy(&testLBA2[idx], theMessages, SECTOR_SIZE);
+				memcpy(&testLBA3[idx], theMessages, SECTOR_SIZE);
+				memcpy(&testLBA4[idx], theMessages, SECTOR_SIZE);
+				memcpy(&testRebuild[idx], NULL_RAID_STRING, SECTOR_SIZE);
+
+				// TEST CASE 1
+				// Computer XOR from 4 LBAs for RAID-5
+				cout << "Test Case 0 - Functional RAID-5" << endl;
+				inputMessage.xorArchive(PTR_CAST &testLBA1[0],
+					PTR_CAST &testLBA2[0],
+					PTR_CAST &testLBA3[0],
+					PTR_CAST &testLBA4[0],
+					PTR_CAST &testPLBA[0]);
+
+				// Now rebuild LBA into test to verify
+				inputMessage.rebuildArchive(PTR_CAST &testLBA1[0],
+					PTR_CAST &testLBA2[0],
+					PTR_CAST &testLBA3[0],
+					PTR_CAST &testLBA4[0],
+					PTR_CAST &testRebuild[0]);
+
+				cout << "LBA 4= " << endl;
+				printBuffer((char *)&testLBA4[0]);
+				getchar();
+
+				cout << "Recovered LBA 4= " << endl;
+				printBuffer((char *)&testRebuild[0]);
+				getchar();
+
+				assert(memcmp(testRebuild, testLBA4, SECTOR_SIZE) != 0);
+			}			
+		}
+		
+		// Check Equivalence of Files
+		else if (options == 8)
+		{
+/******************************************************************************/
 			string file1, file2;
 			ifstream chatroomFile1, chatroomFile2;
 
@@ -190,47 +245,7 @@ int main(int argc, char *argv[])
 			{
 				cout << "Disks match" << endl;
 			}
-			/******************************************************************************/
+/******************************************************************************/			
 		}
-		else if (options == 6)
-		{
-			// set all test buffers
-			for (idx = 0; idx<MAX_LBAS; idx++)
-			{
-
-				// need this to process chatroom.txt
-				memcpy(&testLBA1[idx], theMessages, SECTOR_SIZE);
-				memcpy(&testLBA2[idx], theMessages, SECTOR_SIZE);
-				memcpy(&testLBA3[idx], theMessages, SECTOR_SIZE);
-				memcpy(&testLBA4[idx], theMessages, SECTOR_SIZE);
-				memcpy(&testRebuild[idx], NULL_RAID_STRING, SECTOR_SIZE);
-
-				// TEST CASE 1
-				// Computer XOR from 4 LBAs for RAID-5
-				cout << "Test Case 0 - Functional RAID-5" << endl;
-				inputMessage.xorArchive(PTR_CAST &testLBA1[0],
-					PTR_CAST &testLBA2[0],
-					PTR_CAST &testLBA3[0],
-					PTR_CAST &testLBA4[0],
-					PTR_CAST &testPLBA[0]);
-
-				// Now rebuild LBA into test to verify
-				inputMessage.rebuildArchive(PTR_CAST &testLBA1[0],
-					PTR_CAST &testLBA2[0],
-					PTR_CAST &testLBA3[0],
-					PTR_CAST &testLBA4[0],
-					PTR_CAST &testRebuild[0]);
-
-				cout << "LBA 4= " << endl;
-				printBuffer((char *)&testLBA4[0]);
-				getchar();
-
-				cout << "Recovered LBA 4= " << endl;
-				printBuffer((char *)&testRebuild[0]);
-				getchar();
-
-				assert(memcmp(testRebuild, testLBA4, SECTOR_SIZE) != 0);
-			}
-		}
-	} while (options != 4);
+	} while (options != 3);
 }
