@@ -11,6 +11,8 @@
 #ifndef CRYPTO_HPP
 #define CRYPTO_HPP
 
+#include<string>
+
 class Crypto
 {
     protected:
