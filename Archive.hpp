@@ -12,15 +12,10 @@
 using namespace std;
 
 #define SECTOR_SIZE (512)
-
 #define STRIP_SIZE (1024)
-
 #define MAX_LBAS (1000)
-
 #define theMessages "#This is a test case string of 0123456789#"
-
 #define NULL_RAID_STRING "#FFFFFFFFFFFFFFFF#"
-
 #define PTR_CAST (char *)
 
 class Archive

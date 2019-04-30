@@ -1,4 +1,5 @@
 #include "ChatWindow.hpp"
+#include "Archive.hpp"
 
 ChatWindow::ChatWindow(string ip, uint16_t port)
 {
@@ -24,7 +25,12 @@ void ChatWindow::StringInterpreter(string input) //Create new message structure 
     }
     else
     {
-        client.Send(input); 
+        
+		Archive.Save(input);
+		
+		
+		client.Send(input); 
+		
     }
     //Ideally it'll check to see if a defined function was entered execute that process 
     //but for now it'll display and send that input to other clients
