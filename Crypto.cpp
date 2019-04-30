@@ -216,12 +216,17 @@ string Enigma::Encrypt(string input)    //NOTE: need to add rotor rotation stuff
         //if character being checked is a digit. LAD
         else if(isdigit(input.at(i)))
         {
-
+            //leave it alone
         }
-        //otherwise if the character is not a letter or digit. LAD
-        else
+        //if the character is a space. LAD
+        else if(input.at(i) == ' ')
         {
             input[i] = '*';
+        }
+        //otherwise it is not an alphanumeric character or a space
+        else
+        {
+            //leave it alone
         }
 
         //rotate rotor1 up once. LAD
@@ -334,12 +339,17 @@ string Enigma::Decrypt(string input)
         {
 
         }
-        //otherwise if the character is not a letter or digit. LAD
-        else
+        //if the character is a space. LAD
+        else if(input.at(i) == '*')
         {
             input[i] = ' ';
         }
-
+        //otherwise it is not an alphanumeric character
+        else
+        {
+            //leave it alone
+        }
+        
         //rotate rotor1 up once. LAD
         key[2]++;
 
