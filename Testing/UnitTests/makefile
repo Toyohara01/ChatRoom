@@ -6,16 +6,16 @@ CDEFS=
 PFLAGS= $(INCLUDE_DIRS) $(CDEFS) -Wall -g
 CFLAGS= $(INCLUDE_DIRS) $(CDEFS) -Wall -g --coverage
 SOCKETTESTSOBJFILES = Server.o Client.o SocketTests.o
-CRYPTOTESTSOBJFILES = Crypto.o enigmaTest.o
+ENIGMATESTOBJFILES = Crypto.o enigmaTest.o
 LIBS= 
 
 SRCS= ${HFILES} ${CFILES}
 OBJS= ${CFILES:.c=.o}
 
 SOCKETTESTS=socketTests
-CRYPTOTESTS=CryptoTests
+ENIGMATEST=enigmaTest
 
-all:	${SOCKETTESTS} ${CRYPTOTESTS}
+all:	${SOCKETTESTS} ${ENIGMATEST}
 
 $(SOCKETTESTS) : $(SOCKETTESTSOBJFILES)
 	$(CC) $(CFLAGS) $(SOCKETTESTSOBJFILES) -o $(SOCKETTESTS)
@@ -29,20 +29,14 @@ Server.o: ../../Server.cpp ../../Server.hpp
 SocketTests.o: SocketTests.cpp
 	$(CC) $(CFLAGS) -std=c++11 -c SocketTests.cpp
 
-$(CRYPTOTESTS) : $(CRYPTOTESTSOBJFILES)
-	$(CC) $(CFLAGS) $(CRYPTOTESTSOBJFILES) -o $(CRYPTOTESTS)
+$(ENIGMATEST) : $(ENIGMATESTOBJFILES)
+	$(CC) $(CFLAGS) $(ENIGMATESTOBJFILES) -o $(ENIGMATEST)
 
 Crypto.o: ../../Crypto.hpp ../../Crypto.hpp
 	$(CC) $(CFLAGS) -std=c++11 -c ../../Crypto.cpp
 
-CryptoTests.o: enigmaTest.cpp
+enigmaTest.o: enigmaTest.cpp
 	$(CC) $(CFLAGS) -std=c++11 -c enigmaTest.cpp
-
-
-
-// TT
-Archive.o: ../../Archive.hpp ../../Arhive
-
 
 remove:
 	-rm -f *.o *.d *.exe 

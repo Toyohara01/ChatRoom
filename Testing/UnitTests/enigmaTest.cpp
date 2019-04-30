@@ -1,10 +1,10 @@
+#include "../../Crypto.hpp"
+
 #include <iostream>
 #include <random>
 #include <cstdlib>
 #include <string>
 #include <ctime>
-#include "Crypto.hpp"
-#include "Crypto.cpp" 
 
 using namespace std;
 
