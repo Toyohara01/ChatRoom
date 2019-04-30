@@ -136,10 +136,14 @@ void ChatWindow::Chat()
 void ChatWindow::readMessageHandler()
 {
     Enigma decryptObj;
+    Archive storageObj;
 
     while(continueSession)
     {
         string stringReceived = client.Read();
+
+        //save encrypted string that was received
+        storageObj.save(input);
 
         //Decrypt string for reading
         stringReceived = decryptObj.callDecrypt(stringReceived);
