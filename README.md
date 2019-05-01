@@ -10,3 +10,5 @@ Port hardcoded to 55890
 
 run ifconfig to find IP address when running on mulitple machines 
 use IP 127.0.0.1 when running both on server. 
+
+ip address has to be changed in both ChatRoomMain.cpp and ChatWindowMain.cpp before compiling. IP Addresses are hardcoded. 
